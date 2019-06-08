@@ -1,76 +1,78 @@
 <template>
-  <div id="index">
-    <!-- head start -->
-    <div class="nav">
-      <div class="logo">
-        <img src="../../assets/logo2.png" alt>
-        <span>{{msg}}</span>
-        <span class="personal"></span>
-        <!-- <img src="" alt=""> -->
-      </div>
-      
-    </div>
-    <!-- head end -->
+    <div>
+      <el-container style="height: 800px;">
+      <!-- head start -->
+      <el-header height="100px" fixed>
+        <div class="nav">
+          <div class="logo">
+            <img src="../../assets/logo2.png" alt>
+            <span>{{msg}}</span>
+            <span class="personal"></span>
+            <!-- <img src="" alt=""> -->
+          </div>
+        </div>
+      </el-header>
+      <!-- head end -->
 
-    <!-- 侧边栏 start -->
-    <div id="aside">
-      <el-row class="tac">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
-          background-color="#83c0a9"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-        >
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-location"></i>
-              <span>导航一</span>
-            </template>
-            <!-- <el-menu-item-group>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group> -->
-             <el-submenu index="1-1">
-              <template slot="title">选项1</template>
-            </el-submenu>
-             <el-submenu index="1-2">
-              <template slot="title">选项2</template>
-            </el-submenu>
-             <el-submenu index="1-3">
-              <template slot="title">选项3</template>
-            </el-submenu>
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-            </el-submenu>
-          </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3">
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
-        </el-menu>
-      </el-row>
+      <!-- 侧边栏 start -->
+      <el-container>
+        <el-aside width="200px">
+          <el-row class="tac">
+            <el-menu
+              router
+              default-active="2"
+              class="el-menu-vertical-demo"
+              @open="handleOpen"
+              @close="handleClose"
+              background-color="#83c0a9"
+              text-color="#fff"
+              active-text-color="#ffd04b"
+            >
+              <el-submenu index="/home">
+                <template slot="title">
+                  <i class="el-icon-location"></i>
+                  <span>今日信息</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="1-1">选项1</el-menu-item>
+                  <el-menu-item index="1-2">选项2</el-menu-item>
+                  <el-menu-item index="1-3">选项3</el-menu-item>
+                </el-menu-item-group>
+              </el-submenu>
+
+              <el-menu-item index="/index/history">
+                <i class="el-icon-menu"></i>
+                <span slot="title">历史消息</span>
+              </el-menu-item>
+
+              <el-menu-item index="/warn">
+                <i class="el-icon-document"></i>
+                <span slot="title">系统提醒</span>
+              </el-menu-item>
+              <el-menu-item index="4">
+                <i class="el-icon-setting"></i>
+                <span slot="title">设备相关设置</span>
+              </el-menu-item>
+            </el-menu>
+          </el-row>
+        </el-aside>
+        <!-- 侧边栏 end -->
+
+
+        <el-main>
+          Main
+        </el-main>
+      </el-container>
+    </el-container>
     </div>
-  </div>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      msg:'用户公司名字'
-    }
+      msg: "用户公司名字"
+    };
   },
   methods: {
     handleOpen(key, keyPath) {
@@ -84,12 +86,10 @@ export default {
 </script>
 
 <style scoped>
-#index {
-  width: 100%;
-}
 .nav {
   width: 100%;
   height: 100px;
+  text-align: center;
   background-color: #83c0a9;
 }
 .nav .logo {
@@ -107,13 +107,35 @@ export default {
   background-color: #fff;
   border-radius: 50%;
   float: right;
-  vertical-align: cneter;
 }
-#aside {
-  width: 100%;
+
+.el-header {
+  margin: 0;
+  padding: 0;
 }
-.el-row {
-  width: 15%;
-  height: 100%;
+.el-header {
+  background-color: #b3c0d1;
+  color: #333;
+  line-height: 100px;
 }
+
+.el-aside {
+  background-color: #83c0a9;
+  color: #333;
+  text-align: center;
+  line-height: 200px;
+  display: fixed;
+}
+
+.el-main {
+  background-color: #fff;
+  color: #333;
+  text-align: center;
+  line-height: 160px;
+}
+
+body > .el-container {
+  margin: 40px;
+}
+
 </style>

@@ -50,7 +50,7 @@
         <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
       </el-form-item>
 
-      <el-form-item>
+      <el-form-item style="margin-left: -40px;margin-bottom: 10px;">
         <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
         <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
       </el-form-item>
@@ -113,4 +113,5 @@ export default {
   margin: 0px 10px 30px 60px;
   text-align: center;
 }
+
 </style>

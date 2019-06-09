@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/views/news/index'
-import login from '@/components/login'
-import register from '@/components/register'
-import history from '@/views/historyInfo/history'
-import todayInfo from '@/views/todayInfo/home'
-import systemWarn from '@/views/system/systemWarn'
+import Index from '@/views/news/index'
+import Login from '@/components/login'
+import Register from '@/components/register'
+import History from '@/views/historyInfo/history'
+import TodayInfo from '@/views/todayInfo/home'
+import SystemWarn from '@/views/system/systemWarn'
 
 Vue.use(Router)
 
@@ -14,35 +14,36 @@ export default new Router({
     {
       path: '/',
       name: 'login',
-      component: login
-    },
-    {
-      path: '/index',
-      name: 'index',
-      component: index,
-      children: [
-        {
-            path: '/index/history',
-            name: 'history',
-            component: history
-        }
-      ]
+      component: Login
     },
     {
       path: '/register',
       name: 'register',
-      component: register
+      component: Register
     },
     {
-      path: '/home',
-      name: 'home',
-      component: todayInfo
+      path: '/index',
+      name: 'index',
+      component: Index,      
+      children:[
+        {
+          path: '/home',
+          name: 'home',
+          component: TodayInfo
+        },
+        {
+          path: '/history',
+          name: history,
+          component: History
+        },
+        {
+          path: '/warn',
+          name: 'warn',
+          component: SystemWarn
+        }
+      ]
     },
-    {
-      path: '/warn',
-      name: 'warn',
-      component: systemWarn
-    }
+
   ]
 
 })

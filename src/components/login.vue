@@ -1,24 +1,24 @@
 <template>
   <div id="container">
-    <el-form status-icon label-width="88px" class="loginForm">
+    <el-form status-icon label-width="80px" class="loginForm" :model="login" @submit.native.prevent="saveLogin">
       <!-- 登录界面 -->
       <el-form-item label="用户名*" prop="username ">
-        <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="username"></el-input>
+        <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="login.username"></el-input>
       </el-form-item>
 
       <el-form-item label="登录密码*" prop="password">
-        <el-input type="password" placeholder="请输入密码" autocomplete="off" v-model="password"></el-input>
+        <el-input type="password" placeholder="请输入密码" autocomplete="off" v-model="login.password"></el-input>
       </el-form-item>
 
       <el-form-item label="验证码*" prop="">
-        <el-input type="text" placeholder="请输入验证码" autocomplete="off" v-model="verification"></el-input>
+        <el-input type="text" placeholder="请输入验证码" autocomplete="off" v-model="login.verification"></el-input>
       </el-form-item>
 
-      <el-button  type="primary">
+      <el-button  type="primary" native-type="submit">
         <router-link to="/index" tag="li">立即登录</router-link>
       </el-button>
       <!-- <el-button type="primary"><router-link to="/register" tag="li">立即注册</router-link></el-button> -->
-      <el-button type="primary" @click="dialogFormVisible=true">
+      <el-button type="primary">
         <router-link to="/register" tag="li">立即注册</router-link>
       </el-button>
     </el-form>
@@ -29,23 +29,19 @@
 export default {
   data() {
     return {
-      username: "",
-      password: "",
-      verification: "",
-      email: "",
       dialogTableVisible: false,
-      dialogFormVisible: false,
       labelPosition: 'right',
-      form: {
+      login: {
         username: "",
         password: "",
         verification: "",
-        email: ""
       }
     }
   },
   methods: {
-    
+    saveLogin(){
+      console.log(this.login);
+    }
   }
 };
 </script>

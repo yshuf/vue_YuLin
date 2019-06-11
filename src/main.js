@@ -5,15 +5,19 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import echarts from 'echarts' // 引入echarts
 
 Vue.config.productionTip = false
-
+Vue.prototype.$echarts = echarts // 注册组件
 Vue.use(ElementUI)
+Vue.use(echarts)
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

@@ -25,7 +25,7 @@
       { required: true, message: '请输入密码', trigger: 'blur' },
     ]"
       >
-        <el-input v-model="dynamicValidateForm.password" type="password" placeholder="password"></el-input>
+        <el-input v-model="dynamicValidateForm.password" type="password" placeholder="password" show-password></el-input>
       </el-form-item>
 
       <el-form-item
@@ -50,7 +50,7 @@
         <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
       </el-form-item>
 
-      <el-form-item style="margin-left: -40px;margin-bottom: 10px;">
+      <el-form-item style="margin-left: 0px;margin-bottom: 10px;">
         <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
         <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
       </el-form-item>

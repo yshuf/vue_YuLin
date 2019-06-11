@@ -2,19 +2,20 @@
   <div id="container">
     <el-form status-icon label-width="80px" class="loginForm" :model="login" @submit.native.prevent="saveLogin">
       <!-- 登录界面 -->
+      <h3 id="title">现代农业综合管理系统</h3>
       <el-form-item label="用户名*" prop="username ">
         <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="login.username"></el-input>
       </el-form-item>
 
       <el-form-item label="登录密码*" prop="password">
-        <el-input type="password" placeholder="请输入密码" autocomplete="off" v-model="login.password"></el-input>
+        <el-input type="password" placeholder="请输入密码" autocomplete="off" v-model="login.password" show-password></el-input>
       </el-form-item>
 
       <el-form-item label="验证码*" prop="">
         <el-input type="text" placeholder="请输入验证码" autocomplete="off" v-model="login.verification"></el-input>
       </el-form-item>
 
-      <el-button  type="primary" native-type="submit">
+      <el-button  type="primary" native-type="submit" style="margin-left: 30px;">
         <router-link to="/index" tag="li">立即登录</router-link>
       </el-button>
       <!-- <el-button type="primary"><router-link to="/register" tag="li">立即注册</router-link></el-button> -->
@@ -63,7 +64,7 @@ export default {
   right: 0;
   width: 300px;
   margin:  120px auto;
-  padding: 35px 35px 15px 35px;
+  padding: 35px 35px 25px 35px;
   box-shadow: 0 2px 8px #77bea3;
 }
 
@@ -71,5 +72,12 @@ export default {
   display: inline-block;
   height: 47px;
   width: 90%;
+}
+
+#title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #5db2f8;
+  margin: 0px 10px 30px 75px;
 }
 </style>

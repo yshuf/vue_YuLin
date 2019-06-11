@@ -5,7 +5,7 @@
       :model="dynamicValidateForm"
       ref="dynamicValidateForm"
       label-width="100px"
-      class="register-form"
+      class="register-form animated bounceInRight delay-1s"
     >
       <h3 id="title">注册信息表</h3>
       <el-form-item

@@ -4,7 +4,7 @@
     <el-container>
       <div class="nav">
         <div class="logo">
-          <img src="../../assets/logo2.png" alt class="animated bounceInDown">
+          <img src="../../assets/logo2.png" alt>
           <span>{{msg}}</span>
           <span class="personal"></span>
           <span id="user">

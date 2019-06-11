@@ -1,8 +1,8 @@
 <template>
   <div id="container">
-    <el-form status-icon label-width="80px" class="loginForm" :model="login" @submit.native.prevent="saveLogin">
+    <el-form status-icon label-width="80px" class="loginForm animated bounceInRight delay-1s" :model="login" @submit.native.prevent="saveLogin">
       <!-- 登录界面 -->
-      <h3 id="title">现代农业综合管理系统</h3>
+      <h3 id="title" class="animated bounceIn delay-1s">现代农业综合管理系统</h3>
       <el-form-item label="用户名*" prop="username ">
         <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="login.username"></el-input>
       </el-form-item>

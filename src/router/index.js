@@ -14,6 +14,7 @@ import Join from '@/views/About/join'
 import HeaderSet from '@/views/Header/HeaderSet'
 import WeatherSet from '@/views/Resource/weatherSet'
 import YulinSet from '@/views/Resource/yulinSet'
+import NotFound from '@/components/404.vue';
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '*',
+      name: '/404',
+      component: NotFound
     },
     {
       path: '/index',

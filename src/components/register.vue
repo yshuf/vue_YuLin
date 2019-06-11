@@ -1,5 +1,5 @@
 <template>
-  <div id="register-container" >
+  <div id="register-container">
     <!-- 注册界面 -->
     <el-form
       :model="dynamicValidateForm"
@@ -7,25 +7,43 @@
       label-width="100px"
       class="register-form animated bounceInRight delay-1s"
     >
-      <h3 id="title">注册信息表</h3>
+      <h3 id="title">现代农业综合后台管理系统</h3>
       <el-form-item
         label="用户名"
         prop="username"
         :rules="[
-      { required: true, message: '请输入用户名', trigger: 'blur' }
+      { required: true, message: '用户名不能为空', trigger: 'blur' },
+      { min:5 ,max:30,message: '长度应在5到30位之间',trigger: 'blur'}
     ]"
       >
         <el-input v-model="dynamicValidateForm.username" placeholder="username"></el-input>
       </el-form-item>
 
       <el-form-item
+        label="邮箱"
+        prop="email"
+        :rules="[
+      { required: true, message: '邮箱地址不能为空', trigger: 'blur' },
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
+      {min: 6,max: 12,message: '长度应在6到12位之间'}
+    ]"
+      >
+        <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
+      </el-form-item>
+
+      <el-form-item
         label="密码"
         prop="password"
         :rules="[
-      { required: true, message: '请输入密码', trigger: 'blur' },
+      { required: true, message: '密码不能为空', trigger: 'blur' },
     ]"
       >
-        <el-input v-model="dynamicValidateForm.password" type="password" placeholder="password" show-password></el-input>
+        <el-input
+          v-model="dynamicValidateForm.password"
+          type="password"
+          placeholder="password"
+          show-password
+        ></el-input>
       </el-form-item>
 
       <el-form-item
@@ -40,18 +58,19 @@
       </el-form-item>
 
       <el-form-item
-        label="邮箱"
-        prop="email"
+        label="选择身份"
         :rules="[
-      { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      { required: true, message: '请选择你的身份', trigger: 'blur' },
     ]"
       >
-        <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
+        <el-select v-model="dynamicValidateForm.identity" placeholder="请选择身份">
+          <el-option label="管理员" value="manager"></el-option>
+          <el-option label="员工" value="employee"></el-option>
+        </el-select>
       </el-form-item>
 
       <el-form-item style="margin-left: 0px;margin-bottom: 10px;">
-        <el-button type="primary" @click="submitForm('dynamicValidateForm')">提交</el-button>
+        <el-button type="primary" @click="submitForm('dynamicValidateForm')" class="submit_btn">提交</el-button>
         <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
       </el-form-item>
     </el-form>
@@ -60,13 +79,16 @@
 
 <script>
 export default {
+  name: "register",
+  components: {},
   data() {
     return {
       dynamicValidateForm: {
         username: "",
         password: "",
         email: "",
-        sex: ""
+        sex: "",
+        identity: ""
       }
     };
   },
@@ -94,6 +116,8 @@ export default {
   background-color: #abd3c6;
   width: 100%;
   height: 100%;
+  background: url(../assets/bg.jpg) no-repeat center center;
+  background-size: 100% 100%;
 }
 #register-container:hover {
   background-color: rgb(194, 221, 231);
@@ -107,14 +131,13 @@ export default {
   margin: 120px auto;
   padding: 25px 50px 15px 10px;
   box-shadow: 0 2px 8px #e1e9e6;
+  border-radius: 10px;
   /* box-sizing: border-box; */
 }
 #title {
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 400;
-  color: #d8e1e6;
   margin: 0px 10px 30px 60px;
   text-align: center;
 }
-
 </style>

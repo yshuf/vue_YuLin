@@ -1,5 +1,5 @@
 <template>
-  <div id="register-container">
+  <div id="register-container" >
     <!-- 注册界面 -->
     <el-form
       :model="dynamicValidateForm"
@@ -94,6 +94,9 @@ export default {
   background-color: #abd3c6;
   width: 100%;
   height: 100%;
+}
+#register-container:hover {
+  background-color: rgb(194, 221, 231);
 }
 .register-form {
   background: transparent;

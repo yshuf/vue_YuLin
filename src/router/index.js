@@ -9,6 +9,7 @@ import SystemWarn from '@/views/system/systemWarn'
 import Weather from '@/views/todayInfo/weather'
 import Yulin from '@/views/todayInfo/yulin'
 import About from '@/views/About/about'
+import Join from '@/views/About/join'
 // import Resource from '@/views/Resource/resource'
 import HeaderSet from '@/views/Header/HeaderSet'
 import WeatherSet from '@/views/Resource/weatherSet'
@@ -81,6 +82,11 @@ export default new Router({
           path: '/index/about',
           name: 'about',
           component: About
+        },
+        {
+          path: '/index/join',
+          name: 'join',
+          component: Join
         }
       ]
     },

@@ -32,6 +32,7 @@ export default {
     return {
       dialogTableVisible: false,
       labelPosition: 'right',
+      flag: false,
       login: {
         username: "",
         password: "",
@@ -42,6 +43,9 @@ export default {
   methods: {
     saveLogin(){
       console.log(this.login);
+    },
+    toogle(){
+      this.flag=!flag;
     }
   }
 };
@@ -56,7 +60,9 @@ export default {
   height: 100%;
   box-sizing: border-box;
 }
-
+#container:hover {
+  background-color: #d5e6de;
+}
 .loginForm {
   background: transparent;
   position: absolute;

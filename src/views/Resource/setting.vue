@@ -38,7 +38,7 @@ export default {
 <style scoped>
 .main {
   text-align: center;
-  transition: all 0.5s ease-in-out;
+  overflow: hidden;
 }
 h3 {
   width: 150px;

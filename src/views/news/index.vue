@@ -4,7 +4,7 @@
     <el-container>
       <div class="nav">
         <div class="logo">
-          <img src="../../assets/logo2.png" alt>
+          <img src="../../assets/logo2.png" alt class="animated bounceInDown">
           <span>{{msg}}</span>
           <span class="personal"></span>
           <span id="user">
@@ -13,7 +13,7 @@
                 <i class="el-icon-s-custom" style="margin-right: 18px;font-size: 18px;"></i>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-button  @click="open" type="text" size="mini"><el-dropdown-item>查看</el-dropdown-item></el-button>
+                <el-button  @click="open" type="text" roundButton><el-dropdown-item>查看</el-dropdown-item></el-button>
                 <el-dropdown-item>新增</el-dropdown-item>
                 <el-dropdown-item>删除</el-dropdown-item>
               </el-dropdown-menu>
@@ -64,8 +64,8 @@
             <template slot="title">
               <i class="el-icon-user"></i>关于我们
             </template>
-            <el-menu-item index="/index/about">关于我们</el-menu-item>
-            <el-menu-item index="5-2">加入我们</el-menu-item>
+            <el-menu-item index="/index/about">了解我们</el-menu-item>
+            <el-menu-item index="/index/join">加入我们</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -99,7 +99,7 @@ export default {
       console.log(key, keyPath);
     },
     open() {
-      this.$alert("<strong>这是 <i>HTML</i> 片段</strong>", "个人信息", {
+      this.$alert("用户名<input type='text'>邮箱<input type='text'>性别<input type='text'>用户名<input type='text'>", "个人信息", {
         dangerouslyUseHTMLString: true
       });
     }
@@ -113,7 +113,9 @@ body {
   padding: 0;
   margin: 0;
 }
-
+.el-message-box__wrapper .el-message-box {
+  width: 960px;
+}
 .el-header {
   background-color: #f9faf3;
   line-height: 60px;

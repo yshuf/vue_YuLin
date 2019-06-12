@@ -4,7 +4,10 @@
       :data="tableData"
       style="width: 100%;margin-top:-60px;margin-bottom:20px;"
       :row-class-name="tableRowClassName"
+      align="center"
       border
+      stripe
+      highlight-current-row
     >
       <el-table-column prop="date" width="180"></el-table-column>
       <el-table-column prop="name" width="180"></el-table-column>
@@ -63,6 +66,7 @@ export default {
       tableData: [
         {
           date: "空气温度",
+          name: "",
           name: "空气湿度",
           data1: "氧气浓度",
           data2: "降雨量",
@@ -965,6 +969,6 @@ export default {
 }
 
 .el-table .success-row {
-  background: #f0f9eb;
+  background: #97d377;
 }
 </style>

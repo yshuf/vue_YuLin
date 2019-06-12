@@ -10,18 +10,24 @@ import Weather from '@/views/todayInfo/weather'
 import Yulin from '@/views/todayInfo/yulin'
 import About from '@/views/About/about'
 import Join from '@/views/About/join'
-// import Resource from '@/views/Resource/resource'
 import HeaderSet from '@/views/Header/HeaderSet'
 import WeatherSet from '@/views/Resource/weatherSet'
 import YulinSet from '@/views/Resource/yulinSet'
 import NotFound from '@/components/404.vue';
+import {
+  homedir
+} from 'os';
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
+const router = new Router({
+  routes: [{
       path: '/',
+      name: homedir,
+      redirect: '/login'
+    },
+    {
+      path: '/login',
       name: 'login',
       component: Login
     },
@@ -38,14 +44,12 @@ export default new Router({
     {
       path: '/index',
       name: 'index',
-      component: Index,      
-      children:[
-        {
+      component: Index,
+      children: [{
           path: '/index/header',
           name: 'header',
           component: Header,
-          children: [
-            {
+          children: [{
               path: '/index/header/weather',
               name: 'weather',
               component: Weather
@@ -61,8 +65,7 @@ export default new Router({
           path: '/index/headerSet',
           name: 'headerSet',
           component: HeaderSet,
-          children: [
-            {
+          children: [{
               path: '/index/headerSet/weatherSet',
               name: 'weatherSet',
               component: WeatherSet
@@ -100,3 +103,14 @@ export default new Router({
   ]
 
 })
+
+// 路由守卫
+// router.beforeEach((to,from,next)=>{
+//   const isLogin =localStorage.eleToken? true: false;
+//   if(to.path=="/"||to.path=="/register"){
+//     next();
+//   }else {
+//     isLogin ? next(): next('/login');
+//   }
+// })
+export default router;

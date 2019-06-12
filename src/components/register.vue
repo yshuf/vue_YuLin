@@ -25,7 +25,7 @@
         :rules="[
       { required: true, message: '邮箱地址不能为空', trigger: 'blur' },
       { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
-      {min: 6,max: 12,message: '长度应在6到12位之间'}
+      {min: 6,max: 20,message: '长度应在6到20位之间'}
     ]"
       >
         <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
@@ -58,7 +58,7 @@
       </el-form-item>
 
       <el-form-item
-        label="选择身份"
+        label="身份确认"
         :rules="[
       { required: true, message: '请选择你的身份', trigger: 'blur' },
     ]"
@@ -116,7 +116,7 @@ export default {
   background-color: #abd3c6;
   width: 100%;
   height: 100%;
-  background: url(../assets/bg.jpg) no-repeat center center;
+  /* background: url(../assets/register1.jpg) no-repeat center center; */
   background-size: 100% 100%;
 }
 #register-container:hover {

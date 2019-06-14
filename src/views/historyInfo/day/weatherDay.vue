@@ -19,15 +19,21 @@
         style="width: 120px;margin-left: 10px;"
       ></el-date-picker>
       <span class="demonstration">月</span>
+    <el-date-picker
+        v-model="value"
+        type="date"
+        placeholder="选择日"
+        style="width: 150px;margin-left: 10px;"
+      ></el-date-picker>
+      <span class="demonstration">日</span>
       <el-button type="danger" class="query">查询</el-button>
     </el-row>
-    <Month></Month>
+    <Day></Day>
   </div>
 </template>
 
 <script>
-import Month from "@/views/historyInfo/month";
-import Year from "@/views/historyInfo/year";
+import Day from "@/views/historyInfo/day/day"
 export default {
   data() {
     return {
@@ -35,8 +41,7 @@ export default {
     };
   },
   components: {
-    Month,
-    Year
+    Day 
   }
 };
 </script>

@@ -15,8 +15,8 @@
             <i class="el-icon-menu"></i>历史消息
           </template>
           <el-menu-item index="/index/history">年</el-menu-item>
-          <el-menu-item index="2-2">月</el-menu-item>
-          <el-menu-item index="2-3">日</el-menu-item>
+          <el-menu-item index="/index/historyMonth">月</el-menu-item>
+          <el-menu-item index="/index/historyDay">日</el-menu-item>
         </el-submenu>
 
         <el-submenu index="3">

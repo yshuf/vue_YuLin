@@ -8,8 +8,8 @@
         @select="handleSelect"
         router
       >
-        <el-menu-item index="/index/history/weatherYear">气象</el-menu-item>
-        <el-menu-item index="/index/history/yulinYear">渔林</el-menu-item>
+        <el-menu-item index="/index/historyMonth/weatherMonth">气象</el-menu-item>
+        <el-menu-item index="/index/historyMonth/yulinMonth">渔林</el-menu-item>
         <el-submenu index="3">
           <template slot="title">我的工作台</template>
           <el-menu-item index="3-1">选项1</el-menu-item>

@@ -4,12 +4,18 @@ import Index from '@/views/news/index'
 import Login from '@/components/login'
 import Register from '@/components/register'
 import History from '@/views/historyInfo/history'
+import HistoryMonth from '@/views/historyInfo/historyMonth'
+import HistoryDay from '@/views/historyInfo/day/historyDay'
 import Header from '@/views/Header/header'
 import SystemWarn from '@/views/system/systemWarn'
 import YulinWarn from '@/views/system/yulinWarn'
 import Weather from '@/views/todayInfo/weather'
+import weatherYear from "@/views/historyInfo/weatherYear";
+import yulinYear from "@/views/historyInfo/yulinYear"
 import WeatherMouth from '@/views/historyInfo/weatherMonth'
 import YulinMouth from '@/views/historyInfo/yulinMonth'
+import WeatherDay from '@/views/historyInfo/day/weatherDay'
+import YulinDay from '@/views/historyInfo/day/yulinDay'
 import Standard from '@/views/todayInfo/standard'
 import Yulin from '@/views/todayInfo/yulin'
 import About from '@/views/About/about'
@@ -103,18 +109,52 @@ const router = new Router({
         },
         {
           path: '/index/history',
-          name: history,
+          name: 'history',
           component: History,
           children:[
             {
-              path: '/index/history/weatherMonth',
+              path: '/index/history/weatherYear',
+              name: 'weatherYear',
+              component: weatherYear
+            },
+            {
+              path: '/index/history/yulinYear',
+              name: 'yulinYear',
+              component: yulinYear
+            }
+          ]
+        },
+        {
+          path: '/index/historyMonth',
+          name: 'historyMonth',
+          component: HistoryMonth,
+          children:[
+            {
+              path: '/index/historyMonth/weatherMonth',
               name: 'weatherMouth',
               component: WeatherMouth
             },
             {
-              path: '/index/history/yulinMonth',
+              path: '/index/historyMonth/yulinMonth',
               name: 'yulinMouth',
               component: YulinMouth
+            }
+          ]
+        },
+        {
+          path: '/index/historyDay',
+          name: 'historyDay',
+          component: HistoryDay,
+          children: [
+            {
+              path: '/index/historyDay/weatherDay',
+              name: 'weatherDay',
+              component: WeatherDay
+            },
+            {
+              path: '/index/historyDay/yulinDay',
+              name: 'yulinDay',
+              component: YulinDay
             }
           ]
         },

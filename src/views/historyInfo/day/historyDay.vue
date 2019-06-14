@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .el-header {
-  background-color: #f9faf3;
+  background-color: #f1f6d6;
   line-height: 60px;
   border-radius: 100px;
   font-weight: 700;
@@ -62,7 +62,7 @@ export default {
 }
 
 .el-menu {
-  background-color: #f9faf3;
+  background-color: #f7fdd5;
 }
 </style>
 

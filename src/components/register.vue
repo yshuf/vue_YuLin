@@ -116,7 +116,7 @@ export default {
   background-color: #abd3c6;
   width: 100%;
   height: 100%;
-  background: url(../assets/register.jpg) no-repeat center center;
+  /* background: url(../assets/register.jpg) no-repeat center center; */
   background-size: 100% 100%;
 }
 #register-container:hover {

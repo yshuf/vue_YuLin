@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="side">
     <el-aside width="200px" style="background-color: rgb(249, 250, 243)">
       <el-menu router>
         <el-submenu index="1">
@@ -77,21 +77,18 @@ export default {
 </script>
 
 <style scoped>
+.side {
+  background-color: #f0f5db;
+}
 .el-message-box__wrapper .el-message-box {
   width: 960px;
 }
-.el-header {
-  background-color: #f9faf3;
-  line-height: 60px;
-  border-radius: 200px;
-  font-weight: 700;
-  font-size: 30px;
-}
 .el-menu {
-  background-color: #f9faf3;
+  background-color: #f9fdde;
 }
 .el-aside {
   text-align: center;
   line-height: 200px;
+  background-color: #f9fdde;
 }
 </style>

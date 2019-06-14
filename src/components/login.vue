@@ -27,10 +27,13 @@
 
       <el-form-item label="验证码" prop="verification" style="width: 185px;">
         <el-input type="text" autocomplete="off" v-model="loginForm.verification"></el-input>
-        <el-input type="text" class="random"></el-input>
+        <img
+          src="http://10.168.14.55:8080/auth/captcha"
+          alt="验证码"
+          title="点击换一张"
+          @click="updateCode"
+        >
       </el-form-item>
-      
-      
 
       <el-button
         type="primary"
@@ -88,6 +91,30 @@ export default {
     };
   },
   methods: {
+    updateCode() {
+      let _this = this;
+      this.axios
+        .get("http://10.168.14.55:8080/auth/captcha", {
+          responseType: "arraybuffer"
+        })
+        .then(res => {
+          this.captchaId = res.headers["x-ocp-captcha-id"];
+          let codeImg =
+            "data:image/png;base64," +
+            btoa(
+              new Uint8Array(res.data).reduce(
+                (data, byte) => data + String.fromCharCode(byte),
+                ""
+              )
+            );
+          _this.codeImg = codeImg;
+        });
+    },
+
+    // 验证码图片地址：http://10.168.14.55:8080/auth/captcha
+    // updateCode() {
+    //   this.src = "http://10.168.14.55:8080/auth/captcha";
+    // },
     saveLogin() {
       console.log(this.login);
     },
@@ -108,7 +135,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background: url(../assets/login1.jpg) no-repeat center center;
+  /* background: url(../assets/login1.jpg) no-repeat center center; */
   background-size: 100% 100%;
 }
 

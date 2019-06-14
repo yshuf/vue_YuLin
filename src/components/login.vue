@@ -1,29 +1,18 @@
 <template>
   <div id="container">
-    <div class="title">
-      <span>现</span>
-      <span>代</span>
-      <span>农</span>
-      <span>业</span>
-      <span>综</span>
-      <span>合</span>
-      <span>管</span>
-      <span>理</span>
-      <span>系</span>
-      <span>统</span>
-    </div>
     <el-form
       status-icon
       label-width="80px"
       :rules="rules"
       class="loginForm animated bounceInRight delay-1s"
-      :model="login"
+      :model="loginForm"
+      ref="loginForm"
       @submit.native.prevent="saveLogin"
     >
       <!-- 登录界面 -->
-      <h3 id="title" class="animated bounceIn delay-1s">现代农业综合管理系统</h3>
+      <h3 id="title" class="animated bounceIn delay-1s">现代农业综合后台管理登录</h3>
       <el-form-item label="用户名" prop="username">
-        <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="login.username"></el-input>
+        <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="loginForm.username"></el-input>
       </el-form-item>
 
       <el-form-item label="登录密码" prop="password">
@@ -31,22 +20,32 @@
           type="password"
           placeholder="请输入密码"
           autocomplete="off"
-          v-model="login.password"
+          v-model="loginForm.password"
           show-password
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="验证码" prop="verification">
-        <el-input type="text" placeholder="请输入验证码" autocomplete="off" v-model="login.verification"></el-input>
+      <el-form-item label="验证码" prop="verification" style="width: 185px;">
+        <el-input type="text" autocomplete="off" v-model="loginForm.verification"></el-input>
+        <el-input type="text" class="random"></el-input>
       </el-form-item>
+      
+      
 
-      <el-button type="primary" native-type="submit" style="margin-left: 30px;">
+      <el-button
+        type="primary"
+        native-type="submit"
+        style="margin-left: 40px;width: 110px;"
+        class="login"
+      >
         <router-link to="/index" tag="li">立即登录</router-link>
       </el-button>
+      <el-button @click="resetForm('loginForm')" type="primary" style="width: 110px;">重置</el-button>
+      <p>
+        还没有账号？立即
+        <router-link to="/register">注册</router-link>
+      </p>
       <!-- <el-button type="primary"><router-link to="/register" tag="li">立即注册</router-link></el-button> -->
-      <el-button type="primary">
-        <router-link to="/register" tag="li">立即注册</router-link>
-      </el-button>
     </el-form>
   </div>
 </template>
@@ -58,7 +57,7 @@ export default {
       dialogTableVisible: false,
       labelPosition: "right",
       flag: false,
-      login: {
+      loginForm: {
         username: "",
         password: "",
         verification: ""
@@ -78,7 +77,7 @@ export default {
             trigger: "blur"
           }
         ],
-        verification:[
+        verification: [
           {
             required: true,
             message: "验证码不能为空",
@@ -94,30 +93,27 @@ export default {
     },
     toogle() {
       this.flag = !flag;
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     }
   }
 };
 </script>
 
 <style scoped>
-
 #container {
   position: fixed;
   background-color: #d5dee6;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  background: url(../assets/login1.jpg) no-repeat center center;
+  background-size: 100% 100%;
 }
 
 #container:hover {
   background-color: #d5e6de;
-}
-
-#container .title {
-  margin: 0 auto;
-  font-size: 30px;
-  font-weight: 700;
-  font-family: Georgia, 'Times New Roman', Times, serif
 }
 .loginForm {
   background: transparent;
@@ -125,8 +121,8 @@ export default {
   left: 0;
   right: 0;
   width: 300px;
-  margin: 120px auto;
-  padding: 35px 35px 25px 35px;
+  margin: 150px auto;
+  padding: 35px 35px 15px 35px;
   box-shadow: 0 2px 8px #77bea3;
   border-radius: 10px;
 }
@@ -137,10 +133,28 @@ export default {
   width: 90%;
 }
 
+.random {
+  position: absolute;
+  margin-left: 10px;
+}
+
 #title {
   font-size: 16px;
   font-weight: 700;
   color: #5db2f8;
-  margin: 0px 10px 30px 75px;
+  text-align: center;
+  margin: 0px 10px 30px 25px;
+}
+p {
+  font-size: 14px;
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+p > a {
+  text-decoration: none;
+  color: #ff0000;
+  font-weight: 700;
+  font-size: 16px;
 }
 </style>

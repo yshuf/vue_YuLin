@@ -64,5 +64,6 @@ export default {
 
 .el-menu {
   background-color: #f9faf3;
+  font-family: 'Courier New', Courier, monospace;
 }
 </style>

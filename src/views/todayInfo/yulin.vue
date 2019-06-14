@@ -23,20 +23,20 @@ export default {
       return {
         tableData: [{
           id: '园林',
-          name: '空气温度',
-          amount1: '土壤温度',
-          amount2: '二氧化碳浓度',
-          amount3: '烟雾'
+          name: '空气温度:',
+          amount1: '土壤温度:',
+          amount2: '二氧化碳浓度:',
+          amount3: '烟雾:'
         }, {
           id: '12987123',
-          name: '空气湿度',
-          amount1: '土壤湿度',
-          amount2: '土壤盐分',
+          name: '空气湿度:',
+          amount1: '土壤湿度:',
+          amount2: '土壤盐分:',
         }, {
-          id: '鱼塘',
-          name: '水温',
-          amount1: '浑浊度',
-          amount2: '电导率',
+          id: '鱼塘:',
+          name: '水温:',
+          amount1: '浑浊度:',
+          amount2: '电导率:',
         }]
       }
    },

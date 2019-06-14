@@ -69,9 +69,9 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item style="margin-left: 0px;margin-bottom: 10px;">
-        <el-button type="primary" @click="submitForm('dynamicValidateForm')" class="submit_btn">提交</el-button>
-        <el-button @click="resetForm('dynamicValidateForm')">重置</el-button>
+      <el-form-item style="margin-left: -30px;margin-bottom: 10px;">
+        <el-button type="primary" @click="submitForm('dynamicValidateForm')" class="submit_btn" style="width: 100px;">提交</el-button>
+        <el-button @click="resetForm('dynamicValidateForm')" style="width: 100px;">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -116,7 +116,7 @@ export default {
   background-color: #abd3c6;
   width: 100%;
   height: 100%;
-  /* background: url(../assets/register1.jpg) no-repeat center center; */
+  background: url(../assets/register.jpg) no-repeat center center;
   background-size: 100% 100%;
 }
 #register-container:hover {
@@ -139,5 +139,7 @@ export default {
   font-weight: 400;
   margin: 0px 10px 30px 60px;
   text-align: center;
+  font-weight: 700;
+  color: rgb(90, 184, 238);
 }
 </style>

@@ -1,20 +1,5 @@
 <template>
-  <div>
-    <el-table
-      :data="tableData"
-      style="width: 100%;margin-top:-60px;margin-bottom:20px;"
-      :row-class-name="tableRowClassName"
-      align="center"
-      border
-      stripe
-      highlight-current-row
-    >
-      <el-table-column prop="date" width="180"></el-table-column>
-      <el-table-column prop="name" width="180"></el-table-column>
-      <el-table-column prop="data1" width="180"></el-table-column>
-      <el-table-column prop="data2" width="180"></el-table-column>
-      <el-table-column prop="data3" width="180"></el-table-column>
-    </el-table>
+  <div class="month">
     <el-tabs type="border-card" style="width: 100%;">
       <el-tab-pane label="空气温度">
         <div id="空气温度" :style="{width: '1000px',height: '600px'}"></div>
@@ -60,26 +45,8 @@
 
 <script>
 export default {
-  name: "weather",
   data() {
-    return {
-      tableData: [
-        {
-          date: "空气温度:",
-          name: "空气湿度:",
-          data1: "氧气浓度:",
-          data2: "降雨量:",
-          data3: "土壤温度:"
-        },
-        {
-          date: "土壤湿度:",
-          name: "风速:",
-          data1: "风向:",
-          data2: "大气压强:",
-          data3: "光照强度:"
-        }
-      ]
-    };
+    return {};
   },
   mounted() {
     this.drawLine();
@@ -1285,25 +1252,10 @@ export default {
           }
         ]
       });
-    },
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return "warning-row";
-      } else if (rowIndex === 3) {
-        return "success-row";
-      }
-      return "";
     }
   }
 };
 </script>
 
 <style scoped>
-.el-table .warning-row {
-  background: oldlace;
-}
-
-.el-table .success-row {
-  background: #97d377;
-}
 </style>

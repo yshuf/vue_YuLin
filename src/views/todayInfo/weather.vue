@@ -15,15 +15,19 @@
       <el-table-column prop="data2" width="180"></el-table-column>
       <el-table-column prop="data3" width="180"></el-table-column>
     </el-table>
-    <el-tabs type="border-card" style="width: 100%;">
-      <el-tab-pane label="空气温度">
+    <Ts></Ts>
+    <!-- <el-button type="primary"><router-link to="/index/header/ts">空气温度</router-link></el-button> -->
+    <!-- <router-view></router-view> -->
+    <!-- <el-tabs type="border-card" style="width: 100%;"> -->
+      <!-- <el-tab-pane label="空气温度">
         <div id="空气温度" :style="{width: '1000px',height: '600px'}"></div>
+        
       </el-tab-pane>
       <el-tab-pane label="空气湿度">
         空气湿度
         <div id="空气湿度" :style="{width: '800px',height: '500px'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="氧气浓度">
+      </el-tab-pane> -->
+      <!-- <el-tab-pane label="氧气浓度">
         氧气浓度
         <div id="氧气浓度" :style="{width: '800px',height: '500px'}"></div>
       </el-tab-pane>
@@ -53,14 +57,19 @@
       <el-tab-pane label="光照强度">
         光照强度
         <div id="光照强度" :style="{width: '800px',height: '500px'}"></div>
-      </el-tab-pane>
-    </el-tabs>
+      </el-tab-pane> -->
+      
+    <!-- </el-tabs> -->
   </div>
 </template>
 
 <script>
+import Ts from './ts'
 export default {
   name: "weather",
+  components:{
+    Ts,
+  },
   data() {
     return {
       tableData: [

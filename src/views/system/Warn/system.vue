@@ -15,5 +15,8 @@ export default {
 </script>
 
 <style scoped>
-    
+    .system {
+        background: #b4e0f1;
+        margin: 10px auto;
+    }
 </style>

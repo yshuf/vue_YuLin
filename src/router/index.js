@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import Index from '@/views/news/index'
 import Login from '@/components/login'
 import Register from '@/components/register'

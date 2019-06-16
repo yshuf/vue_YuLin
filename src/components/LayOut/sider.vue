@@ -7,7 +7,7 @@
             <i class="el-icon-message"></i>今日信息
           </template>
           <el-menu-item index="/index/header/weather">查看今日信息</el-menu-item>
-          <el-menu-item index="/index/headerStard">标准区</el-menu-item>
+          <el-menu-item index="/index/header/weather">标准区</el-menu-item>
         </el-submenu>
 
         <el-submenu index="2">

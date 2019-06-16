@@ -17,7 +17,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  /* background-color: #b1eee6; */
+  background-color: #b1eee6;
 }
 .content {
   z-index: 2;

@@ -4,17 +4,24 @@ import Router from 'vue-router'
 import Index from '@/views/news/index'
 import Login from '@/components/login'
 import Register from '@/components/register'
+
 import History from '@/views/historyInfo/history'
-import HistoryMonth from '@/views/historyInfo/historyMonth'
+import HistoryMonth from '@/views/historyInfo/month/historyMonth'
+import WeatherMouth from '@/views/historyInfo/month/weatherMonth'
+import YulinMouth from '@/views/historyInfo/month/yulinMonth'
+
 import HistoryDay from '@/views/historyInfo/day/historyDay'
+
 import Header from '@/views/Header/header'
 import SystemWarn from '@/views/system/systemWarn'
 import YulinWarn from '@/views/system/yulinWarn'
+
 import Weather from '@/views/todayInfo/weather'
-import weatherYear from "@/views/historyInfo/weatherYear";
-import yulinYear from "@/views/historyInfo/yulinYear"
-import WeatherMouth from '@/views/historyInfo/weatherMonth'
-import YulinMouth from '@/views/historyInfo/yulinMonth'
+import weatherYear from "@/views/historyInfo/year/weatherYear";
+import yulinYear from "@/views/historyInfo/year/yulinYear"
+
+
+
 import WeatherDay from '@/views/historyInfo/day/weatherDay'
 import YulinDay from '@/views/historyInfo/day/yulinDay'
 import Standard from '@/views/todayInfo/standard'

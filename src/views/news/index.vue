@@ -1,14 +1,13 @@
 <template>
   <div>
     <!-- 头部 start -->
-      <HeaderNav></HeaderNav>
+    <HeaderNav></HeaderNav>
     <!-- 头部 end -->
 
-    <!-- 侧边栏 start -->
     <el-container style="height: 100vh;border: 1px solid #eee">
+      <!-- 侧边栏 start -->
       <Sider></Sider>
       <!-- 侧边栏 end -->
-
 
       <!-- 主体 start -->
       <el-container>
@@ -20,10 +19,10 @@
 </template>
 
 <script>
-import HeaderNav from '@/components/LayOut/headerNav'
-import Sider from '@/components/LayOut/sider'
+import HeaderNav from "@/components/LayOut/headerNav";
+import Sider from "@/components/LayOut/sider";
 export default {
-  name: 'index',
+  name: "index",
   components: {
     HeaderNav,
     Sider

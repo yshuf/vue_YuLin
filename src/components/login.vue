@@ -11,6 +11,7 @@
     >
       <!-- 登录界面 -->
       <h3 id="title" class="animated bounceIn delay-1s">现代农业综合后台管理登录</h3>
+
       <el-form-item label="用户名" prop="username">
         <el-input type="text" autocomplete="off" placeholder="请输入用户名" v-model="loginForm.username"></el-input>
       </el-form-item>
@@ -42,16 +43,13 @@
         style="margin-left: 40px;width: 110px;"
         class="login"
         @click="login()"
-      >
-      立即登录
-        <!-- <router-link to="/index" ></router-link> -->
-      </el-button>
+      >立即登录</el-button>
       <el-button @click="resetForm('loginForm')" type="primary" style="width: 110px;">重置</el-button>
-      <p>
-        还没有账号？立即<span @click="register()" class="register">注册</span>
-      </p>
       
-      <!-- <el-button type="primary"><router-link to="/register" tag="li">立即注册</router-link></el-button> -->
+      <p>
+        还没有账号？立即
+        <span @click="register()" class="register">注册</span>
+      </p>
     </el-form>
   </div>
 </template>
@@ -112,15 +110,18 @@ export default {
     //         );
     //       _this.codeImg = codeImg;
     //     });
-    login(){
-      if(this.loginForm.username=="admin"&&this.loginForm.password=="123"){
-        this.$router.push({path:'/index'})
-      }else {
-        alert('登录失败，请输入正确的用户名和密码');
+    login() {
+      if (
+        this.loginForm.username == "admin" &&
+        this.loginForm.password == "123"
+      ) {
+        this.$router.push({ path: "/index" });
+      } else {
+        alert("登录失败，请输入正确的用户名和密码");
       }
     },
-    register(){
-      this.$router.push({path: '/register'});
+    register() {
+      this.$router.push({ path: "/register" });
     },
     updateCode() {
       let img = document.getElementById("img");

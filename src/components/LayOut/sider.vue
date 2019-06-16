@@ -2,6 +2,7 @@
   <div class="side">
     <el-aside width="200px" style="background-color: rgb(249, 250, 243)">
       <el-menu router>
+        <!-- 侧边栏主体部分 -->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>今日信息
@@ -49,29 +50,9 @@
 export default {
   data() {
     return {
-      msg: "用户公司名字",
-      activeIndex: "1"
     };
   },
   methods: {
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
-    open() {
-      this.$alert(
-        "用户名<input type='text'>邮箱<input type='text'>性别<input type='text'>用户名<input type='text'>",
-        "个人信息",
-        {
-          dangerouslyUseHTMLString: true
-        }
-      );
-    }
   }
 };
 </script>

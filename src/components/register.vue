@@ -8,6 +8,7 @@
       class="register-form animated bounceInRight delay-1s"
     >
       <h3 id="title">现代农业综合后台管理系统</h3>
+
       <el-form-item
         label="用户名"
         prop="username"
@@ -57,12 +58,7 @@
         </el-radio-group>
       </el-form-item>
 
-      <el-form-item
-        label="身份确认"
-        :rules="[
-      { required: true, message: '请选择你的身份', trigger: 'blur' },
-    ]"
-      >
+      <el-form-item label="身份确认" :rules="[{required: true, message: '请选择你的身份', trigger: 'blur' }]">
         <el-select v-model="dynamicValidateForm.identity" placeholder="请选择身份">
           <el-option label="管理员" value="manager"></el-option>
           <el-option label="员工" value="employee"></el-option>
@@ -70,7 +66,12 @@
       </el-form-item>
 
       <el-form-item style="margin-left: -30px;margin-bottom: 10px;">
-        <el-button type="primary" @click="submitForm('dynamicValidateForm')" class="submit_btn" style="width: 100px;">提交</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm('dynamicValidateForm')"
+          class="submit_btn"
+          style="width: 100px;"
+        >提交</el-button>
         <el-button @click="resetForm('dynamicValidateForm')" style="width: 100px;">重置</el-button>
       </el-form-item>
     </el-form>

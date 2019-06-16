@@ -25,7 +25,6 @@ import HeaderStard from '@/views/header/headerStard'
 import WeatherSet from '@/views/Resource/weatherSet'
 import YulinSet from '@/views/Resource/yulinSet'
 import NotFound from '@/components/404.vue'
-import Ts from '@/views/todayInfo/ts'
 
 
 Vue.use(Router)
@@ -63,11 +62,6 @@ const router = new Router({
               path: '/index/header/weather',
               name: 'weather',
               component: Weather
-            },
-            {
-              path: '/index/header/ts',
-              name: 'ts',
-              component: Ts
             },
             {
               path: '/index/header/standard',

@@ -15,7 +15,6 @@
       <el-table-column prop="data2" width="180"></el-table-column>
       <el-table-column prop="data3" width="180"></el-table-column>
     </el-table>
-    <Ts></Ts>
     <!-- <el-button type="primary"><router-link to="/index/header/ts">空气温度</router-link></el-button> -->
     <!-- <router-view></router-view> -->
     <!-- <el-tabs type="border-card" style="width: 100%;"> -->
@@ -64,11 +63,10 @@
 </template>
 
 <script>
-import Ts from './ts'
 export default {
   name: "weather",
   components:{
-    Ts,
+
   },
   data() {
     return {

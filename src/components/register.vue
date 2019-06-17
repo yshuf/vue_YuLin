@@ -2,13 +2,14 @@
   <div id="register-container">
     <!-- 注册界面 -->
     <el-form
-      :model="dynamicValidateForm"
-      ref="dynamicValidateForm"
+      :model="registerForm"
+      ref="registerForm"
       label-width="100px"
       class="register-form animated bounceInRight delay-1s"
     >
       <h3 id="title">现代农业综合后台管理系统</h3>
 
+      <!-- 用户名 -->
       <el-form-item
         label="用户名"
         prop="username"
@@ -17,9 +18,10 @@
       { min:5 ,max:30,message: '长度应在5到30位之间',trigger: 'blur'}
     ]"
       >
-        <el-input v-model="dynamicValidateForm.username" placeholder="username"></el-input>
+        <el-input v-model="registerForm.username" placeholder="username"></el-input>
       </el-form-item>
-
+      
+      <!-- 邮箱 -->
       <el-form-item
         label="邮箱"
         prop="email"
@@ -29,9 +31,10 @@
       {min: 6,max: 20,message: '长度应在6到20位之间'}
     ]"
       >
-        <el-input v-model="dynamicValidateForm.email" placeholder="email"></el-input>
+        <el-input v-model="registerForm.email" placeholder="email"></el-input>
       </el-form-item>
-
+      
+      <!-- 密码 -->
       <el-form-item
         label="密码"
         prop="password"
@@ -40,39 +43,35 @@
     ]"
       >
         <el-input
-          v-model="dynamicValidateForm.password"
+          v-model="registerForm.password"
           type="password"
           placeholder="password"
           show-password
         ></el-input>
       </el-form-item>
-
+      
+      <!-- 性别 -->
       <el-form-item
         label="性别"
         prop="sex"
         :rules="[{required:true,message:'请选择性别',trigger: 'blur'}]"
       >
-        <el-radio-group v-model="dynamicValidateForm.sex">
+        <el-radio-group v-model="registerForm.sex">
           <el-radio label="男"></el-radio>
           <el-radio label="女"></el-radio>
         </el-radio-group>
       </el-form-item>
 
       <el-form-item label="身份确认" :rules="[{required: true, message: '请选择你的身份', trigger: 'blur' }]">
-        <el-select v-model="dynamicValidateForm.identity" placeholder="请选择身份">
+        <el-select v-model="registerForm.identity" placeholder="请选择身份">
           <el-option label="管理员" value="manager"></el-option>
           <el-option label="员工" value="employee"></el-option>
         </el-select>
       </el-form-item>
 
       <el-form-item style="margin-left: -30px;margin-bottom: 10px;">
-        <el-button
-          type="primary"
-          @click="submitForm('dynamicValidateForm')"
-          class="submit_btn"
-          style="width: 100px;"
-        >提交</el-button>
-        <el-button @click="resetForm('dynamicValidateForm')" style="width: 100px;">重置</el-button>
+        <el-button type="primary" @click="submitForm()" class="submit_btn" style="width: 100px;">提交</el-button>
+        <el-button @click="resetForm('registerForm')" style="width: 100px;">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -84,7 +83,7 @@ export default {
   components: {},
   data() {
     return {
-      dynamicValidateForm: {
+      registerForm: {
         username: "",
         password: "",
         email: "",
@@ -93,17 +92,25 @@ export default {
       }
     };
   },
+  // http://localhost:8080/auth/regist
   methods: {
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+    // 表单提交
+    submitForm() {
+      this.$axios
+        .post("http://10.168.14.55:8080/auth/regist", this.registerForm)
+        .then(res => {
+          console.log(res);
+          if (res.data.status === 200) {
+            alert("提交成功，前往登录");
+            this.$router.push({ path: "/login" });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
+
+    // 重置表单
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }

@@ -2,31 +2,36 @@
 import Vue from 'vue'
 import App from './App'
 
-import router from './router'
-import vueAxios from 'vue-axios'
-import axios from 'axios'
+import router from './router' 
 
-// 导入 elementUI
-import ElementUI from 'element-ui'
+import store from './store' // 引入 store
+
+import axios from 'axios'   // 引入 axios
+
+
+import ElementUI from 'element-ui' // 引入 elementUI
 import 'element-ui/lib/theme-chalk/index.css'
 
-// 导入 echarts
 import echarts from 'echarts' // 引入echarts
-import animate from 'animate.css'
+
+import animate from 'animate.css' // 引入动画
 
 Vue.config.productionTip = false
 
 Vue.prototype.$echarts = echarts // 注册组件
-// Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios
+
+
 Vue.use(ElementUI)
 Vue.use(echarts)
 Vue.use(animate)
-Vue.use(vueAxios,axios)
+
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },

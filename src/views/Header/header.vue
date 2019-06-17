@@ -8,23 +8,26 @@
         @select="handleSelect"
         router
       >
-        <el-menu-item index="/index/header/weather">气象</el-menu-item>
-        <el-menu-item index="/index/header/yulin">渔林</el-menu-item>
-        <el-submenu index="3">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-          <el-menu-item index="3-3">选项3</el-menu-item>
-          <el-submenu index="3-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="3-4-1">选项1</el-menu-item>
-            <el-menu-item index="3-4-2">选项2</el-menu-item>
-            <el-menu-item index="3-4-3">选项3</el-menu-item>
+        <!-- 气象渔林头部 -->
+        <el-menu-item index=""><el-page-header @back="goBack" style="margin-top: 20px;"></el-page-header></el-menu-item>
+          <el-menu-item index="/index/header/weather">气象</el-menu-item>
+          <el-menu-item index="/index/header/yulin">渔林</el-menu-item>
+          <el-submenu index="3">
+            <template slot="title">我的工作台</template>
+            <el-menu-item index="3-1">选项1</el-menu-item>
+            <el-menu-item index="3-2">选项2</el-menu-item>
+            <el-menu-item index="3-3">选项3</el-menu-item>
+            <el-submenu index="3-4">
+              <template slot="title">选项4</template>
+              <el-menu-item index="3-4-1">选项1</el-menu-item>
+              <el-menu-item index="3-4-2">选项2</el-menu-item>
+              <el-menu-item index="3-4-3">选项3</el-menu-item>
+            </el-submenu>
           </el-submenu>
-        </el-submenu>
       </el-menu>
     </el-header>
 
+    <!-- 子组件 -->
     <el-main>
       <router-view></router-view>
     </el-main>
@@ -47,6 +50,10 @@ export default {
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    // 返回，后退一步
+    goBack() {
+      this.$router.go(-1);
     }
   }
 };
@@ -63,6 +70,6 @@ export default {
 
 .el-menu {
   background-color: #f9fdde;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 </style>

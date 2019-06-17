@@ -1,5 +1,6 @@
 <template>
     <div class="system">
+        <!-- 系统警告 -->
         这是系统提醒
     </div>
 </template>

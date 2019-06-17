@@ -3,6 +3,7 @@
     <div class="nav">
       <header class="logo-container">
         <el-row>
+          <!-- logo 部分 -->
           <el-col :span="12">
             <img src="../../assets/logo.jpg" alt>
             <div class="title">
@@ -34,32 +35,29 @@
                   <el-dropdown-item>
                     <el-button type="text" @click="show()">查看</el-button>
                   </el-dropdown-item>
-                  <el-dropdown-item>修改</el-dropdown-item>
-                  <el-dropdown-item>删除</el-dropdown-item>
+                  <el-dropdown-item>
+                    <el-button type="text" @click="open()">退出登录</el-button>
+                  </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
 
               <!-- 查看信息 -->
                 <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
                   <el-form :model="form">
-                    <el-form-item label="用户名" :label-width="formLabelWidth">
-                      <el-input v-model="form.name" autocomplete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="性别" :label-width="formLabelWidth">
-                      <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-form-item label="用户名:" :label-width="formLabelWidth">
+                      {{form.name}}
                     </el-form-item>
 
-                    <el-form-item label="邮箱" :label-width="formLabelWidth">
-                      <el-input v-model="form.name" autocomplete="off"></el-input>
+                    <el-form-item label="邮箱:" :label-width="formLabelWidth">
+                      {{form.email}}
                     </el-form-item>
 
-                    <el-form-item label="活动区域" :label-width="formLabelWidth">
-                      <el-select v-model="form.region" placeholder="请选择活动区域">
-                        <el-option label="区域一" value="shanghai"></el-option>
-                        <el-option label="区域二" value="beijing"></el-option>
-                      </el-select>
+                    <el-form-item label="性别:" :label-width="formLabelWidth">
+                      {{form.sex}}
                     </el-form-item>
+
                   </el-form>
+
                   <div slot="footer" class="dialog-footer">
                     <el-button @click="dialogFormVisible = false">取 消</el-button>
                     <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
@@ -83,9 +81,9 @@ export default {
       imageUrl: "",
       dialogFormVisible: false,
       form: {
-        name: "用户名",
-        sex: "",
-        email: "",
+        name: "哈嘿嘿",  // 用户名
+        sex: "女",     // 性别
+        email: "12345687@qq.com",  // 邮箱
         region: "",
         date1: "",
         date2: "",
@@ -98,9 +96,31 @@ export default {
     };
   },
   methods: {
+    // 查看显示
     show() {
       this.dialogFormVisible = true;
     },
+
+    // 退出登录
+     open() {
+        this.$confirm('此操作将退出登录, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: '成功退出!'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消退出'
+          });          
+        });
+      },
+    
+    // 头像上传
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
     },

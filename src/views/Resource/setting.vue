@@ -1,5 +1,6 @@
 <template>
     <div class="main">
+      <!-- 系统提示信息 -->
       <h3 class="one">系统普通提示</h3>
       <div class="plain">
         <span>Min</span>

@@ -1,38 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// 登录，注册，首页
 import Index from '@/views/news/index'
 import Login from '@/components/login'
 import Register from '@/components/register'
-
-import History from '@/views/historyInfo/history'
-import HistoryMonth from '@/views/historyInfo/month/historyMonth'
-import WeatherMouth from '@/views/historyInfo/month/weatherMonth'
-import YulinMouth from '@/views/historyInfo/month/yulinMonth'
-
-import HistoryDay from '@/views/historyInfo/day/historyDay'
 
 import Header from '@/views/Header/header'
 import SystemWarn from '@/views/system/systemWarn'
 import YulinWarn from '@/views/system/yulinWarn'
 
-import Weather from '@/views/todayInfo/weather'
+// 年
+import History from '@/views/historyInfo/year/history'
 import weatherYear from "@/views/historyInfo/year/weatherYear";
 import yulinYear from "@/views/historyInfo/year/yulinYear"
 
+// 月
+import HistoryMonth from '@/views/historyInfo/month/historyMonth'
+import WeatherMouth from '@/views/historyInfo/month/weatherMonth'
+import YulinMouth from '@/views/historyInfo/month/yulinMonth'
 
-
+// 日
+import HistoryDay from '@/views/historyInfo/day/historyDay'
 import WeatherDay from '@/views/historyInfo/day/weatherDay'
 import YulinDay from '@/views/historyInfo/day/yulinDay'
+
 import Standard from '@/views/todayInfo/standard'
+import HeaderStard from '@/views/header/headerStard'
 import Yulin from '@/views/todayInfo/yulin'
+import Weather from '@/views/todayInfo/weather'
 import About from '@/views/About/about'
+
 import Join from '@/views/About/join'
 import HeaderSet from '@/views/Header/HeaderSet'
-import HeaderStard from '@/views/header/headerStard'
 import WeatherSet from '@/views/Resource/weatherSet'
 import YulinSet from '@/views/Resource/yulinSet'
-import NotFound from '@/components/404.vue'
+// 404 
+import NotFound from '@/components/404'
 
 
 Vue.use(Router)

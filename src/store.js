@@ -7,17 +7,20 @@ const type = {
   SET_AUTHENTICATED :'SET_AUTHENTICATED',
   SET_USER: 'SET_USER'
 }
+
 const state ={
   isAuthenticated: false,
   user: {}
 }
+
 const getters = {
   isAuthenticated: state=>state.isAuthenticated,
   user: state => state.user
 }
+
 const mutations = {
   // 设置是否授权
-  [types.SET_AUTHENTICATED](state,isAuthenticated){
+  [type.SET_AUTHENTICATED](state,isAuthenticated){
     if(isAuthenticated) state.isAuthenticated=isAuthenticated;
     else state.isAuthenticated=false;
   },
@@ -26,6 +29,7 @@ const mutations = {
     else state.user={};
   }
 }
+
 const actions = {
   setAuthenticated: ({commit},isAuthenticated)=>{
     commit(types.SET_AUTHENTICATED,isAuthenticated);

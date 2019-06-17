@@ -1,5 +1,6 @@
 <template>
   <div class="warn">
+    <!-- 危险警告 -->
     <!-- <div id="curvedarrow">温馨提示：{{msg}}</div> -->
     警告提示
   </div>

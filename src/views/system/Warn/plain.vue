@@ -1,5 +1,6 @@
 <template>
   <div class="plain">
+    <!-- 普通警告 -->
     <div class="content">温馨提示:当前温度过高，即将超过界限值</div>
   </div>
 </template>

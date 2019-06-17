@@ -8,6 +8,8 @@
         @select="handleSelect"
         router
       >
+      <!-- 警告头部 -->
+        <el-menu-item><el-page-header @back="goBack" style="margin-top: 18px;"></el-page-header></el-menu-item>
         <el-menu-item index="/index/headerStard/weatherWarn">气象</el-menu-item>
         <el-menu-item index="/index/headerStard/yulinWarn">渔林</el-menu-item>
         <el-submenu index="3">
@@ -47,7 +49,12 @@ export default {
     },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    // 返回，后退
+    goBack(){
+      this.$router.go(-1);
     }
+
   }
 };
 </script>

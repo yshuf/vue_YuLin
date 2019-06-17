@@ -26,7 +26,7 @@
         ></el-input>
       </el-form-item>
 
-      <el-form-item label="验证码" prop="verification" style="width: 185px;">
+      <el-form-item label="验证码" prop="verification" style="width: 185px;position: relative;">
         <el-input type="text" autocomplete="off" v-model="loginForm.verification"></el-input>
         <img
           src="http://10.168.14.55:8080/auth/captcha"
@@ -45,7 +45,7 @@
         @click="login()"
       >立即登录</el-button>
       <el-button @click="resetForm('loginForm')" type="primary" style="width: 110px;">重置</el-button>
-      
+
       <p>
         还没有账号？立即
         <span @click="register()" class="register">注册</span>
@@ -58,14 +58,14 @@
 export default {
   data() {
     return {
-      dialogTableVisible: false,
       labelPosition: "right",
       flag: false,
       loginForm: {
-        username: "",
-        password: "",
-        verification: ""
+        username: "", // 用户名
+        password: "", // 密码
+        verification: "" // 验证码
       },
+      // 登录规则
       rules: {
         username: [
           {
@@ -109,8 +109,28 @@ export default {
     //           )
     //         );
     //       _this.codeImg = codeImg;
-    //     });
+    //     })
+    // },
+
+    // 登录
     login() {
+      // this.$axios
+      //   .post("http://10.168.14.55:8080/auth/regist", this.loginForm)
+      //   .then(res => {
+      //     console.log(res.data);
+      //     if (res.code === 200) {
+      //       const user =res.data
+      //       // 将 user 保存到 vuex 的state
+      //       this.$store.dispatch('setUser',user) 
+
+      //       // 去首页
+      //       this.$router.replace('/index');
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //     alert(err);
+      //   });
       if (
         this.loginForm.username == "admin" &&
         this.loginForm.password == "123"
@@ -120,19 +140,29 @@ export default {
         alert("登录失败，请输入正确的用户名和密码");
       }
     },
+
+    // 注册路由跳转
     register() {
       this.$router.push({ path: "/register" });
     },
+
+    // 获取一个新的验证码
     updateCode() {
       let img = document.getElementById("img");
       img.src = img.src + "?" + new Date().getTime();
     },
+
+    // 登录保存
     saveLogin() {
       console.log(this.login);
     },
+
+    // 切换
     toogle() {
       this.flag = !flag;
     },
+
+    // 重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
@@ -154,6 +184,7 @@ export default {
 #container:hover {
   background-color: #d5e6de;
 }
+
 .loginForm {
   background: transparent;
   position: absolute;
@@ -165,7 +196,6 @@ export default {
   box-shadow: 0 2px 8px #77bea3;
   border-radius: 10px;
 }
-
 .el-input {
   display: inline-block;
   height: 47px;
@@ -196,5 +226,12 @@ p > .register {
   color: #ff0000;
   font-weight: 700;
   font-size: 16px;
+}
+
+#img {
+  position: absolute;
+  margin-left: 5px;
+  width: 96px;
+  height: 40px;
 }
 </style>

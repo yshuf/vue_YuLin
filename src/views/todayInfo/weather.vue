@@ -522,32 +522,32 @@ export default {
         ]
       });
 
-      var dataXY = []; // 实际存放 x 轴, 和y轴 的数据
-      // 获取数据
-      this.$axios
-        .get("http://10.168.14.55:8080/meteorological/ox")
-        .then(res => {
-          if (res) {
-            // 循环遍历 拿到时间值
-            for (var i = 0; i < res.data.length; i++) {
-              var dataE = res.data[i]; // 拿到 数据中的每一项
-              var x = dataE.time.slice(11);
-              var y = parseFloat(dataE.name);
-              dataXY.push([x, y]); 
-              console.log(typeof x);
-              console.log(typeof y);
-            }
-            console.log(dataXY[0]);
-            myCharts.setOption({
-              series: [
-                {
-                  type: "scatter",
-                  data: dataXY
-                }
-              ]
-            });
-          }
-        });
+      // var dataXY = []; // 实际存放 x 轴, 和y轴 的数据
+      // // 获取数据
+      // this.$axios
+      //   .get("http://10.168.14.55:8080/meteorological/ox")
+      //   .then(res => {
+      //     if (res) {
+      //       // 循环遍历 拿到时间值
+      //       for (var i = 0; i < res.data.length; i++) {
+      //         var dataE = res.data[i]; // 拿到 数据中的每一项
+      //         var x = dataE.time.slice(11);
+      //         var y = parseFloat(dataE.name);
+      //         dataXY.push([x, y]); 
+      //         console.log(typeof x);
+      //         console.log(typeof y);
+      //       }
+      //       console.log(dataXY[0]);
+      //       myCharts.setOption({
+      //         series: [
+      //           {
+      //             type: "scatter",
+      //             data: dataXY
+      //           }
+      //         ]
+      //       });
+      //     }
+      //   });
     },
     drawLine4() {
       var myChart = this.$echarts.init(document.getElementById("降雨量"));

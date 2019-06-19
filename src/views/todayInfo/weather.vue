@@ -1,91 +1,58 @@
 <template>
   <div>
-    <el-table
-      :data="tableData"
-      style="width: 100%;margin-top:-60px;margin-bottom:20px;"
-      :row-class-name="tableRowClassName"
-      align="center"
-      border
-      stripe
-      highlight-current-row
-    >
-      <el-table-column prop="date" width="180"></el-table-column>
-      <el-table-column prop="name" width="180"></el-table-column>
-      <el-table-column prop="data1" width="180"></el-table-column>
-      <el-table-column prop="data2" width="180"></el-table-column>
-      <el-table-column prop="data3" width="180"></el-table-column>
-    </el-table>
+    <!-- 数据表格 -->
+    <Table></Table>
 
-    <!-- <el-button type="primary">
-      <router-link to="/index/header/ts">空气温度</router-link>
-    </el-button>--> 
-    <!-- <router-view></router-view> -->
+    <!-- 图形界面 -->
     <el-tabs type="border-card" style="width: 100%;">
-      <el-tab-pane label="空气温度">
-        <div id="空气温度" :style="{width: '1000px',height: '600px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="空气湿度">
-        空气湿度
-        <div id="空气湿度" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="氧气浓度">
-        氧气浓度
-        <div id="氧气浓度" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="降雨量">
-        <div id="降雨量" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="土壤温度">
-        土壤温度
-        <div id="土壤温度" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="土壤湿度">
-        土壤湿度
-        <div id="土壤湿度" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="风速">
-        风速
-        <div id="风速" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="风向">
-        风向
-        <div id="风向" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="大气压强">
-        大气压强
-        <div id="大气压强" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
-      </el-tab-pane>
-      <el-tab-pane label="光照强度">
-        光照强度
-        <div id="光照强度" :style="{width: '800px',height: '500px',margin:'0 auto'}"></div>
+      <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
+        <!-- {{items.name}} -->
+        <div :id="items.name" :style="{width: '1200px',height: '500px'}"></div>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
+import Table from "./table";
 export default {
   name: "weather",
-  components: {},
+  components: {
+    Table
+  },
   data() {
     return {
-      data: {
-        msg: "132"
-      },
-      tableData: [
+      data: [],
+      list: [
         {
-          date: "空气温度: ℃",
-          name: "空气湿度: %RH",
-          data1: "氧气浓度: %",
-          data2: "降雨量: mm",
-          data3: "土壤温度: ℃"
+          name: "空气温度"
         },
         {
-          date: "土壤湿度: %RH",
-          name: "风速: m/s",
-          data1: "风向: °",
-          data2: "大气压强: hPa",
-          data3: "光照强度: Lux"
+          name: "空气湿度"
+        },
+        {
+          name: "氧气浓度"
+        },
+        {
+          name: "降雨量"
+        },
+        {
+          name: "土壤温度"
+        },
+        {
+          name: "土壤湿度"
+        },
+        {
+          name: "风速"
+        },
+        {
+          name: "风向"
+        },
+        {
+          name: "大气压强"
+        },
+        {
+          name: "光照强度"
         }
       ]
     };
@@ -104,59 +71,37 @@ export default {
   },
   methods: {
     drawLine() {
+      //  初始化 echarts 实例
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
+      //  使用刚指定的配置项和绘制图表，数据为 this.option
       myChart.setOption({
         title: {
           text: "未来24个小时内气温变化"
         },
+        // 提示框
         tooltip: {
           trigger: "axis"
         },
         legend: {
           data: ["最高气温", "最低气温"]
         },
+        // 是否显示工具栏组件
         toolbox: {
           show: true,
           feature: {
             mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ["line", "bar"] },
-            restore: { show: true },
-            saveAsImage: { show: true }
+            dataView: { show: true, readOnly: false }, // 数据视图工具，可以展示当前图表所用的数据，编辑后可以动态更新
+            magicType: { show: true, type: ["line", "bar"] }, // 动态类型切换
+            restore: { show: true }, // 重置
+            saveAsImage: { show: true } // 保存图片
           }
         },
         calculable: true,
-        xAxis: [
-          {
-            type: "category",
-            boundaryGap: false,
-            data: [
-              "1",
-              "2",
-              "3",
-              "4",
-              "5",
-              "6",
-              "7",
-              "8",
-              "9",
-              "10",
-              "11",
-              "12",
-              "13",
-              "14",
-              "15",
-              "16",
-              "17",
-              "18",
-              "19",
-              "20",
-              "21",
-              "22",
-              "24"
-            ]
-          }
-        ],
+        // x 轴 表示
+        xAxis: {
+          data: []
+        },
+        // y 轴 表示
         yAxis: [
           {
             type: "value",
@@ -166,35 +111,11 @@ export default {
           }
         ],
         series: [
+          // 最高温
           {
-            name: "最高气温",
+            name: "当前气温",
             type: "line",
-            data: [
-              11,
-              11,
-              15,
-              13,
-              12,
-              13,
-              10,
-              32,
-              16,
-              18,
-              19,
-              29,
-              5,
-              16,
-              12,
-              24,
-              11,
-              15,
-              10,
-              8,
-              16,
-              13,
-              11,
-              9
-            ],
+            data: [],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -204,45 +125,40 @@ export default {
             markLine: {
               data: [{ type: "average", name: "平均值" }]
             }
-          },
-          {
-            name: "最低气温",
-            type: "line",
-            data: [
-              1,
-              -2,
-              2,
-              5,
-              3,
-              2,
-              0,
-              5,
-              2,
-              6,
-              -1,
-              -2,
-              2,
-              3,
-              4,
-              -2,
-              -4,
-              3,
-              5,
-              0,
-              -3,
-              -2,
-              1,
-              2
-            ],
-            markPoint: {
-              data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
-            },
-            markLine: {
-              data: [{ type: "average", name: "平均值" }]
-            }
           }
         ]
       });
+
+      var dataX = []; // 实际存放 x 轴的 值
+      var dataV = []; // 实际存放 y 轴的 值
+      // 从服务器获取数据
+      this.$axios
+        .get("http://10.168.14.55:8080/meteorological/tem")
+        .then(res => {
+          // 判断 是否从服务器中获取到了数据
+          if (res) {
+            for (var i = 0; i < res.data.length; i++) {
+              // 拿到数据后 遍历拿到 对应的时间给 x 轴
+              dataX.push(res.data[i].time.slice(11));
+              // 拿到数据后， 遍历拿到对应的 温度 给 y 轴
+              dataV.push(res.data[i].name);
+            }
+            // 二次 绘图把 时间和 温度 添加进 图表中
+            myChart.setOption({
+              xAxis: {
+                data: dataX
+              },
+              series: [
+                {
+                  data: dataV
+                }
+              ]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     drawLine2() {
       var myChart = this.$echarts.init(document.getElementById("空气湿度"));
@@ -327,6 +243,10 @@ export default {
     drawLine3() {
       var myCharts = this.$echarts.init(document.getElementById("氧气浓度"));
       myCharts.setOption({
+        title: {
+          text: '氧气浓度和时间的关系',
+          left: 'center'
+        },
         xAxis: {
           scale: true
         },
@@ -334,11 +254,6 @@ export default {
           scale: true
         },
         series: [
-          {
-            type: "effectScatter",
-            symbolSize: 20,
-            data: [[172.7, 105.2], [153.4, 42]]
-          },
           {
             type: "scatter",
             data: [
@@ -606,16 +521,41 @@ export default {
           }
         ]
       });
+
+      var dataXY = []; // 实际存放 x 轴, 和y轴 的数据
+      // 获取数据
+      this.$axios
+        .get("http://10.168.14.55:8080/meteorological/ox")
+        .then(res => {
+          if (res) {
+            // 循环遍历 拿到时间值
+            for (var i = 0; i < res.data.length; i++) {
+              var dataE = res.data[i]; // 拿到 数据中的每一项
+              var x = dataE.time.slice(11);
+              var y = parseFloat(dataE.name);
+              dataXY.push([x, y]); 
+              console.log(typeof x);
+              console.log(typeof y);
+            }
+            console.log(dataXY[0]);
+            myCharts.setOption({
+              series: [
+                {
+                  type: "scatter",
+                  data: dataXY
+                }
+              ]
+            });
+          }
+        });
     },
     drawLine4() {
       var myChart = this.$echarts.init(document.getElementById("降雨量"));
-      app.title = "多x轴实例";
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,
         title: {
           text: "两年内降雨量分布"
-          // subtext: "纯属虚构"
         },
         tooltip: {
           trigger: "none",
@@ -624,7 +564,7 @@ export default {
           }
         },
         legend: {
-          data: ["2015 降水量", "2016 降水量"]
+          data: ["2015 降雨量", "2016 降雨量"]
         },
         grid: {
           top: 70,
@@ -646,7 +586,7 @@ export default {
               label: {
                 formatter: function(params) {
                   return (
-                    "降水量  " +
+                    "降雨量  " +
                     params.value +
                     (params.seriesData.length
                       ? "：" + params.seriesData[0].data
@@ -685,7 +625,7 @@ export default {
               label: {
                 formatter: function(params) {
                   return (
-                    "降水量  " +
+                    "降雨量  " +
                     params.value +
                     (params.seriesData.length
                       ? "：" + params.seriesData[0].data
@@ -717,7 +657,7 @@ export default {
         ],
         series: [
           {
-            name: "2015 降水量",
+            name: "2015 降雨量",
             type: "line",
             xAxisIndex: 1,
             smooth: true,
@@ -737,7 +677,7 @@ export default {
             ]
           },
           {
-            name: "2016 降水量",
+            name: "2016 降雨量",
             type: "line",
             smooth: true,
             data: [
@@ -760,7 +700,6 @@ export default {
     },
     drawLine5() {
       var myChart = this.$echarts.init(document.getElementById("土壤温度"));
-      app.title = "多x轴实例";
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,
@@ -913,8 +852,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
-          text: "未来12个小时内气温变化",
-          subtext: "纯属虚构"
+          text: "未来12个小时内气温变化"
         },
         tooltip: {
           trigger: "axis"
@@ -994,8 +932,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("风速"));
       myChart.setOption({
         title: {
-          text: "南丁格尔玫瑰图",
-          subtext: "纯属虚构",
+          text: "风速与时间关系图",
           x: "center"
         },
         tooltip: {
@@ -1005,16 +942,7 @@ export default {
         legend: {
           x: "center",
           y: "bottom",
-          data: [
-            "rose1",
-            "rose2",
-            "rose3",
-            "rose4",
-            "rose5",
-            "rose6",
-            "rose7",
-            "rose8"
-          ]
+          data: []
         },
         toolbox: {
           show: true,
@@ -1053,16 +981,7 @@ export default {
                 show: true
               }
             },
-            data: [
-              { value: 10, name: "rose1" },
-              { value: 5, name: "rose2" },
-              { value: 15, name: "rose3" },
-              { value: 25, name: "rose4" },
-              { value: 20, name: "rose5" },
-              { value: 35, name: "rose6" },
-              { value: 30, name: "rose7" },
-              { value: 40, name: "rose8" }
-            ]
+            data: []
           },
           {
             name: "面积模式",
@@ -1070,19 +989,74 @@ export default {
             radius: [30, 110],
             center: ["75%", "50%"],
             roseType: "area",
-            data: [
-              { value: 10, name: "rose1" },
-              { value: 5, name: "rose2" },
-              { value: 15, name: "rose3" },
-              { value: 25, name: "rose4" },
-              { value: 20, name: "rose5" },
-              { value: 35, name: "rose6" },
-              { value: 30, name: "rose7" },
-              { value: 40, name: "rose8" }
-            ]
+            data: []
           }
         ]
       });
+
+      var dataX = []; // 实际存放时间数组
+      var dataL = []; // 实际存放左侧半径模式
+      var dataR = []; // 实际存放右侧面积模式数据
+      // 从后台获取数据
+      this.$axios
+        .get("http://10.168.14.55:8080/meteorological/sp")
+        .then(res => {
+          // 判断时候拿到后台数据，如果拿到，对数据进行处理
+          if (res) {
+            for (var i = 0; i < res.data.length; i++) {
+              // 获取时间
+              var time = res.data[i].time.slice(11).toString();
+
+              dataX.push(time);
+              // 获取到 对应时间的风速
+              var value = res.data[i].name;
+              dataL.push({value: value, name: time });
+              dataR.push({value: value, name: time });
+            }
+            // 二次 绘图
+            myChart.setOption({
+              legend: {
+                x: "center",
+                y: "bottom",
+                data: dataX
+              },
+              series: [
+                {
+                  name: "半径模式",
+                  type: "pie",
+                  radius: [20, 110],
+                  center: ["25%", "50%"],
+                  roseType: "radius",
+                  label: {
+                    normal: {
+                      show: false
+                    },
+                    emphasis: {
+                      show: true
+                    }
+                  },
+                  lableLine: {
+                    normal: {
+                      show: false
+                    },
+                    emphasis: {
+                      show: true
+                    }
+                  },
+                  data: dataL
+                },
+                {
+                  name: "面积模式",
+                  type: "pie",
+                  radius: [30, 110],
+                  center: ["75%", "50%"],
+                  roseType: "area",
+                  data: dataR
+                }
+              ]
+            });
+          }
+        });
     },
     drawLine8() {
       var myChart = this.$echarts.init(document.getElementById("风向"));
@@ -1239,7 +1213,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("光照强度"));
       myChart.setOption({
         title: {
-          text: "对数轴示例",
+          text: "光照强度与时间的关系",
           left: "center"
         },
         tooltip: {
@@ -1254,7 +1228,7 @@ export default {
           type: "category",
           name: "x",
           splitLine: { show: false },
-          data: ["一", "二", "三", "四", "五", "六", "七", "八", "九"]
+          data: []
         },
         grid: {
           left: "3%",
@@ -1263,37 +1237,43 @@ export default {
           containLabel: true
         },
         yAxis: {
-          type: "log",
-          name: "y"
+          type: "value",
+          axisLabel: {
+            formatter: "{value} Lux"
+          }
         },
         series: [
           {
-            name: "3的指数",
+            name: "光照强度",
             type: "line",
-            data: [1, 3, 9, 27, 81, 247, 741, 2223, 6669]
-          },
-          {
-            name: "2的指数",
-            type: "line",
-            data: [1, 2, 4, 8, 16, 32, 64, 128, 256]
-          },
-          {
-            name: "1/2的指数",
-            type: "line",
-            data: [
-              1 / 2,
-              1 / 4,
-              1 / 8,
-              1 / 16,
-              1 / 32,
-              1 / 64,
-              1 / 128,
-              1 / 256,
-              1 / 512
-            ]
+            data: []
           }
         ]
       });
+      var dataX = [];
+      var dataY = [];
+      // 获取服务器返回数据
+      this.$axios
+        .get("http://10.168.14.55:8080/meteorological/illum")
+        .then(res => {
+          if (res) {
+            // 循环遍历 获取到 返回数据中的 时间和 光照强度
+            for (var i = 0; i < res.data.length; i++) {
+              dataX.push(res.data[i].time.slice(11));
+              dataY.push(res.data[i].name);
+            }
+            myChart.setOption({
+              xAxis: {
+                data: dataX
+              },
+              series: {
+                name: "光照强度",
+                type: "line",
+                data: dataY
+              }
+            });
+          }
+        });
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {

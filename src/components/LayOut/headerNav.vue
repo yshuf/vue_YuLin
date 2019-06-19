@@ -7,7 +7,7 @@
           <el-col :span="12">
             <img src="../../assets/logo.jpg" alt>
             <div class="title">
-              <p>现代农业综合管理系统</p>
+             <p @click="handle">蔬菜产销智能综合管理平台</p>
             </div>
           </el-col>
 
@@ -134,6 +134,9 @@ export default {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
       return isJPG && isLt2M;
+    },
+    handle(){
+      this.$router.push('/index');
     }
   }
 };
@@ -162,6 +165,7 @@ export default {
   font-weight: 700;
   font-family: "Courier New", Courier, monospace;
   font-size: 30px;
+  cursor: pointer;
 }
 
 /* 用户信息 */

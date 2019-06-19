@@ -102,7 +102,7 @@ export default {
           console.log(res);
           if (res.data.status === 200) {
             alert("提交成功，前往登录");
-            this.$router.push({ path: "/login" });
+            this.$router.push({ path: "/login" }); // 登录成功，跳转至登录页
           }
         })
         .catch(err => {

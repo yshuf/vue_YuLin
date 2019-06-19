@@ -4,9 +4,10 @@ import App from './App'
 
 import router from './router' 
 
-import store from './store' // 引入 store
+import store from './store/index' // 引入 store
 
 import axios from 'axios'   // 引入 axios
+// axios.defaults.baseURL='http://10.168.14.55:8080'
 
 
 import ElementUI from 'element-ui' // 引入 elementUI

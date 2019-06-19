@@ -1,53 +1,9 @@
 <template>
   <div class="month">
     <el-tabs type="border-card" style="width: 100%;algin:center;">
-      <el-tab-pane label="空气温度">
-        <div id="空气温度" :style="{width: '1000px',height: '600px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="空气湿度">
-        空气湿度
-        <div id="空气湿度" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="氧气浓度">
-        氧气浓度
-        <div id="氧气浓度" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="降雨量">
-        <div id="降雨量" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="土壤温度">
-        土壤温度
-        <div id="土壤温度" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="土壤湿度">
-        土壤湿度
-        <div id="土壤湿度" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="风速">
-        风速
-        <div id="风速" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="风向">
-        风向
-        <div id="风向" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="大气压强">
-        大气压强
-        <div id="大气压强" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
-      </el-tab-pane>
-      <el-tab-pane label="光照强度">
-        光照强度
-        <div id="光照强度" :style="{width: '800px',height: '500px',margin: '0 auto'}"></div>
-        <Data></Data>
+      <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
+        {{items.name}}
+        <div :id="items.name" :style="{width: '800px',height: '500px'}"></div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -57,7 +13,40 @@
 import Data from "@/views/historyInfo/data";
 export default {
   data() {
-    return {};
+    return {
+      list: [
+        {
+          name: "空气温度"
+        },
+        {
+          name: "空气湿度"
+        },
+        {
+          name: "氧气浓度"
+        },
+        {
+          name: "降雨量"
+        },
+        {
+          name: "土壤温度"
+        },
+        {
+          name: "土壤湿度"
+        },
+        {
+          name: "风速"
+        },
+        {
+          name: "风向"
+        },
+        {
+          name: "大气压强"
+        },
+        {
+          name: "光照强度"
+        }
+      ]
+    };
   },
   components: {
     Data
@@ -581,7 +570,6 @@ export default {
     },
     drawLine4() {
       var myChart = this.$echarts.init(document.getElementById("降雨量"));
-      app.title = "多x轴实例";
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,
@@ -732,7 +720,6 @@ export default {
     },
     drawLine5() {
       var myChart = this.$echarts.init(document.getElementById("土壤温度"));
-      app.title = "多x轴实例";
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,

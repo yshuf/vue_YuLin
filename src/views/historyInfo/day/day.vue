@@ -1,9 +1,15 @@
 <template>
-  <div class="month">
+  <div class="day">
     <el-tabs type="border-card" style="width: 100%;algin:center;">
       <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
         {{items.name}}
-        <div :id="items.name" :style="{width: '800px',height: '500px'}"></div>
+        <div style="display: flex;position: relative;">
+          <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+          <div v-if="true" class="standard">
+            <span class="tip">是否设置为标准区参数?</span>
+            <el-button type="success">确认</el-button>
+          </div>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -1259,4 +1265,12 @@ export default {
 </script>
 
 <style scoped>
+.standard {
+  float: right;
+  margin-top: 450px;
+}
+/* 提示设置为标准区 */
+.tip {
+  font-weight: 700;
+}
 </style>

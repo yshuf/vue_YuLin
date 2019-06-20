@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import '@/assets/js/common.js'
 import Table from "./table";
 import { setInterval, clearInterval } from "timers";
 export default {
@@ -72,6 +73,8 @@ export default {
   methods: {
     // 空气温度
     drawLine() {
+      console.log(new Date());
+      // 图表的各项配置
       let option = {
         // 标题
         title: {
@@ -112,31 +115,26 @@ export default {
           {
             name: "当前气温",
             type: "line",
-            data: [],
-            markPoint: {
-              data: [
-                { type: "max", name: "最大值" },
-                { type: "min", name: "最小值" }
-              ]
-            },
-            markLine: {
-              data: [{ type: "average", name: "平均值" }]
-            }
+            data: []
           }
         ]
       };
       //  初始化 echarts 实例
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
-      //  使用刚指定的配置项和绘制图表，数据为 this.option
+      //  使用刚指定的配置项和绘制图表，数据为 option
       myChart.setOption(option);
-      // 数据加载完之前 线显示一段简单 的 loading 动画
+
+      //  数据加载完之前 显示一段简单 的 loading 动画
       myChart.showLoading();
 
       var dataX = []; // 实际存放 x 轴的 值
       var dataV = []; // 实际存放 y 轴的 值
       // 从服务器获取数据
+      
+      var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+      console.log(time);
       this.$axios
-        .get("meteorological/tem")
+        .get("meteorological/tem?time="+time)
         .then(res => {
           // 判断 是否从服务器中获取到了数据
           if (res) {
@@ -159,29 +157,30 @@ export default {
                 }
               ]
             });
+
+
+            // 实时更新（每四秒添加数据）
+            let timeTicket;
+            clearInterval(timeTicket);
+            // 设置定时器，没四秒更新一次数据
+            timeTicket = setInterval(function() {
+              // 获取到图表的  option
+              option = myChart.getOption();
+              let arr = option.series[0].data;
+              if (arr.length == 30) {
+                arr.shift(); // 从队头删除数据
+              }
+              arr.push(Math.round(Math.random() * 5 + 25)); // 从对尾添加数据
+              // 加载数据 图表
+              myChart.setOption(option);
+            }, 4000);
           }
         })
         .catch(err => {
           console.log(err);
         });
+    },
 
-      // 实时更新
-      let timeTicket;
-      clearInterval(timeTicket);
-      // 设置定时器，没四秒更新一次数据
-      timeTicket = setInterval(function() {
-        // 获取到图表的  option
-        option = myChart.getOption();
-        let arr = option.series[0].data;
-        if (arr.length == 30) {
-          arr.shift(); // 从队头删除数据
-        }
-        arr.push(Math.round(Math.random() * 5 + 25)); // 从对尾删除数据
-        // 加载数据 图表
-        myChart.setOption(option);
-      }, 4000);
-    },    
-                                          
     // 空气湿度
     drawLine2() {
       var myChart = this.$echarts.init(document.getElementById("空气湿度"));
@@ -265,8 +264,8 @@ export default {
     },
     // 氧气浓度
     drawLine3() {
-      var myChart = this.$echarts.init(document.getElementById("氧气浓度"));
-      myChart.setOption({
+      let myChart = this.$echarts.init(document.getElementById("氧气浓度"));
+      let option = {
         title: {
           text: "氧气浓度和时间的关系",
           left: "center"
@@ -314,7 +313,11 @@ export default {
             ]
           }
         ]
-      });
+      };
+      myChart.setOption(option);
+
+      //  数据加载完之前 显示一段简单 的 loading 动画
+      myChart.showLoading();
 
       let dataLeg = []; // 实际存放参数代表
       let dataS = []; // 实际存放 时间和氧气浓度的值
@@ -327,6 +330,8 @@ export default {
             let value = Number(res.data[i].value);
             // 获取对应的时间
             let time = res.data[i].time.slice(11);
+            // 隐藏加载动画
+            myChart.hideLoading();
             // 将数据添加到 数组中
             dataLeg.push(time);
             dataS.push({ value: value, name: time });
@@ -346,6 +351,25 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
+      // 实时更新
+      // let timeTicket;
+      // clearInterval(timeTicket);
+      // timeTicket=setInterval(function(){
+      //   // 获取到图表 option
+      //   option=myChart.getOption();
+      //   //
+      //   let legend=option.legend.data;
+      //   let arr =option.series[0].data;
+      //   if(arr.length){
+      //     arr.shift();
+      //     legend.shift();
+      //   }
+      //   arr.push(Math.round(Math.random*26+1));
+      //   legend.push()
+      //   // 重新绘制
+      //   myChart.setOption(option);
+      // },6000)
     },
     // 降雨量
     drawLine4() {
@@ -1014,7 +1038,7 @@ export default {
     // 光照强度
     drawLine10() {
       var myChart = this.$echarts.init(document.getElementById("光照强度"));
-      myChart.setOption({
+      let option = {
         title: {
           text: "光照强度与时间的关系",
           left: "center"
@@ -1022,10 +1046,6 @@ export default {
         tooltip: {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c}"
-        },
-        legend: {
-          left: "left",
-          data: ["2的指数", "3的指数"]
         },
         xAxis: {
           type: "category",
@@ -1052,7 +1072,8 @@ export default {
             data: []
           }
         ]
-      });
+      };
+      myChart.setOption(option);
       var dataX = [];
       var dataY = [];
       // 获取服务器返回数据
@@ -1073,6 +1094,22 @@ export default {
               data: dataY
             }
           });
+
+          // 实时更新（每四秒添加数据）
+          let timeTicket;
+          clearInterval(timeTicket);
+          // 设置定时器，没四秒更新一次数据
+          timeTicket = setInterval(function() {
+            // 获取到图表的  option
+            option = myChart.getOption();
+            let arr = option.series[0].data;
+            if (arr.length == 30) {
+              arr.shift(); // 从队头删除数据
+            }
+            arr.push(Math.round(Math.random() * 200+ 500)); // 从对尾添加数据
+            // 加载数据 图表
+            myChart.setOption(option);
+          }, 4000);
         }
       });
     },

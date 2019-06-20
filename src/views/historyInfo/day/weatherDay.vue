@@ -1,6 +1,6 @@
 <template>
-  <div class="month">
-    <el-row class="monthQuery">
+  <div class="day">
+    <el-row class="dayQuery">
       <el-button type="primary">
         时间
         <strong>:</strong>
@@ -47,15 +47,18 @@ export default {
 </script>
 
 <style scoped>
-.month {
+.day {
   text-align: center;
+  width: 100%;
+  height: 100%;
 }
 .query {
   margin-left: 50px;
 }
-.monthQuery {
+.dayQuery {
   margin-top: -10px;
   margin-bottom: 10px;
+  min-width: 960px;
 }
 </style>
 

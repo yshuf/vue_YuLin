@@ -1,7 +1,8 @@
 <template>
     <div class="main">
       <!-- 系统提示信息 -->
-      <h3 class="one">系统普通提示</h3>
+      <!-- <img src="@/assets/images/yun.png" alt=""> -->
+      <h3 class="one" >系统普通提示</h3>
       <div class="plain">
         <span>Min</span>
         <input type="text" placeholder="请输入内容">
@@ -38,6 +39,9 @@ export default {
 .main {
   text-align: center;
   overflow: hidden;
+}
+.main > img {
+  /* float: right; */
 }
 h3 {
   width: 150px;

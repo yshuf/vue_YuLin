@@ -25,7 +25,6 @@ import HistoryDay from '@/views/historyInfo/day/historyDay'
 import WeatherDay from '@/views/historyInfo/day/weatherDay'
 import YulinDay from '@/views/historyInfo/day/yulinDay'
 
-import Standard from '@/views/todayInfo/standard'
 import HeaderStard from '@/views/header/headerStard'
 import Yulin from '@/views/todayInfo/yulin'
 import Weather from '@/views/todayInfo/weather'
@@ -74,11 +73,6 @@ const router = new Router({
               path: '/index/header/weather',
               name: 'weather',
               component: Weather
-            },
-            {
-              path: '/index/header/standard',
-              name: 'standard',
-              component: Standard
             },
             {
               path: '/index/header/yulin',

@@ -1,15 +1,18 @@
 <template>
   <div class="side">
     <el-aside width="200px" style="background-color: rgb(249, 250, 243)">
-      <el-menu router>
+      <el-menu router  default-active="1">
         <!-- 侧边栏主体部分 -->
         <!-- 今日信息 -->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>今日信息
           </template>
-          <el-menu-item index="/index/header/weather">查看今日信息</el-menu-item>
-          <el-menu-item index="/index/header/weather">标准区</el-menu-item>
+          <el-menu-item index="/index/header/weather">(A)区</el-menu-item>
+          <el-menu-item>(B)区</el-menu-item>
+          <el-menu-item index="/index"  @click="open">
+            标准区
+          </el-menu-item>
         </el-submenu>
         <!-- 历史信息 -->
         <el-submenu index="2">
@@ -27,12 +30,13 @@
           </template>
           <el-menu-item index="/index/headerStard">提醒信息</el-menu-item>
         </el-submenu>
-        <!-- 设备设置 -->
-        <el-submenu index="4">
+
+        <!-- 系统管理 -->
+        <el-submenu index="4" v-if="true">
           <template slot="title">
-            <i class="el-icon-setting"></i>设备相关设置
+            <i class="el-icon-s-check"></i>系统管理
           </template>
-          <el-menu-item index="/index/headerSet">系统资源</el-menu-item>
+          <el-menu-item index="/index/headerSet">设备相关设置</el-menu-item>
         </el-submenu>
         <!-- 关于我们 -->
         <el-submenu index="5">
@@ -50,10 +54,23 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
+     open() {
+      //  判断该用户是不是管理员，如果不是管理员，提示他请管理员前去设置，
+      // 如果是管理员，提示他： 可以去历史信息中选择某一天设置为标准去
+        // this.$notify.info({
+        //   title: '消息',
+        //   message: '你好，你的管理员暂时还没有设置标准，如有需要，你可以请管理前去设置',
+        //   offset: 100
+        // });
+        this.$notify.info({
+          title: '提示',
+          message: '你好，你可以前往历史消息中选择某一天作为标准区哦',
+          offset: 200
+        })
+      },
   }
 };
 </script>

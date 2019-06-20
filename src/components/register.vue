@@ -62,12 +62,6 @@
         </el-radio-group>
       </el-form-item>
 
-      <!-- <el-form-item label="身份确认" :rules="[{required: true, message: '请选择你的身份', trigger: 'blur' }]">
-        <el-select v-model="registerForm.identity" placeholder="请选择身份">
-          <el-option label="管理员" value="manager"></el-option>
-          <el-option label="员工" value="employee"></el-option>
-        </el-select>
-      </el-form-item> -->
 
       <el-form-item style="margin-left: -30px;margin-bottom: 10px;">
         <el-button type="primary" @click="submitForm()" class="submit_btn" style="width: 100px;">提交</el-button>
@@ -103,7 +97,10 @@ export default {
         .then(res => {
           // 如果获取信息成功，前往 注页面
           if (res.status === 200) {
-            this.$message
+            this.$message({
+              message:　'注册成功，去登录',
+              type: 'success'
+            })
             this.$router.push({ path: "/login" });  // 登录成功，跳转至登录页
           }else {
             alert('你输入的信息格式有误，请重新输入');

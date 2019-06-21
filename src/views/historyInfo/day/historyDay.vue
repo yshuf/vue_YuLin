@@ -8,7 +8,9 @@
         @select="handleSelect"
         router
       >
-         <el-menu-item><el-page-header @back="goBack" style="margin-top: 18px;"></el-page-header></el-menu-item>
+        <el-menu-item>
+          <el-page-header @back="goBack" style="margin-top: 18px;"></el-page-header>
+        </el-menu-item>
         <el-menu-item index="/index/historyDay/weatherDay">气象</el-menu-item>
         <el-menu-item index="/index/historyDay/yulinDay">渔林</el-menu-item>
         <el-submenu index="3">
@@ -49,7 +51,7 @@ export default {
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
     },
-    goBack(){
+    goBack() {
       this.$router.go(-1);
     }
   }
@@ -67,6 +69,9 @@ export default {
 
 .el-menu {
   background-color: #f7fdd5;
+}
+.el-main::-webkit-scrollbar {
+  display: none;
 }
 </style>
 

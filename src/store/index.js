@@ -14,7 +14,7 @@ const store = new Vuex.Store({
     getStateValue(state) {
       return state.value;
     },
-    getUser(state) {
+    setUser(state) {
       return state.user
     }
 
@@ -23,7 +23,7 @@ const store = new Vuex.Store({
     handleValue(state, n) {
       state.value = n
     },
-    handleUser(state, user) {
+    setUser(state, user) {
       state.user = user
     }
   },
@@ -31,8 +31,8 @@ const store = new Vuex.Store({
     handleValue(context, n) {
       context.commit('handleValue', n);
     },
-    handleUserFun(context,user){
-      context.commit('handleUser',user);
+    setUser(context,user){
+      context.commit('setUser',user);
     }
   }
 })

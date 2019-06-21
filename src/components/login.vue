@@ -7,7 +7,6 @@
       class="loginForm animated bounceInRight delay-1s"
       :model="loginForm"
       ref="loginForm"
-      @submit.native.prevent="saveLogin"
     >
       <!-- 登录界面 -->
       <h3 id="title" class="animated bounceIn delay-1s">现代农业综合后台管理登录</h3>
@@ -56,6 +55,7 @@
 
 <script>
 import { setInterval } from "timers";
+import { type } from "os";
 export default {
   data() {
     return {
@@ -116,56 +116,65 @@ export default {
     // 登录表单提交
     login() {
       // 判空操作
-      // if(this.loginForm.username==''||this.loginForm.password==''||this.loginForm.captcha==''){
+      if (
+        this.loginForm.username == "" ||
+        this.loginForm.password == "" ||
+        this.loginForm.captcha == ""
+      ) {
+        this.$message({
+          message: "请填写完整的账号和密码",
+          type: "warning",
+          center: true
+        });
+      } else {
+        this.$axios
+          .post("auth/login", this.loginForm)
+          .then(res => {
+            // 返回成功
+            if (res.status == 200) {
+              // 将 user 保存到 vuex 的state
+              const user = res.config.data;
+              // this.$store.dispatch("setUser", user);
+              // 将 用户信息保存到本地 localStorage 中
+              var username = user.username;
+              var password = user.password;
+              window.localStorage.setItem("uusername", username);
+              window.localStorage.setItem("password", password);
+              this.$message({
+                showClose: true,
+                message: "登录成功",
+                type: "success"
+              });
+              // 登录成功进入首页
+              this.$router.push("/index");
+            } else {
+              this.$message({
+                message: "你还没有账号,前去注册"
+              });
+            }
+          })
+          .catch(err => {
+            // alert(err.response.data);
+            this.$message({
+              message: err.response.data,
+              type: "danger"
+            });
+          });
+      }
+
+      // if (
+      //   this.loginForm.username == "admin" &&
+      //   this.loginForm.password == "123"
+      // ) {
+      //   this.$router.push("/index");
+      //   window.localStorage.setItem("username", this.loginForm.username);
+      //   window.localStorage.setItem("password", this.loginForm.password);
+      // } else {
       //   this.$message({
-      //     message: '请填写完整的账号密码',
-      //     type: 'warning',
-      //     center: true
+      //     message: "请输入用户名和密码",
+      //     type: "warning"
       //   });
       // }
-
-      // this.$axios
-      //   .post("auth/login", this.loginForm)
-      //   .then(res => {
-      //     // 返回成功
-      //     if (res.status == 200) {
-      //       console.log(res);
-      //       // 将 user 保存到 vuex 的state
-      //       const user =res.data
-      //       this.$store.dispatch('setUser',user)
-      //       // 将 用户信息保存到本地 localStorage 中
-      //       var username =res.data.username;
-      //       var password= res.data.password;
-      //       window.localStorage.setItem('uusername',username);
-      //       window.localStorage.setItem('password',password);
-      //       // 登录成功进入首页
-      //       setInterval(function(){
-      //         this.$router.push('/index')
-      //       },1000)
-      //     }else {
-      //        this.$message({
-      //          message: '登录失败'+res.data,
-      //          center: true
-      //        });
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-
-      if (
-        this.loginForm.username == "admin" &&
-        this.loginForm.password == "123"
-      ) {
-        this.$router.push("/index");
-        window.localStorage.setItem("username", this.loginForm.username);
-        window.localStorage.setItem("password", this.loginForm.password);
-      } else {
-        this.$message({
-          message: "请输入用户名和密码",
-          type: "warning"
-        });
-      }
     },
     // 注册路由跳转
     register() {
@@ -175,10 +184,6 @@ export default {
     updateCode() {
       let img = document.getElementById("img");
       img.src = img.src + "?" + new Date().getTime();
-    },
-    // 登录保存
-    saveLogin() {
-      console.log(this.login);
     },
     // 切换
     toogle() {

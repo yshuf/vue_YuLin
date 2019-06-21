@@ -1,7 +1,21 @@
 <template>
-  <div>
+  <div class="weather">
     <!-- 数据表格 -->
-    <Table></Table>
+     <el-table
+      :data="tableData"
+      style="width: 100%;margin-top:-60px;margin-bottom:20px;"
+      :row-class-name="tableRowClassName"
+      align="center"
+      border
+      stripe
+      highlight-current-row
+    >
+      <el-table-column prop="date" width="180"></el-table-column>
+      <el-table-column prop="name" width="180"></el-table-column>
+      <el-table-column prop="data1" width="180"></el-table-column>
+      <el-table-column prop="data2" width="180"></el-table-column>
+      <el-table-column prop="data3" width="180"></el-table-column>
+    </el-table>
 
     <!-- 图形界面 -->
     <el-tabs type="border-card" style="width: 100%;">
@@ -14,13 +28,9 @@
 
 <script>
 import '@/assets/js/common.js'
-import Table from "./table";
 import { setInterval, clearInterval } from "timers";
 export default {
   name: "weather",
-  components: {
-    Table
-  },
   data() {
     return {
       data: [],
@@ -55,6 +65,22 @@ export default {
         {
           name: "光照强度"
         }
+      ],
+      tableData: [
+        {
+          date: "27.1℃",
+          name: "空气湿度: 62.6%RH",
+          data1: "氧气浓度: 21.2 %",
+          data2: "降雨量: 0.0mm",
+          data3: "土壤温度: 27.1℃"
+        },
+        {
+          date: "土壤湿度: 62.9%RH",
+          name: "风速: 0.0m/s",
+          data1: "风向: 180°",
+          data2: "大气压强: 995hPa",
+          data3: "光照强度: 220.0Lux"
+        }
       ]
     };
   },
@@ -73,7 +99,7 @@ export default {
   methods: {
     // 空气温度
     drawLine() {
-      console.log(new Date());
+      console.log(this.$refs.data)
       // 图表的各项配置
       let option = {
         // 标题
@@ -130,9 +156,7 @@ export default {
       var dataX = []; // 实际存放 x 轴的 值
       var dataV = []; // 实际存放 y 轴的 值
       // 从服务器获取数据
-      
       var time = new Date().format("yyyy-MM-dd hh:mm:ss");
-      console.log(time);
       this.$axios
         .get("meteorological/tem?time="+time)
         .then(res => {
@@ -180,7 +204,6 @@ export default {
           console.log(err);
         });
     },
-
     // 空气湿度
     drawLine2() {
       var myChart = this.$echarts.init(document.getElementById("空气湿度"));
@@ -1132,5 +1155,9 @@ export default {
 
 .el-table .success-row {
   background: #97d377;
+}
+
+.weather {
+  overflow: hidden;
 }
 </style>

@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import Month from "@/views/historyInfo/month";
-import Year from "@/views/historyInfo/year";
+import Month from "@/views/historyInfo/month/month";
 export default {
   data() {
     return {
@@ -35,8 +34,7 @@ export default {
     };
   },
   components: {
-    Month,
-    Year
+    Month
   }
 };
 </script>

@@ -13,20 +13,14 @@
 
           <!-- 用户信息 -->
           <el-col :span="12" class="user">
-            <!-- 头像部分 -->
-            <el-upload
-              class="avatar-uploader"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-
             <!-- 有关信息 -->
             <div class="userinfo">
+              <!-- 头像存放 -->
+              <div class="img">
+                <img src="@/assets/none.png" alt>
+              </div>
+
+              <!-- 工具选择 -->
               <el-dropdown id="user">
                 <el-button type="text">
                   <i class="el-icon-setting" style="font-size: 18px;"></i>
@@ -50,6 +44,19 @@
                 class="animated fadeInRight"
                 closeOnPressEscape
               >
+                <!-- 头像部分 -->
+                <el-upload
+                  class="avatar-uploader"
+                  action="https://jsonplaceholder.typicode.com/posts/"
+                  :show-file-list="false"
+                  :on-success="handleAvatarSuccess"
+                  :before-upload="beforeAvatarUpload"
+                >
+                  <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                </el-upload>
+
+                <!-- 主体个人信息部分 -->
                 <el-form :model="form">
                   <el-form-item label="姓名:" :label-width="formLabelWidth" prop="name">
                     <el-input
@@ -111,55 +118,70 @@ export default {
   name: "head-nav",
   data() {
     return {
-      imageUrl: "",
       dialogFormVisible: false,
+      // 信息完善保存
       form: {
         name: "哈嘿嘿", // 姓名
         username: "zhaga",
         sex: "女", // 性别
         email: "12345687@qq.com", // 邮箱
         password: "123",
-        hobby: "唱歌"
+        hobby: "唱歌",
+        imageUrl: ""
       },
       formLabelWidth: "60px"
     };
   },
   methods: {
-    // 查看显示
+    // 查看信息显示
     show() {
       this.dialogFormVisible = true;
     },
-
     // 退出登录
     open() {
-      this.$confirm("此操作将退出登录, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          window.localStorage.removeItem("username");
-          window.localStorage.removeItem("password");
-          this.$message({
-            type: "success",
-            message: "成功退出!"
-          });
-          this.$router.push({path:"/"});
+      this.$axios
+        .post("auth/logout")
+        .then(res => {
+          if (res.status == 200) {
+            this.$confirm("此操作将退出登录, 是否继续?", "提示", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning"
+            })
+              .then(() => {
+                window.localStorage.removeItem("username");
+                window.localStorage.removeItem("password");
+                this.$message({
+                  type: "success",
+                  message: "成功退出!"
+                });
+                this.$router.push({ path: "/" });
+              })
+              .catch(() => {
+                this.$message({
+                  type: "info",
+                  message: "已取消退出"
+                });
+              });
+          } else {
+            this.$message({
+              message: "退出登录失败",
+              type: "danger"
+            });
+          }
         })
-        .catch(() => {
+        .catch(err => {
           this.$message({
-            type: "info",
-            message: "已取消退出"
+            message: "退出登录失败",
+            type: "danger"
           });
         });
     },
-
-    // 个人信息完善
+    // 个人信息完善后续将信息提交后台处理
     Info() {
       this.dialogFormVisible = false;
-      console.log(window.localStorage.getItem('username'));
+      console.log(window.localStorage.getItem("username"));
     },
-
     // 头像上传
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
@@ -193,12 +215,14 @@ export default {
   position: relative;
   min-width: 1200px;
 }
+/* logo图标 */
 .nav .logo-container img {
   border-radius: 44px;
   width: 200px;
   height: 100px;
   vertical-align: text-bottom;
 }
+/* 平台标题 */
 .logo-container .title {
   display: inline-block;
   color: rgb(2, 117, 98);
@@ -207,23 +231,29 @@ export default {
   font-size: 30px;
   cursor: pointer;
 }
-
 /* 用户信息 */
-.user {
-  position: relative;
+.nav .logo-container .userinfo .img {
+  float: right;
+  margin-right: 80px;
+  margin-top: 20px;
+}
+.nav .userinfo img {
+  width: 60px;
+  height: 60px;
 }
 #user {
   float: right;
   margin-top: 25px;
-  margin-right: 20px;
+  margin-right: -105px;
 }
+/* 用户姓名样式 */
 .username {
   float: right;
   margin-top: 60px;
-  margin-right: -35px;
+  margin-right: -115px;
   font-size: 16px;
 }
-/* 头像上传 */
+/* 头像上传框样式 */
 .avatar-uploader {
   position: absolute;
   top: 0;
@@ -262,5 +292,8 @@ export default {
 }
 .dialog-footer {
   margin-top: -18px;
+}
+.el-icon-s-custom {
+  margin-top: -100px;
 }
 </style>

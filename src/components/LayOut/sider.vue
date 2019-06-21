@@ -34,7 +34,7 @@
         <!-- 系统管理 -->
         <el-submenu index="4" v-if="true">
           <template slot="title">
-            <i class="el-icon-s-check"></i>系统管理
+            <i class="el-icon-user-solid"></i>系统管理
           </template>
           <el-menu-item index="/index/headerSet">设备相关设置</el-menu-item>
         </el-submenu>

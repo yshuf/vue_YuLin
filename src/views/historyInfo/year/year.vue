@@ -1,57 +1,82 @@
 <template>
   <div class="month">
-    <el-tabs type="border-card" style="width: 100%;">
-      <!-- 图形界面 -->
-     <el-tab-pane :label=items.name  v-for="(items,index) in list" :key="index">
+    <el-tabs type="border-card" style="width: 100%;algin:center;">
+      <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
         {{items.name}}
-        <div :id=items.name :style="{width: '800px',height: '500px'}"></div>
+        <div style="display: flex;position: relative;">
+          <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+          <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
+          <div v-if="true" class="standard">
+            <span class="tip">是否设置为标准区参数?</span>
+            <el-button type="success">确认</el-button>
+          </div>
+        </div>
+        <!-- 数据分析 -->
+        <el-table
+          :data="tableData"
+          style="width: 100%"
+          :row-class-name="tableRowClassName"
+          border
+          highlight-current-row
+          hegihet="120px"
+        >
+          <el-table-column prop="max" label="最高" width="120" align="center"></el-table-column>
+          <el-table-column prop="min" label="最低" width="120" align="center"></el-table-column>
+          <el-table-column prop="median" label="中位数" width="120" align="center"></el-table-column>
+          <el-table-column prop="mode" label="众数" width="120" align="center"></el-table-column>
+          <el-table-column prop="variance" label="方差" width="120" align="center"></el-table-column>
+        </el-table>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import Data from "./data";
 export default {
   data() {
     return {
       list: [
         {
-          name: '空气温度'
+          name: "空气温度"
         },
         {
-          name: '空气湿度'
+          name: "空气湿度"
         },
         {
-          name: '氧气浓度'
+          name: "氧气浓度"
         },
         {
-          name: '降雨量'
+          name: "降雨量"
         },
         {
-          name: '土壤温度'
+          name: "土壤温度"
         },
         {
-          name: '土壤湿度'
+          name: "土壤湿度"
         },
         {
-          name: '风速'
+          name: "风速"
         },
         {
-          name: '风向'
+          name: "风向"
         },
         {
-          name: '大气压强'
+          name: "大气压强"
         },
         {
-          name: '光照强度'
+          name: "光照强度"
         }
-
+      ],
+      tableData: [
+        {
+          max: "25",
+          min: "23",
+          median: "56",
+          mode: "25",
+          variance: "2.0"
+        }
       ]
     };
-  },
-  components: {
-    Data
   },
   mounted() {
     this.drawLine();
@@ -66,6 +91,14 @@ export default {
     this.drawLine10();
   },
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === 1) {
+        return "warning-row";
+      } else if (rowIndex === 3) {
+        return "success-row";
+      }
+      return "";
+    },
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
       myChart.setOption({
@@ -246,7 +279,19 @@ export default {
               "9",
               "10",
               "11",
-              "12"
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24"
             ]
           }
         ],
@@ -262,7 +307,32 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [11, 11, 15, 13, 12, 13, 10, 32, 16, 18, 19, 29],
+            data: [
+              11,
+              11,
+              15,
+              13,
+              12,
+              13,
+              10,
+              32,
+              16,
+              18,
+              19,
+              29,
+              16,
+              12,
+              18,
+              14,
+              22,
+              19,
+              23,
+              15,
+              21,
+              26,
+              22,
+              19
+            ],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -276,7 +346,32 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: [1, -2, 2, 5, 3, 2, 0, 5, 2, 6, -1, -2],
+            data: [
+              1,
+              -2,
+              2,
+              5,
+              3,
+              2,
+              0,
+              5,
+              2,
+              6,
+              -1,
+              -2,
+              3,
+              4,
+              5,
+              -2,
+              0,
+              3,
+              4,
+              6,
+              -1,
+              0,
+              2,
+              5
+            ],
             markPoint: {
               data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
             },
@@ -874,7 +969,8 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
-          text: "未来12个小时内土壤湿度变化",
+          text: "未来12个小时内气温变化",
+          subtext: "纯属虚构"
         },
         tooltip: {
           trigger: "axis"
@@ -909,7 +1005,19 @@ export default {
               "9",
               "10",
               "11",
-              "12"
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "20",
+              "21",
+              "22",
+              "23",
+              "24"
             ]
           }
         ],
@@ -925,7 +1033,32 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [11, 11, 15, 13, 12, 13, 10, 32, 16, 18, 19, 29],
+            data: [
+              11,
+              11,
+              15,
+              13,
+              12,
+              13,
+              10,
+              32,
+              16,
+              18,
+              19,
+              29,
+              16,
+              12,
+              18,
+              14,
+              22,
+              19,
+              23,
+              15,
+              21,
+              26,
+              22,
+              19
+            ],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -939,7 +1072,32 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: [1, -2, 2, 5, 3, 2, 0, 5, 2, 6, -1, -2],
+            data: [
+              1,
+              -2,
+              2,
+              5,
+              3,
+              2,
+              0,
+              5,
+              2,
+              6,
+              -1,
+              -2,
+              3,
+              4,
+              5,
+              -2,
+              0,
+              3,
+              4,
+              6,
+              -1,
+              0,
+              2,
+              5
+            ],
             markPoint: {
               data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
             },
@@ -955,6 +1113,7 @@ export default {
       myChart.setOption({
         title: {
           text: "南丁格尔玫瑰图",
+          subtext: "纯属虚构",
           x: "center"
         },
         tooltip: {
@@ -1198,6 +1357,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("光照强度"));
       myChart.setOption({
         title: {
+          text: "对数轴示例",
           left: "center"
         },
         tooltip: {
@@ -1258,4 +1418,24 @@ export default {
 </script>
 
 <style scoped>
+.standard {
+  float: right;
+  margin-top: 450px;
+}
+/* 提示设置为标准区 */
+.tip {
+  font-weight: 700;
+}
+.el-table {
+  margin-left: 250px;
+  font-size: 18px;
+  color: #3a2a2a;
+  text-align: center;
+}
+.el-table .warning-row {
+  background: oldlace;
+}
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>

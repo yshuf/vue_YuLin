@@ -69,5 +69,9 @@ export default {
 .el-menu {
   background-color: #f7fdd5;
 }
+
+.el-main::-webkit-scrollbar {
+  display: none;
+}
 </style>
 

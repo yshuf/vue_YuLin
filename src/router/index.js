@@ -195,4 +195,13 @@ const router = new Router({
 //     isLogin ? next(): next('/login');
 //   }
 // })
+
+router.beforeEach((to,from,next)=>{
+  if(to.path=='/login'||'/register'){
+    next();
+  }else {
+    alert('还没登录，请前去登录');
+    next('/login');
+  }
+})
 export default router;

@@ -1,17 +1,18 @@
 <template>
-  <div class="day">
+  <div class="month">
     <el-tabs type="border-card" style="width: 100%;algin:center;">
+      <!-- 图形界面 -->
       <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
         {{items.name}}
-        <div style="display: flex;position: relative;">
-          <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
-          <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
-          <div v-if="true" class="standard">
-            <span class="tip">是否设置为标准区参数?</span>
-            <el-button type="text" @click="confirm">确认</el-button>
-          </div>
+        <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+
+        <!-- 是否设置为标准区，只有管理员能看见 -->
+        <div v-if="true" class="standard">
+          <span class="tip">是否设置为标准区参数?</span>
+          <el-button type="success">确认</el-button>
         </div>
-        <!-- 数据分析 -->
+
+        <!-- 数据分析表格 -->
         <el-table
           :data="tableData"
           style="width: 100%"
@@ -26,6 +27,7 @@
           <el-table-column prop="mode" label="众数" width="120" align="center"></el-table-column>
           <el-table-column prop="variance" label="方差" width="120" align="center"></el-table-column>
         </el-table>
+        
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -91,34 +93,6 @@ export default {
     this.drawLine10();
   },
   methods: {
-    confirm() {
-      console.log(123);
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$message({
-            type: "success",
-            message: "删除成功!"
-          });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
-    },
-    tableRowClassName({ row, rowIndex }) {
-      if (rowIndex === 1) {
-        return "warning-row";
-      } else if (rowIndex === 3) {
-        return "success-row";
-      }
-      return "";
-    },
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
       myChart.setOption({
@@ -299,19 +273,7 @@ export default {
               "9",
               "10",
               "11",
-              "12",
-              "13",
-              "14",
-              "15",
-              "16",
-              "17",
-              "18",
-              "19",
-              "20",
-              "21",
-              "22",
-              "23",
-              "24"
+              "12"
             ]
           }
         ],
@@ -327,32 +289,7 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [
-              11,
-              11,
-              15,
-              13,
-              12,
-              13,
-              10,
-              32,
-              16,
-              18,
-              19,
-              29,
-              16,
-              12,
-              18,
-              14,
-              22,
-              19,
-              23,
-              15,
-              21,
-              26,
-              22,
-              19
-            ],
+            data: [11, 11, 15, 13, 12, 13, 10, 32, 16, 18, 19, 29],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -366,32 +303,7 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: [
-              1,
-              -2,
-              2,
-              5,
-              3,
-              2,
-              0,
-              5,
-              2,
-              6,
-              -1,
-              -2,
-              3,
-              4,
-              5,
-              -2,
-              0,
-              3,
-              4,
-              6,
-              -1,
-              0,
-              2,
-              5
-            ],
+            data: [1, -2, 2, 5, 3, 2, 0, 5, 2, 6, -1, -2],
             markPoint: {
               data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
             },
@@ -989,8 +901,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
-          text: "未来12个小时内气温变化",
-          subtext: "纯属虚构"
+          text: "未来12个小时内土壤湿度变化"
         },
         tooltip: {
           trigger: "axis"
@@ -1025,19 +936,7 @@ export default {
               "9",
               "10",
               "11",
-              "12",
-              "13",
-              "14",
-              "15",
-              "16",
-              "17",
-              "18",
-              "19",
-              "20",
-              "21",
-              "22",
-              "23",
-              "24"
+              "12"
             ]
           }
         ],
@@ -1053,32 +952,7 @@ export default {
           {
             name: "最高气温",
             type: "line",
-            data: [
-              11,
-              11,
-              15,
-              13,
-              12,
-              13,
-              10,
-              32,
-              16,
-              18,
-              19,
-              29,
-              16,
-              12,
-              18,
-              14,
-              22,
-              19,
-              23,
-              15,
-              21,
-              26,
-              22,
-              19
-            ],
+            data: [11, 11, 15, 13, 12, 13, 10, 32, 16, 18, 19, 29],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
@@ -1092,32 +966,7 @@ export default {
           {
             name: "最低气温",
             type: "line",
-            data: [
-              1,
-              -2,
-              2,
-              5,
-              3,
-              2,
-              0,
-              5,
-              2,
-              6,
-              -1,
-              -2,
-              3,
-              4,
-              5,
-              -2,
-              0,
-              3,
-              4,
-              6,
-              -1,
-              0,
-              2,
-              5
-            ],
+            data: [1, -2, 2, 5, 3, 2, 0, 5, 2, 6, -1, -2],
             markPoint: {
               data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
             },
@@ -1133,7 +982,6 @@ export default {
       myChart.setOption({
         title: {
           text: "南丁格尔玫瑰图",
-          subtext: "纯属虚构",
           x: "center"
         },
         tooltip: {
@@ -1377,7 +1225,6 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("光照强度"));
       myChart.setOption({
         title: {
-          text: "对数轴示例",
           left: "center"
         },
         tooltip: {
@@ -1432,7 +1279,15 @@ export default {
           }
         ]
       });
-    }
+    },
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === 1) {
+        return "warning-row";
+      } else if (rowIndex === 3) {
+        return "success-row";
+      }
+      return "";
+    },
   }
 };
 </script>
@@ -1440,7 +1295,7 @@ export default {
 <style scoped>
 .standard {
   float: right;
-  margin-top: 450px;
+  margin-top: -10px;
 }
 /* 提示设置为标准区 */
 .tip {

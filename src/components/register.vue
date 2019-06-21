@@ -90,25 +90,24 @@ export default {
   methods: {
     // 表单提交
     submitForm() {
-      console.log(new Date().toString());
       // 向后台发起请求
       this.$axios
         .post("auth/regist", this.registerForm) // 提交表单
         .then(res => {
-          // 如果获取信息成功，前往 注页面
+          // 如果获取信息成功，前往 注册页面
           if (res.status === 200) {
             this.$message({
               message:　'注册成功，去登录',
               type: 'success'
             })
-            this.$router.push({ path: "/login" });  // 登录成功，跳转至登录页
+            this.$router.push({ path: "/login" });  // 注册成功，跳转至登录页
           }else {
             alert('你输入的信息格式有误，请重新输入');
           }
         })
         .catch(err => {
-          // console.log(err.data);
-          alert(err.data);
+          // 注册失败，返回错误信息
+          alert(err.response.data);
         });
     },
 

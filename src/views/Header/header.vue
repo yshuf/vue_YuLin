@@ -72,4 +72,7 @@ export default {
   background-color: #f9fdde;
   font-family: "Courier New", Courier, monospace;
 }
+.el-main {
+  overflow: hidden;
+}
 </style>

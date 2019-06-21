@@ -72,4 +72,8 @@ export default {
 .el-menu {
   background-color: #f9fdde;
 }
+
+.el-main {
+  overflow: hidden;
+}
 </style>

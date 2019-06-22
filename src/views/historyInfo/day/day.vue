@@ -6,9 +6,9 @@
         <div style="display: flex;position: relative;">
           <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
           <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
-          <div v-if="true" class="standard">
+          <div v-if="test()" class="standard">
             <span class="tip">是否设置为标准区参数?</span>
-            <el-button type="text" @click="confirm">确认</el-button>
+            <el-button type="success" @click="confirm">确认</el-button>
           </div>
         </div>
         <!-- 数据分析 -->
@@ -91,9 +91,19 @@ export default {
     this.drawLine10();
   },
   methods: {
+    // 验证身份
+    test() {
+      if (window.localStorage.getItem("personal") != "员工") {
+        let result = true;
+        return result;
+      } else {
+        let result = false;
+        return result;
+      }
+    },
+    // 提交设置标准区
     confirm() {
-      console.log(123);
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
+      this.$confirm("此操作将设置标准区, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -101,13 +111,13 @@ export default {
         .then(() => {
           this.$message({
             type: "success",
-            message: "删除成功!"
+            message: "设置成功!"
           });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消设置"
           });
         });
     },
@@ -1444,6 +1454,7 @@ export default {
 }
 /* 提示设置为标准区 */
 .tip {
+  font-size: 16px;
   font-weight: 700;
 }
 .el-table {

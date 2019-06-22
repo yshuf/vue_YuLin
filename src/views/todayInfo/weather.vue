@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
-    <!-- 数据表格 -->
-     <el-table
+    <!-- 数据实时展示表格 -->
+    <el-table
       :data="tableData"
       style="width: 100%;margin-top:-60px;margin-bottom:20px;"
       :row-class-name="tableRowClassName"
@@ -10,24 +10,31 @@
       stripe
       highlight-current-row
     >
-      <el-table-column prop="date" width="180"></el-table-column>
-      <el-table-column prop="name" width="180"></el-table-column>
-      <el-table-column prop="data1" width="180"></el-table-column>
-      <el-table-column prop="data2" width="180"></el-table-column>
-      <el-table-column prop="data3" width="180"></el-table-column>
+      <el-table-column prop="param1" width="100" align="center"></el-table-column>
+      <el-table-column prop="data1" width="100"></el-table-column>
+      <el-table-column prop="param2" width="100" align="center"></el-table-column>
+      <el-table-column prop="data2" width="100"></el-table-column>
+      <el-table-column prop="param3" width="100" align="center"></el-table-column>
+      <el-table-column prop="data3" width="100"></el-table-column>
+      <el-table-column prop="param4" width="100" align="center"></el-table-column>
+      <el-table-column prop="data4" width="100"></el-table-column>
+      <el-table-column prop="param5" width="100" align="center"></el-table-column>
+      <el-table-column prop="data5" width="100"></el-table-column>
     </el-table>
 
     <!-- 图形界面 -->
     <el-tabs type="border-card" style="width: 100%;">
       <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
-        <div :id="items.name" :style="{width: '1200px',height: '500px'}"></div>
+        <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+        <!-- 刷新按钮 -->
+        <el-button type="warning" class="animated fadeInRight">立即刷新</el-button>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script>
-import '@/assets/js/common.js'
+import "@/assets/js/common.js";
 import { setInterval, clearInterval } from "timers";
 export default {
   name: "weather",
@@ -68,18 +75,28 @@ export default {
       ],
       tableData: [
         {
-          date: "27.1℃",
-          name: "空气湿度: 62.6%RH",
-          data1: "氧气浓度: 21.2 %",
-          data2: "降雨量: 0.0mm",
-          data3: "土壤温度: 27.1℃"
+          param1: "空气温度:",
+          data1: "",
+          param2: "空气湿度:",
+          data2: "",
+          param3: "氧气浓度:",
+          data3: "",
+          param4: "土壤温度:",
+          data4: "",
+          param5: "降雨量:",
+          data5: ""
         },
         {
-          date: "土壤湿度: 62.9%RH",
-          name: "风速: 0.0m/s",
-          data1: "风向: 180°",
-          data2: "大气压强: 995hPa",
-          data3: "光照强度: 220.0Lux"
+          param1: "土壤湿度",
+          data1: "",
+          param2: "风速:",
+          data2: "",
+          param3: "风向:",
+          data3: "",
+          param4: "大气压强:",
+          data4: "",
+          param5: "光照强度:",
+          data5: ""
         }
       ]
     };
@@ -99,7 +116,6 @@ export default {
   methods: {
     // 空气温度
     drawLine() {
-      console.log(this.$refs.data)
       // 图表的各项配置
       let option = {
         // 标题
@@ -158,8 +174,9 @@ export default {
       // 从服务器获取数据
       var time = new Date().format("yyyy-MM-dd hh:mm:ss");
       this.$axios
-        .get("meteorological/tem?time="+time)
+        .get("meteorological/tem?time=" + time)
         .then(res => {
+          console.log(res);
           // 判断 是否从服务器中获取到了数据
           if (res) {
             for (var i = 0; i < res.data.length; i++) {
@@ -181,7 +198,6 @@ export default {
                 }
               ]
             });
-
 
             // 实时更新（每四秒添加数据）
             let timeTicket;
@@ -1102,8 +1118,10 @@ export default {
       // 获取服务器返回数据
       this.$axios.get("meteorological/illum").then(res => {
         if (res) {
+          console.log(res.data);
           // 循环遍历 获取到 返回数据中的 时间和 光照强度
           for (var i = 0; i < res.data.length; i++) {
+            console.log(res.data[i].time);
             dataX.push(res.data[i].time.slice(11));
             dataY.push(res.data[i].value);
           }
@@ -1129,7 +1147,7 @@ export default {
             if (arr.length == 30) {
               arr.shift(); // 从队头删除数据
             }
-            arr.push(Math.round(Math.random() * 200+ 500)); // 从对尾添加数据
+            arr.push(Math.round(Math.random() * 200 + 500)); // 从对尾添加数据
             // 加载数据 图表
             myChart.setOption(option);
           }, 4000);
@@ -1147,17 +1165,16 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .el-table .warning-row {
   background: oldlace;
 }
-
 .el-table .success-row {
   background: #97d377;
 }
-
-.weather {
-  overflow: hidden;
+.el-button {
+  position: absolute;
+  right: 10%;
+  top: 50%;
 }
 </style>

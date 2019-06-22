@@ -1,42 +1,40 @@
 <template>
   <div class="side">
     <el-aside width="200px" style="background-color: rgb(249, 250, 243)">
-      <el-menu router  default-active="1">
+      <el-menu router default-active="1">
         <!-- 侧边栏主体部分 -->
         <!-- 今日信息 -->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>今日信息
           </template>
-          <el-menu-item index="/index/header/weather">(A)区</el-menu-item>
-          <el-menu-item>(B)区</el-menu-item>
-          <el-menu-item index="/index"  @click="open">
-            标准区
-          </el-menu-item>
+          <el-menu-item index="/index/header/weather"><i class="el-icon-location"></i>(A)区</el-menu-item>
+          <el-menu-item><i class="el-icon-location-outline"></i>(B)区</el-menu-item>
+          <el-menu-item index="/index" @click="open">标准区</el-menu-item>
         </el-submenu>
         <!-- 历史信息 -->
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-menu"></i>历史消息
           </template>
-          <el-menu-item index="/index/history">年</el-menu-item>
-          <el-menu-item index="/index/historyMonth">月</el-menu-item>
-          <el-menu-item index="/index/historyDay">日</el-menu-item>
+          <el-menu-item index="/index/history"><i class="el-icon-date"></i>年</el-menu-item>
+          <el-menu-item index="/index/historyMonth"><i class="el-icon-notebook-1"></i>月</el-menu-item>
+          <el-menu-item index="/index/historyDay"><i class="el-icon-notebook-2"></i>日</el-menu-item>
         </el-submenu>
         <!-- 系统提醒 -->
         <el-submenu index="3">
           <template slot="title">
             <i class="el-icon-warning-outline"></i>系统提醒
           </template>
-          <el-menu-item index="/index/headerStard">提醒信息</el-menu-item>
+          <el-menu-item index="/index/headerStard"><i class="el-icon-s-comment"></i>提醒信息</el-menu-item>
         </el-submenu>
 
         <!-- 系统管理 -->
-        <el-submenu index="4" v-if="true">
+        <el-submenu index="4" v-if="test()">
           <template slot="title">
             <i class="el-icon-user-solid"></i>系统管理
           </template>
-          <el-menu-item index="/index/headerSet">设备相关设置</el-menu-item>
+          <el-menu-item index="/index/headerSet"><i class="el-icon-setting"></i>设备相关设置</el-menu-item>
         </el-submenu>
         <!-- 关于我们 -->
         <el-submenu index="5">
@@ -57,20 +55,29 @@ export default {
     return {};
   },
   methods: {
-     open() {
+    open() {
       //  判断该用户是不是管理员，如果不是管理员，提示他请管理员前去设置，
       // 如果是管理员，提示他： 可以去历史信息中选择某一天设置为标准去
-        // this.$notify.info({
-        //   title: '消息',
-        //   message: '你好，你的管理员暂时还没有设置标准，如有需要，你可以请管理前去设置',
-        //   offset: 100
-        // });
-        this.$notify.info({
-          title: '提示',
-          message: '你好，你可以前往历史消息中选择某一天作为标准区哦',
-          offset: 200
-        })
-      },
+      // this.$notify.info({
+      //   title: '消息',
+      //   message: '你好，你的管理员暂时还没有设置标准，如有需要，你可以请管理前去设置',
+      //   offset: 100
+      // });
+      this.$notify.info({
+        title: "提示",
+        message: "你好，你可以前往历史消息中选择某一天作为标准区哦",
+        offset: 200
+      });
+    },
+    test() {
+      if (window.localStorage.getItem("personal") != "员工") {
+        let result = true;
+        return result;
+      } else {
+        let result = false;
+        return result;
+      }
+    }
   }
 };
 </script>

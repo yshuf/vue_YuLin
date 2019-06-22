@@ -13,18 +13,6 @@
         </el-menu-item>
         <el-menu-item index="/index/historyDay/weatherDay">气象</el-menu-item>
         <el-menu-item index="/index/historyDay/yulinDay">渔林</el-menu-item>
-        <el-submenu index="3">
-          <template slot="title">我的工作台</template>
-          <el-menu-item index="3-1">选项1</el-menu-item>
-          <el-menu-item index="3-2">选项2</el-menu-item>
-          <el-menu-item index="3-3">选项3</el-menu-item>
-          <el-submenu index="3-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="3-4-1">选项1</el-menu-item>
-            <el-menu-item index="3-4-2">选项2</el-menu-item>
-            <el-menu-item index="3-4-3">选项3</el-menu-item>
-          </el-submenu>
-        </el-submenu>
       </el-menu>
     </el-header>
 

@@ -7,9 +7,9 @@
         <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
 
         <!-- 是否设置为标准区，只有管理员能看见 -->
-        <div v-if="true" class="standard">
+        <div v-if="test()" class="standard">
           <span class="tip">是否设置为标准区参数?</span>
-          <el-button type="success">确认</el-button>
+          <el-button type="success" @click="confirm">确认</el-button>
         </div>
 
         <!-- 数据分析表格 -->
@@ -27,7 +27,6 @@
           <el-table-column prop="mode" label="众数" width="120" align="center"></el-table-column>
           <el-table-column prop="variance" label="方差" width="120" align="center"></el-table-column>
         </el-table>
-        
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -93,6 +92,36 @@ export default {
     this.drawLine10();
   },
   methods: {
+    // 身份验证
+    test() {
+      if (window.localStorage.getItem("personal") != "员工") {
+        let result = true;
+        return result;
+      } else {
+        let result = false;
+        return result;
+      }
+    },
+    // 提交设置
+    confirm() {
+      this.$confirm("此操作将设置标准区, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$message({
+            type: "success",
+            message: "设置成功!"
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消设置"
+          });
+        });
+    },
     drawLine() {
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
       myChart.setOption({
@@ -1287,7 +1316,7 @@ export default {
         return "success-row";
       }
       return "";
-    },
+    }
   }
 };
 </script>
@@ -1299,6 +1328,7 @@ export default {
 }
 /* 提示设置为标准区 */
 .tip {
+  font-size: 16px;
   font-weight: 700;
 }
 .el-table {

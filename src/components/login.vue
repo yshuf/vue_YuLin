@@ -1,5 +1,6 @@
 <template>
   <div id="container">
+    <div class="blur"></div>
     <el-form
       status-icon
       label-width="80px"
@@ -127,19 +128,22 @@ export default {
           center: true
         });
       } else {
+        // 向服务器提交表单
         this.$axios
           .post("auth/login", this.loginForm)
           .then(res => {
             // 返回成功
             if (res.status == 200) {
               // 将 user 保存到 vuex 的state
-              const user = res.config.data;
+              const user = JSON.parse(res.config.data);
               // this.$store.dispatch("setUser", user);
               // 将 用户信息保存到本地 localStorage 中
               var username = user.username;
               var password = user.password;
-              window.localStorage.setItem("uusername", username);
+              var personal = res.data; // 存放用户身份
+              window.localStorage.setItem("username", username);
               window.localStorage.setItem("password", password);
+              window.localStorage.setItem("personal", personal);
               this.$message({
                 showClose: true,
                 message: "登录成功",
@@ -154,27 +158,13 @@ export default {
             }
           })
           .catch(err => {
-            // alert(err.response.data);
             this.$message({
+              showClose: true,
               message: err.response.data,
               type: "danger"
             });
           });
       }
-
-      // if (
-      //   this.loginForm.username == "admin" &&
-      //   this.loginForm.password == "123"
-      // ) {
-      //   this.$router.push("/index");
-      //   window.localStorage.setItem("username", this.loginForm.username);
-      //   window.localStorage.setItem("password", this.loginForm.password);
-      // } else {
-      //   this.$message({
-      //     message: "请输入用户名和密码",
-      //     type: "warning"
-      //   });
-      // }
     },
     // 注册路由跳转
     register() {
@@ -198,18 +188,30 @@ export default {
 </script>
 
 <style scoped>
+/* .blur {
+  position: fixed;
+  background-color: #d5dee6;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background-size: 100% 100%;
+  background: url(../assets/login1.jpg) no-repeat center center;
+ filter: blur(15px);
+} */
 #container {
   position: fixed;
   background-color: #d5dee6;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  /* background: url(../assets/login1.jpg) no-repeat center center; */
   background-size: 100% 100%;
+  /* background: url(../assets/login.jpg) no-repeat center center; */
+  /* filter: blur(15px); */
 }
 #container:hover {
   background-color: #d5e6de;
 }
+
 /* 表单样式 */
 .loginForm {
   background: transparent;

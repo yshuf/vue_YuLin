@@ -7,7 +7,7 @@
           <el-col :span="12">
             <img src="../../assets/logo.jpg" alt>
             <div class="title">
-              <p @click="handle">蔬菜产销智能综合管理平台</p>
+              <p @click="handle">现代农业综合管理系统</p>
             </div>
           </el-col>
 
@@ -23,7 +23,7 @@
               <!-- 工具选择 -->
               <el-dropdown id="user">
                 <el-button type="text">
-                  <i class="el-icon-setting" style="font-size: 18px;"></i>
+                  <i class="el-icon-edit" style="font-size: 22px;"></i>
                 </el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>
@@ -140,7 +140,7 @@ export default {
     // 退出登录
     open() {
       this.$axios
-        .post("auth/logout")
+        .get("auth/logout")
         .then(res => {
           if (res.status == 200) {
             this.$confirm("此操作将退出登录, 是否继续?", "提示", {
@@ -151,6 +151,7 @@ export default {
               .then(() => {
                 window.localStorage.removeItem("username");
                 window.localStorage.removeItem("password");
+                window.localStorage.removeItem("personal");
                 this.$message({
                   type: "success",
                   message: "成功退出!"
@@ -177,10 +178,23 @@ export default {
           });
         });
     },
-    // 个人信息完善后续将信息提交后台处理
+    // 个人信息完善后续将信息提交后台,默认的姓名和头像的获取
     Info() {
       this.dialogFormVisible = false;
-      console.log(window.localStorage.getItem("username"));
+      // console.log(window.localStorage.getItem("username"));
+      this.$axios.post('url',this.form).then(res=>{
+        if(res.status==200){
+          this.$message({
+            message: '信息完善成功',
+            type: 'success'
+          })
+        }
+      }).catch(err=>{
+        this.$message({
+          message: err.data,
+          type: 'danger'
+        })
+      })
     },
     // 头像上传
     handleAvatarSuccess(res, file) {

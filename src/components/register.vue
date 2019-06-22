@@ -7,7 +7,7 @@
       label-width="100px"
       class="register-form animated bounceInRight delay-1s"
     >
-      <h3 id="title">现代农业综合后台管理系统</h3>
+      <h3 id="title">现代农业综合后台管理注册</h3>
 
       <!-- 用户名 -->
       <el-form-item
@@ -20,7 +20,7 @@
       >
         <el-input v-model="registerForm.username" placeholder="username"></el-input>
       </el-form-item>
-      
+
       <!-- 邮箱 -->
       <el-form-item
         label="邮箱"
@@ -33,7 +33,7 @@
       >
         <el-input v-model="registerForm.email" placeholder="email"></el-input>
       </el-form-item>
-      
+
       <!-- 密码 -->
       <el-form-item
         label="密码"
@@ -49,7 +49,7 @@
           show-password
         ></el-input>
       </el-form-item>
-      
+
       <!-- 性别 -->
       <el-form-item
         label="性别"
@@ -61,7 +61,6 @@
           <el-radio label="女"></el-radio>
         </el-radio-group>
       </el-form-item>
-
 
       <el-form-item style="margin-left: -30px;margin-bottom: 10px;">
         <el-button type="primary" @click="submitForm()" class="submit_btn" style="width: 100px;">提交</el-button>
@@ -81,8 +80,7 @@ export default {
         username: "",
         password: "",
         email: "",
-        sex: "",
-        identity: ""
+        sex: ""
       }
     };
   },
@@ -90,28 +88,45 @@ export default {
   methods: {
     // 表单提交
     submitForm() {
-      // 向后台发起请求
-      this.$axios
-        .post("auth/regist", this.registerForm) // 提交表单
-        .then(res => {
-          // 如果获取信息成功，前往 注册页面
-          if (res.status === 200) {
-            this.$message({
-              message:　'注册成功，去登录',
-              type: 'success'
-            })
-            this.$router.push({ path: "/login" });  // 注册成功，跳转至登录页
-          }else {
-            alert('你输入的信息格式有误，请重新输入');
-          }
-        })
-        .catch(err => {
-          // 注册失败，返回错误信息
-          alert(err.response.data);
+      if (
+        this.registerForm.username == "" ||
+        this.registerForm.password == "" ||
+        this.registerForm.email == "" ||
+        this.registerForm.sex == ""
+      ) {
+        this.$message({
+          message: "请填写完整注册信息",
+          type: "warning",
+          center: true
         });
+      } else {
+        // 向后台发起请求
+        this.$axios
+          .post("auth/regist", this.registerForm) // 提交表单
+          .then(res => {
+            // 如果获取信息成功，前往 注册页面
+            if (res.status === 200) {
+              this.$message({
+                message: "注册成功，去登录",
+                type: "success"
+              });
+              this.$router.push({ path: "/login" }); // 注册成功，跳转至登录页
+            } else {
+              alert("你输入的信息格式有误，请重新输入");
+            }
+          })
+          .catch(err => {
+            // 注册失败，返回错误信息
+            this.$message({
+              showClose: true,
+              message: err.response.data,
+              type: "danger"
+            });
+          });
+      }
     },
 
-    // 重置表单
+    // 表单重置
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }

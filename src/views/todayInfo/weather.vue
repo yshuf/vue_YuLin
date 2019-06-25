@@ -27,7 +27,7 @@
       <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
         <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
         <!-- 刷新按钮 -->
-        <el-button type="warning" class="animated fadeInRight">立即刷新</el-button>
+        <el-button type="warning" class="animated fadeInRight" @click="refresh">立即刷新</el-button>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -35,6 +35,8 @@
 
 <script>
 import "@/assets/js/common.js";
+import SockJS from "sockjs-client";
+import Stomp from "stompjs";
 import { setInterval, clearInterval } from "timers";
 export default {
   name: "weather",
@@ -98,24 +100,76 @@ export default {
           param5: "光照强度:",
           data5: ""
         }
-      ]
+      ],
+      stompClient: "",
+      timer: ""
     };
   },
   mounted() {
-    this.drawLine();
-    this.drawLine2();
-    this.drawLine3();
-    this.drawLine4();
-    this.drawLine5();
-    this.drawLine6();
-    this.drawLine7();
-    this.drawLine8();
-    this.drawLine9();
-    this.drawLine10();
+    this.ktem();
+    this.khum();
+    this.o2();
+    this.rain();
+    this.stem();
+    this.shum();
+    this.sp();
+    this.dir();
+    this.pre();
+    this.illum();
+    // 初始化websocket
+    this.initWebSocket();
+  },
+  beforeDestroy() {
+    // 页面离开时断开连接，清除定时器
+    this.disconnect();
+    clearInterval(this.timer);
   },
   methods: {
+    initWebSocket() {
+      this.connection();
+      let that = this;
+      // 断开重连机制，尝试发送消息，捕获异常发生时重连
+      this.timer = setInterval(() => {
+        try {
+          that.stompClient.send("test");
+        } catch (err) {
+          console.log("断线了:" + err);
+          that.connection();
+        }
+      }, 5000);
+    },
+    // 连接后台
+    connection() {
+      // 建立连接对象
+      let socket = new SockJS("http://10.168.14.55:8080/endpoint");
+      // 获取STOMP子协议的客户端对象
+      this.stompClient = Stomp.over(socket);
+      // 想服务器发起websocket连接
+      this.stompClient.connect(
+        "guest",
+        "guest",
+        () => {
+          this.stompClient.subscribe("/meteor/message", msg => {
+            // 订阅服务端提供的某个 topic
+            // 这里接收从服务器的数据
+            console.log(msg.body);
+          });
+        },
+        err => {
+          // 连接发生错误时的处理函数
+          console.log("失败");
+          console.log(err);
+        });
+    },
+    // 断开连接
+    disconnect() {
+      if (this.stompClient) {
+        this.stompClient.disconnect();
+      }
+    },
+
     // 空气温度
-    drawLine() {
+    ktem() {
       // 图表的各项配置
       let option = {
         // 标题
@@ -173,15 +227,18 @@ export default {
       var dataV = []; // 实际存放 y 轴的 值
       // 从服务器获取数据
       var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+      
       this.$axios
         .get("meteorological/tem?time=" + time)
         .then(res => {
-          console.log(res);
+          console.log(res.data);
           // 判断 是否从服务器中获取到了数据
           if (res) {
             for (var i = 0; i < res.data.length; i++) {
               // 拿到数据后 遍历拿到 对应的时间给 x 轴
               dataX.push(res.data[i].time.slice(11));
+              // 将拿到的各参数对应的值动态显示在表格中
+              this.tableData[0].data1 = res.data[i].value + "℃";
               // 拿到数据后， 遍历拿到对应的 温度 给 y 轴
               dataV.push(res.data[i].value);
             }
@@ -221,11 +278,11 @@ export default {
         });
     },
     // 空气湿度
-    drawLine2() {
+    khum() {
       var myChart = this.$echarts.init(document.getElementById("空气湿度"));
       myChart.setOption({
         title: {
-          text: "未来24个小时内气温变化"
+          text: "空气温度与时间的关系图"
         },
         tooltip: {
           trigger: "axis"
@@ -302,7 +359,7 @@ export default {
       });
     },
     // 氧气浓度
-    drawLine3() {
+    o2() {
       let myChart = this.$echarts.init(document.getElementById("氧气浓度"));
       let option = {
         title: {
@@ -371,6 +428,8 @@ export default {
             let time = res.data[i].time.slice(11);
             // 隐藏加载动画
             myChart.hideLoading();
+            // 填充实时数据表格
+            this.tableData.data3 = value + "";
             // 将数据添加到 数组中
             dataLeg.push(time);
             dataS.push({ value: value, name: time });
@@ -391,27 +450,28 @@ export default {
           console.log(err);
         });
 
-      // 实时更新
+      // // 实时更新
       // let timeTicket;
       // clearInterval(timeTicket);
       // timeTicket=setInterval(function(){
       //   // 获取到图表 option
       //   option=myChart.getOption();
-      //   //
+      //   // 各个时间
       //   let legend=option.legend.data;
+      //   // 要存放时间与数据的容器
       //   let arr =option.series[0].data;
-      //   if(arr.length){
+      //   if(arr.length===30){
       //     arr.shift();
       //     legend.shift();
       //   }
-      //   arr.push(Math.round(Math.random*26+1));
+      //   arr.push();
       //   legend.push()
       //   // 重新绘制
       //   myChart.setOption(option);
       // },6000)
     },
     // 降雨量
-    drawLine4() {
+    rain() {
       var myChart = this.$echarts.init(document.getElementById("降雨量"));
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
@@ -561,162 +621,117 @@ export default {
       });
     },
     // 土壤温度
-    drawLine5() {
+    stem() {
       var myChart = this.$echarts.init(document.getElementById("土壤温度"));
-      var colors = ["#5793f3", "#d14a61", "#675bba"];
-      myChart.setOption({
-        color: colors,
-        title: {
-          text: "两年内降雨量分布"
-          // subtext: "纯属虚构"
-        },
-        tooltip: {
-          trigger: "none",
-          axisPointer: {
-            type: "cross"
+      let data = [
+        ["2000-06-05", 30],
+        ["2000-06-06", 129],
+        ["2000-06-07", 135],
+        ["2000-06-08", 86],
+        ["2000-06-09", 73],
+        ["2000-06-10", 85],
+        ["2000-06-11", 73],
+        ["2000-06-12", 68],
+        ["2000-06-13", 92],
+        ["2000-06-14", 130],
+        ["2000-06-15", 245],
+        ["2000-06-16", 139],
+        ["2000-06-17", 115],
+        ["2000-06-18", 111],
+        ["2000-06-19", 309],
+        ["2000-06-20", 206],
+        ["2000-06-21", 137],
+        ["2000-06-22", 128],
+        ["2000-06-23", 85],
+        ["2000-06-24", 94],
+        ["2000-06-25", 71],
+        ["2000-06-26", 106],
+        ["2000-06-27", 84],
+        ["2000-06-28", 93],
+        ["2000-06-29", 85],
+        ["2000-06-30", 73],
+        ["2000-07-01", 83],
+        ["2000-07-02", 125],
+        ["2000-07-03", 107],
+        ["2000-07-04", 82],
+        ["2000-07-05", 44],
+        ["2000-07-06", 72],
+        ["2000-07-07", 106],
+        ["2000-07-08", 107],
+        ["2000-07-09", 66],
+        ["2000-07-10", 91],
+        ["2000-07-11", 92],
+        ["2000-07-12", 113],
+        ["2000-07-13", 107],
+        ["2000-07-14", 131],
+        ["2000-07-15", 111],
+        ["2000-07-16", 64],
+        ["2000-07-17", 69],
+        ["2000-07-18", 88],
+        ["2000-07-19", 77],
+        ["2000-07-20", 83],
+        ["2000-07-21", 111],
+        ["2000-07-22", 57],
+        ["2000-07-23", 55],
+        ["2000-07-24", 60]
+      ];
+      var dateList = data.map(function(item) {
+        return item[0];
+      });
+      var valueList = data.map(function(item) {
+        return item[1];
+      });
+
+      let option = {
+        visualMap: [
+          {
+            show: false,
+            type: "continuous",
+            seriesIndex: 0,
+            min: 0,
+            max: 40
           }
-        },
-        legend: {
-          data: ["2015 降水量", "2016 降水量"]
-        },
-        grid: {
-          top: 70,
-          bottom: 50
+        ],
+        title: [
+          {
+            left: "center",
+            text: "土壤温度与时间的关系图"
+          }
+        ],
+        tooltip: {
+          trigger: "axis"
         },
         xAxis: [
           {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[1]
-              }
-            },
-            axisPointer: {
-              label: {
-                formatter: function(params) {
-                  return (
-                    "降水量  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                }
-              }
-            },
-            data: [
-              "2016-1",
-              "2016-2",
-              "2016-3",
-              "2016-4",
-              "2016-5",
-              "2016-6",
-              "2016-7",
-              "2016-8",
-              "2016-9",
-              "2016-10",
-              "2016-11",
-              "2016-12"
-            ]
-          },
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[0]
-              }
-            },
-            axisPointer: {
-              label: {
-                formatter: function(params) {
-                  return (
-                    "降水量  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                }
-              }
-            },
-            data: [
-              "2015-1",
-              "2015-2",
-              "2015-3",
-              "2015-4",
-              "2015-5",
-              "2015-6",
-              "2015-7",
-              "2015-8",
-              "2015-9",
-              "2015-10",
-              "2015-11",
-              "2015-12"
-            ]
+            data: dateList
           }
         ],
         yAxis: [
           {
-            type: "value"
+            splitLine: { show: false }
+          }
+        ],
+        grid: [
+          {
+            bottom: "10%"
           }
         ],
         series: [
           {
-            name: "2015 降水量",
             type: "line",
-            xAxisIndex: 1,
-            smooth: true,
-            data: [
-              2.6,
-              5.9,
-              9.0,
-              26.4,
-              28.7,
-              70.7,
-              175.6,
-              182.2,
-              48.7,
-              18.8,
-              6.0,
-              2.3
-            ]
-          },
-          {
-            name: "2016 降水量",
-            type: "line",
-            smooth: true,
-            data: [
-              3.9,
-              5.9,
-              11.1,
-              18.7,
-              48.3,
-              69.2,
-              231.6,
-              46.6,
-              55.4,
-              18.4,
-              10.3,
-              0.7
-            ]
+            showSymbol: false,
+            data: valueList
           }
         ]
-      });
+      };
+      myChart.setOption(option);
     },
     // 土壤湿度
-    drawLine6() {
+    shum() {
       var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
-          text: "未来12个小时内气温变化"
+          text: "土壤温度与时间关系图"
         },
         tooltip: {
           trigger: "axis"
@@ -793,7 +808,7 @@ export default {
       });
     },
     // 风速
-    drawLine7() {
+    sp() {
       var myChart = this.$echarts.init(document.getElementById("风速"));
       myChart.setOption({
         title: {
@@ -922,11 +937,11 @@ export default {
       });
     },
     // 风向
-    drawLine8() {
+    dir() {
       var myChart = this.$echarts.init(document.getElementById("风向"));
       myChart.setOption({
         title: {
-          text: "折线图堆叠"
+          text: "风向与时间的关系图"
         },
         tooltip: {
           trigger: "axis"
@@ -988,11 +1003,11 @@ export default {
       });
     },
     // 大气压强
-    drawLine9() {
+    pre() {
       var myChart = this.$echarts.init(document.getElementById("大气压强"));
       myChart.setOption({
         title: {
-          text: "堆叠区域图"
+          text: "大气压强与时间关系图"
         },
         tooltip: {
           trigger: "axis",
@@ -1075,7 +1090,7 @@ export default {
       });
     },
     // 光照强度
-    drawLine10() {
+    illum() {
       var myChart = this.$echarts.init(document.getElementById("光照强度"));
       let option = {
         title: {
@@ -1090,7 +1105,7 @@ export default {
           type: "category",
           name: "x",
           splitLine: { show: false },
-          data: []
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
         },
         grid: {
           left: "3%",
@@ -1108,51 +1123,58 @@ export default {
           {
             name: "光照强度",
             type: "line",
-            data: []
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
           }
         ]
       };
       myChart.setOption(option);
-      var dataX = [];
-      var dataY = [];
-      // 获取服务器返回数据
-      this.$axios.get("meteorological/illum").then(res => {
-        if (res) {
-          console.log(res.data);
-          // 循环遍历 获取到 返回数据中的 时间和 光照强度
-          for (var i = 0; i < res.data.length; i++) {
-            console.log(res.data[i].time);
-            dataX.push(res.data[i].time.slice(11));
-            dataY.push(res.data[i].value);
-          }
-          myChart.setOption({
-            xAxis: {
-              data: dataX
-            },
-            series: {
-              name: "光照强度",
-              type: "line",
-              data: dataY
-            }
-          });
+      // var dataX = []; // 存放 x 轴数据
+      // var dataY = []; // 存放 y 轴数据
+      // var time = new Date().format("yyyy-MM-dd hh:mm:ss");
+      // // 获取服务器返回数据
+      // // this.$axios.get("meteorological/illum?time=" + time).then(res => {
+      // this.$axios.get("meteorological/illum").then(res => {
 
-          // 实时更新（每四秒添加数据）
-          let timeTicket;
-          clearInterval(timeTicket);
-          // 设置定时器，没四秒更新一次数据
-          timeTicket = setInterval(function() {
-            // 获取到图表的  option
-            option = myChart.getOption();
-            let arr = option.series[0].data;
-            if (arr.length == 30) {
-              arr.shift(); // 从队头删除数据
-            }
-            arr.push(Math.round(Math.random() * 200 + 500)); // 从对尾添加数据
-            // 加载数据 图表
-            myChart.setOption(option);
-          }, 4000);
-        }
-      });
+      //   if (res) {
+      //     console.log(res.data);
+      //     // 循环遍历 获取到 返回数据中的 时间和 光照强度
+      //     for (var i = 0; i < res.data.length; i++) {
+      //       console.log(res.data[i].time);
+      //       dataX.push(res.data[i].time.slice(11));
+      //       console.log(res.data[i].value);
+      //       dataY.push(res.data[i].value);
+      //       // console.log(dataX);
+      //       // console.log(dataY);
+      //     }
+
+      //     myChart.setOption({
+      //       xAxis: {
+      //         data: dataX
+      //       },
+      //       series: {
+      //         name: "光照强度",
+      //         type: "line",
+      //         data: dataY
+      //       }
+      //     });
+
+      // 实时更新（每四秒添加数据）
+      // let timeTicket;
+      // clearInterval(timeTicket);
+      // // 设置定时器，没四秒更新一次数据
+      // timeTicket = setInterval(function() {
+      //   // 获取到图表的  option
+      //   option = myChart.getOption();
+      //   let arr = option.series[0].data;
+      //   if (arr.length == 30) {
+      //     arr.shift(); // 从队头删除数据
+      //   }
+      //   arr.push(Math.round(Math.random() * 200 + 500)); // 从对尾添加数据
+      //   // 加载数据 图表
+      //   myChart.setOption(option);
+      // }, 4000);
+      //   }
+      // });
     },
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
@@ -1161,7 +1183,9 @@ export default {
         return "success-row";
       }
       return "";
-    }
+    },
+    // 立即刷新
+    refresh() {}
   }
 };
 </script>

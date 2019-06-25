@@ -9,6 +9,10 @@ import Register from '@/components/register'
 import Header from '@/views/Header/header'
 import SystemWarn from '@/views/system/systemWarn'
 import YulinWarn from '@/views/system/yulinWarn'
+// 标准区
+import StardArea from "@/views/header/StardArea"
+import weatherS from '@/views/todayInfo/weatherS'
+import yulinS from '@/views/todayInfo/yulinS'
 
 // 年
 import History from '@/views/historyInfo/year/history'
@@ -80,6 +84,22 @@ const router = new Router({
               component: Yulin
             }
           ]
+        },
+        {
+          path: '/index/stardArea',
+          name: 'stardArea',
+          component: StardArea,
+          children: [{
+            path: '/index/stardArea/weather',
+            name: 'weatherS',
+            component: weatherS
+          },
+          {
+            path: '/index/stardArea/yulin',
+            name: 'yulinS',
+            component: yulinS
+          }
+        ]
         },
         {
           path: '/index/headerSet',
@@ -196,12 +216,12 @@ const router = new Router({
 //   }
 // })
 
-router.beforeEach((to,from,next)=>{
-  if(to.path=='/login'||'/register'){
-    next();
-  }else {
-    alert('还没登录，请前去登录');
-    next('/login');
-  }
-})
+// router.beforeEach((to,from,next)=>{
+//   if(to.path=='/login'||'/register'){
+//     next();
+//   }else {
+//     alert('还没登录，请前去登录');
+//     next('/login');
+//   }
+// })
 export default router;

@@ -39,7 +39,7 @@
               <el-dialog
                 title="个人信息完善"
                 :visible.sync="dialogFormVisible"
-                style="width: 60%;margin: auto auto;"
+                style="width: 50%;margin: auto auto;"
                 center
                 class="animated fadeInRight"
                 closeOnPressEscape
@@ -47,7 +47,7 @@
                 <!-- 头像部分 -->
                 <el-upload
                   class="avatar-uploader"
-                  action="https://jsonplaceholder.typicode.com/posts/"
+                  action="http://10.168.14.55:8080/upload/image"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload"
@@ -80,12 +80,6 @@
                   >{{form.email}}</el-form-item>
 
                   <el-form-item label="性别:" :label-width="formLabelWidth" prop="sex">{{form.sex}}</el-form-item>
-
-                  <el-form-item
-                    label="密码:"
-                    :label-width="formLabelWidth"
-                    prop="password"
-                  >{{form.password}}</el-form-item>
 
                   <el-form-item label="爱好:" :label-width="formLabelWidth" prop="hobby">
                     <el-input
@@ -121,12 +115,11 @@ export default {
       dialogFormVisible: false,
       // 信息完善保存
       form: {
-        name: "哈嘿嘿", // 姓名
-        username: "zhaga",
-        sex: "女", // 性别
-        email: "12345687@qq.com", // 邮箱
-        password: "123",
-        hobby: "唱歌",
+        name: "", // 姓名
+        username: "",
+        sex: "", // 性别
+        email: "", // 邮箱
+        hobby: "",
         imageUrl: ""
       },
       formLabelWidth: "60px"
@@ -135,7 +128,11 @@ export default {
   methods: {
     // 查看信息显示
     show() {
-      this.dialogFormVisible = true;
+       this.dialogFormVisible = true;
+       this.form.name=localStorage.getItem('name');
+       this.form.username=localStorage.getItem('username');
+       this.form.email=localStorage.getItem('email');
+       this.form.sex=localStorage.getItem('sex');
     },
     // 退出登录
     open() {
@@ -150,8 +147,9 @@ export default {
             })
               .then(() => {
                 window.localStorage.removeItem("username");
-                window.localStorage.removeItem("password");
                 window.localStorage.removeItem("personal");
+                window.localStorage.removeItem("email");
+                window.localStorage.removeItem("sex");
                 this.$message({
                   type: "success",
                   message: "成功退出!"
@@ -181,24 +179,32 @@ export default {
     // 个人信息完善后续将信息提交后台,默认的姓名和头像的获取
     Info() {
       this.dialogFormVisible = false;
-      // console.log(window.localStorage.getItem("username"));
-      this.$axios.post('url',this.form).then(res=>{
-        if(res.status==200){
-          this.$message({
-            message: '信息完善成功',
-            type: 'success'
-          })
-        }
-      }).catch(err=>{
-        this.$message({
-          message: err.data,
-          type: 'danger'
+      this.$axios
+        .post("url", this.form)
+        .then(res => {
+          if (res.status == 200) {
+            this.$message({
+              message: "信息完善成功",
+              type: "success"
+            });
+          }
         })
-      })
+        .catch(err => {
+          this.$message({
+            message: err.data,
+            type: "danger"
+          });
+        });
     },
     // 头像上传
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
+      console.log(this.imageUrl);
+      // this.$axios.post('http://10.168.14.55:8080/upload/image',this.imageUrl).then(res=>{
+      //   if(res.status==200){
+      //     console.log(res);
+      //   }
+      // })
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -239,13 +245,12 @@ export default {
 /* 平台标题 */
 .logo-container .title {
   display: inline-block;
-  color: rgb(2, 117, 98);
+  color: #027562;
   font-weight: 700;
   font-family: "Courier New", Courier, monospace;
   font-size: 30px;
   cursor: pointer;
 }
-/* 用户信息 */
 .nav .logo-container .userinfo .img {
   float: right;
   margin-right: 80px;

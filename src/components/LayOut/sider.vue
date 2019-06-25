@@ -10,7 +10,7 @@
           </template>
           <el-menu-item index="/index/header/weather"><i class="el-icon-location"></i>(A)区</el-menu-item>
           <el-menu-item><i class="el-icon-location-outline"></i>(B)区</el-menu-item>
-          <el-menu-item index="/index" @click="open">标准区</el-menu-item>
+          <el-menu-item index="/index/stardArea" @click="open">标准区</el-menu-item>
         </el-submenu>
         <!-- 历史信息 -->
         <el-submenu index="2">

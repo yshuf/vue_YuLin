@@ -46,7 +46,10 @@ export default {
           name: "氧气浓度"
         },
         {
-          name: "降雨量"
+          name: "烟雾浓度"
+        },
+        {
+          name: "二氧化碳浓度"
         },
         {
           name: "土壤温度"
@@ -55,16 +58,16 @@ export default {
           name: "土壤湿度"
         },
         {
-          name: "风速"
+          name: "土壤盐分"
         },
         {
-          name: "风向"
+          name: "土壤电导率"
         },
         {
-          name: "大气压强"
+          name: "水温"
         },
         {
-          name: "光照强度"
+          name: "浑浊度"
         }
       ],
       tableData: [
@@ -89,6 +92,7 @@ export default {
     this.drawLine8();
     this.drawLine9();
     this.drawLine10();
+    this.drawLineH();
   },
   methods: {
     // 验证用户身份
@@ -696,7 +700,7 @@ export default {
       });
     },
     drawLine4() {
-      var myChart = this.$echarts.init(document.getElementById("降雨量"));
+      var myChart = this.$echarts.init(document.getElementById("烟雾浓度"));
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,
@@ -846,7 +850,7 @@ export default {
       });
     },
     drawLine5() {
-      var myChart = this.$echarts.init(document.getElementById("土壤温度"));
+      var myChart = this.$echarts.init(document.getElementById("二氧化碳浓度"));
       var colors = ["#5793f3", "#d14a61", "#675bba"];
       myChart.setOption({
         color: colors,
@@ -996,7 +1000,7 @@ export default {
       });
     },
     drawLine6() {
-      var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
+      var myChart = this.$echarts.init(document.getElementById("土壤温度"));
       myChart.setOption({
         title: {
           text: "未来12个小时内气温变化",
@@ -1139,7 +1143,7 @@ export default {
       });
     },
     drawLine7() {
-      var myChart = this.$echarts.init(document.getElementById("风速"));
+      var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
           text: "南丁格尔玫瑰图",
@@ -1233,7 +1237,7 @@ export default {
       });
     },
     drawLine8() {
-      var myChart = this.$echarts.init(document.getElementById("风向"));
+      var myChart = this.$echarts.init(document.getElementById("土壤盐分"));
       myChart.setOption({
         title: {
           text: "折线图堆叠"
@@ -1298,7 +1302,7 @@ export default {
       });
     },
     drawLine9() {
-      var myChart = this.$echarts.init(document.getElementById("大气压强"));
+      var myChart = this.$echarts.init(document.getElementById("土壤电导率"));
       myChart.setOption({
         title: {
           text: "堆叠区域图"
@@ -1384,7 +1388,7 @@ export default {
       });
     },
     drawLine10() {
-      var myChart = this.$echarts.init(document.getElementById("光照强度"));
+      var myChart = this.$echarts.init(document.getElementById("水温"));
       myChart.setOption({
         title: {
           text: "对数轴示例",
@@ -1442,6 +1446,47 @@ export default {
           }
         ]
       });
+    },
+    drawLineH() {
+      var myChart = this.$echarts.init(document.getElementById("浑浊度"));
+      let option = {
+        color: ["#3398DB"],
+        tooltip: {
+          trigger: "axis",
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        grid: {
+          left: "5%",
+          right: "5%",
+          bottom: "5%",
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "8", "9"],
+            axisTick: {
+              alignWithLabel: true
+            }
+          }
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "直接访问",
+            type: "bar",
+            barWidth: "60%",
+            data: [10, 52, 200, 334, 390, 330, 220]
+          }
+        ]
+      };
+      myChart.setOption(option);
     }
   }
 };

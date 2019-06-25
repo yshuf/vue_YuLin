@@ -7,24 +7,25 @@
       stripe
       style="width: 100%; margin-top: -60px;"
       highlight-current-row
+      align="center"
     >
-      <el-table-column prop="id" width="120" align="center"></el-table-column>
+      <el-table-column prop="id" width="100" align="center"></el-table-column>
       <el-table-column prop="param1" width="100" align="center"></el-table-column>
-      <el-table-column prop="data1"></el-table-column>
+      <el-table-column prop="data1"  width="100"></el-table-column>
       <el-table-column prop="param2" width="120" align="center"></el-table-column>
-      <el-table-column prop="data2"></el-table-column>
+      <el-table-column prop="data2"  width="100"></el-table-column>
       <el-table-column prop="param3" width="100" align="center"></el-table-column>
-      <el-table-column prop="data3"></el-table-column>
+      <el-table-column prop="data3"  width="100"></el-table-column>
       <el-table-column prop="param4" width="100" align="center"></el-table-column>
-      <el-table-column prop="data4"></el-table-column>
+      <el-table-column prop="data4"  width="100"></el-table-column>
       <el-table-column prop="param5" width="100" align="center"></el-table-column>
-      <el-table-column prop="data5"></el-table-column>
+      <el-table-column prop="data5"  width="100"></el-table-column>
     </el-table>
 
     <!-- 图形界面 -->
     <el-tabs type="border-card" style="width: 100%;">
       <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
-        <div :id="items.name" :style="{width: '1200px',height: '500px'}"></div>
+        <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -32,7 +33,7 @@
 
 <script>
 import "@/assets/js/common.js";
-import {genData} from '@/assets/js/echarts.js';
+import { genData } from "@/assets/js/echarts.js";
 import { setInterval, clearInterval } from "timers";
 export default {
   data() {
@@ -120,15 +121,6 @@ export default {
     this.drawLine11();
   },
   methods: {
-    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      if (rowIndex % 2 === 0) {
-        if (columnIndex === 0) {
-          return [1, 2];
-        } else if (columnIndex === 1) {
-          return [0, 0];
-        }
-      }
-    },
     objectSpanMethod({ row, column, rowIndex, columnIndex }) {
       if (columnIndex === 0) {
         if (rowIndex % 2 === 0) {
@@ -255,7 +247,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("空气湿度"));
       myChart.setOption({
         title: {
-          text: "未来24个小时内气温变化"
+          text: "空气温度变化"
         },
         tooltip: {
           trigger: "axis"
@@ -445,7 +437,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("烟雾浓度"));
       myChart.setOption({
         title: {
-          text: "风速与时间关系图",
+          text: "烟雾浓度与时间关系图",
           x: "center"
         },
         tooltip: {
@@ -576,7 +568,7 @@ export default {
       myChart.setOption({
         color: colors,
         title: {
-          text: "两年内降雨量分布"
+          text: "二氧化碳分布"
         },
         tooltip: {
           trigger: "none",
@@ -585,7 +577,7 @@ export default {
           }
         },
         legend: {
-          data: ["2015 降雨量", "2016 降雨量"]
+          data: ["2015 二氧化碳", "2016 二氧化碳"]
         },
         grid: {
           top: 70,
@@ -607,7 +599,7 @@ export default {
               label: {
                 formatter: function(params) {
                   return (
-                    "降雨量  " +
+                    "二氧化碳浓度  " +
                     params.value +
                     (params.seriesData.length
                       ? "：" + params.seriesData[0].data
@@ -646,7 +638,7 @@ export default {
               label: {
                 formatter: function(params) {
                   return (
-                    "降雨量  " +
+                    "二氧化碳浓度  " +
                     params.value +
                     (params.seriesData.length
                       ? "：" + params.seriesData[0].data
@@ -678,7 +670,7 @@ export default {
         ],
         series: [
           {
-            name: "2015 降雨量",
+            name: "2015 二氧化碳浓度",
             type: "line",
             xAxisIndex: 1,
             smooth: true,
@@ -698,7 +690,7 @@ export default {
             ]
           },
           {
-            name: "2016 降雨量",
+            name: "2016 二氧化碳浓度",
             type: "line",
             smooth: true,
             data: [
@@ -725,7 +717,7 @@ export default {
       let option = {
         // 标题
         title: {
-          text: "空气温度与时间的关系图",
+          text: "土壤温度与时间的关系图",
           left: "center"
         },
         // 提示框
@@ -830,7 +822,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("土壤湿度"));
       myChart.setOption({
         title: {
-          text: "未来12个小时内气温变化"
+          text: "土壤湿度变化"
         },
         tooltip: {
           trigger: "axis"
@@ -911,7 +903,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("土壤盐分"));
       myChart.setOption({
         title: {
-          text: "折线图堆叠"
+          text: "土壤盐分变化"
         },
         tooltip: {
           trigger: "axis"
@@ -1018,7 +1010,7 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("水温"));
       let option = {
         title: {
-          text: "光照强度与时间的关系",
+          text: "水温与时间的关系",
           left: "center"
         },
         tooltip: {
@@ -1029,7 +1021,7 @@ export default {
           type: "category",
           name: "x",
           splitLine: { show: false },
-          data: []
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
         },
         grid: {
           left: "3%",
@@ -1040,124 +1032,105 @@ export default {
         yAxis: {
           type: "value",
           axisLabel: {
-            formatter: "{value} Lux"
+            formatter: "{value} ℃"
           }
         },
         series: [
           {
             name: "光照强度",
             type: "line",
-            data: []
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
           }
         ]
       };
-      myChart.setOption(option);
-      var dataX = [];
-      var dataY = [];
-      // 获取服务器返回数据
-      this.$axios.get("meteorological/illum").then(res => {
-        if (res) {
-          console.log(res.data);
-          // 循环遍历 获取到 返回数据中的 时间和 光照强度
-          for (var i = 0; i < res.data.length; i++) {
-            console.log(res.data[i].time);
-            dataX.push(res.data[i].time.slice(11));
-            dataY.push(res.data[i].value);
-          }
-          myChart.setOption({
-            xAxis: {
-              data: dataX
-            },
-            series: {
-              name: "光照强度",
-              type: "line",
-              data: dataY
-            }
-          });
+      // myChart.setOption(option);
+      // var dataX = [];
+      // var dataY = [];
+      // // 获取服务器返回数据
+      // this.$axios.get("meteorological/illum").then(res => {
+      //   if (res) {
+      //     console.log(res.data);
+      //     // 循环遍历 获取到 返回数据中的 时间和 光照强度
+      //     for (var i = 0; i < res.data.length; i++) {
+      //       console.log(res.data[i].time);
+      //       dataX.push(res.data[i].time.slice(11));
+      //       dataY.push(res.data[i].value);
+      //     }
+      //     myChart.setOption({
+      //       xAxis: {
+      //         data: dataX
+      //       },
+      //       series: {
+      //         name: "光照强度",
+      //         type: "line",
+      //         data: dataY
+      //       }
+      //     });
 
-          // 实时更新（每四秒添加数据）
-          let timeTicket;
-          clearInterval(timeTicket);
-          // 设置定时器，没四秒更新一次数据
-          timeTicket = setInterval(function() {
-            // 获取到图表的  option
-            option = myChart.getOption();
-            let arr = option.series[0].data;
-            if (arr.length == 30) {
-              arr.shift(); // 从队头删除数据
-            }
-            arr.push(Math.round(Math.random() * 200 + 500)); // 从对尾添加数据
-            // 加载数据 图表
-            myChart.setOption(option);
-          }, 4000);
-        }
-      });
+      //     // 实时更新（每四秒添加数据）
+      //     let timeTicket;
+      //     clearInterval(timeTicket);
+      //     // 设置定时器，没四秒更新一次数据
+      //     timeTicket = setInterval(function() {
+      //       // 获取到图表的  option
+      //       option = myChart.getOption();
+      //       let arr = option.series[0].data;
+      //       if (arr.length == 30) {
+      //         arr.shift(); // 从队头删除数据
+      //       }
+      //       arr.push(Math.round(Math.random() * 200 + 500)); // 从对尾添加数据
+      //       // 加载数据 图表
+      //       myChart.setOption(option);
+      //     }, 4000);
+      //   }
+      // });
+      myChart.setOption(option);
     },
     // 浑浊度
     drawLine11() {
       var myChart = this.$echarts.init(document.getElementById("浑浊度"));
-      myChart.setOption({
+      let option = {
         title: {
-          text: "折线图堆叠"
+          text: "水浑浊度与时间的关系",
+          left: "center"
         },
+        color: ["#3398DB"],
         tooltip: {
-          trigger: "axis"
-        },
-        legend: {
-          data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"]
+          trigger: "axis",
+          axisPointer: { // 坐标轴指示器，坐标轴触发有效
+            type: "line" // 默认为直线，可选为：'line' | 'shadow'
+          }
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: "5%",
+          right: "5%",
+          bottom: "5%",
           containLabel: true
         },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
+        xAxis: [
+          {
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "8", "9"],
+            axisTick: {
+              alignWithLabel: true
+            }
           }
-        },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
-        },
-        yAxis: {
-          type: "value"
-        },
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
         series: [
           {
-            name: "邮件营销",
-            type: "line",
-            stack: "总量",
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: "联盟广告",
-            type: "line",
-            stack: "总量",
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: "视频广告",
-            type: "line",
-            stack: "总量",
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
             name: "直接访问",
-            type: "line",
-            stack: "总量",
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: "搜索引擎",
-            type: "line",
-            stack: "总量",
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
+            type: "bar",
+            barWidth: "60%",
+            data: [10, 52, 200, 334, 390, 330, 220]
           }
         ]
-      });
+      };
+      myChart.setOption(option);
     }
   }
 };

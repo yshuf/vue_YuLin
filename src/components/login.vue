@@ -42,7 +42,7 @@
         native-type="submit"
         style="margin-left: 40px;width: 110px;"
         class="login"
-        @click="login()"
+        @click="login('loginForm')"
       >立即登录</el-button>
       <el-button @click="resetForm('loginForm')" type="primary" style="width: 110px;">重置</el-button>
 
@@ -94,77 +94,59 @@ export default {
     };
   },
   methods: {
-    // updateCode() {
-    //   let _this = this;
-    //   this.axios
-    //     .get("http://10.168.14.55:8080/auth/captcha", {
-    //       responseType: "arraybuffer"
-    //     })
-    //     .then(res => {
-    //       this.captchaId = res.headers["x-ocp-captcha-id"];
-    //       let codeImg =
-    //         "data:image/png;base64," +
-    //         btoa(
-    //           new Uint8Array(res.data).reduce(
-    //             (data, byte) => data + String.fromCharCode(byte),
-    //             ""
-    //           )
-    //         );
-    //       _this.codeImg = codeImg;
-    //     })
-    // },
-
     // 登录表单提交
-    login() {
-      // 判空操作
-      if (
-        this.loginForm.username == "" ||
-        this.loginForm.password == "" ||
-        this.loginForm.captcha == ""
-      ) {
-        this.$message({
-          message: "请填写完整的账号和密码",
-          type: "warning",
-          center: true
-        });
-      } else {
-        // 向服务器提交表单
-        this.$axios
-          .post("auth/login", this.loginForm)
-          .then(res => {
-            // 返回成功
-            if (res.status == 200) {
-              // 将 user 保存到 vuex 的state
-              const user = JSON.parse(res.config.data);
-              // this.$store.dispatch("setUser", user);
-              // 将 用户信息保存到本地 localStorage 中
-              var username = user.username;
-              var password = user.password;
-              var personal = res.data; // 存放用户身份
-              window.localStorage.setItem("username", username);
-              window.localStorage.setItem("password", password);
-              window.localStorage.setItem("personal", personal);
+    login(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$axios
+            .post("auth/login", this.loginForm)
+            .then(res => {
+              // 返回成功
+              if (res.status == 200) {
+                const user = JSON.parse(res.config.data);
+                // 将 用户信息保存到本地 localStorage 中
+                var username = user.username;
+                var sex = user.sex;
+                var email = user.email;
+                var name = user.name;
+                var isLogin = true;
+                var personal = res.data; // 存放用户身份
+                window.localStorage.setItem("username", username);
+                window.localStorage.setItem("personal", personal);
+                window.localStorage.setItem("sex", sex);
+                window.localStorage.setItem("name", name);
+                window.localStorage.setItem("email", email);
+                window.localStorage.setItem("isLogin", isLogin);
+                this.$message({
+                  showClose: true,
+                  message: "登录成功",
+                  type: "success"
+                });
+                // 登录成功进入首页
+                this.$router.replace("/index");
+              }
+            })
+            .catch(err => {
               this.$message({
                 showClose: true,
-                message: "登录成功",
-                type: "success"
+                message: err.response.data,
+                type: "danger"
               });
-              // 登录成功进入首页
-              this.$router.push("/index");
-            } else {
-              this.$message({
-                message: "你还没有账号,前去注册"
-              });
-            }
-          })
-          .catch(err => {
-            this.$message({
-              showClose: true,
-              message: err.response.data,
-              type: "danger"
             });
+        } else {
+          // 只要有一个信息未填写，就返回
+          this.$message({
+            showClose: true,
+            message: "登录失败,请准确填写信息",
+            type: "success"
           });
-      }
+          return false;
+        }
+      });
+    },
+    // 表单重置
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
     },
     // 注册路由跳转
     register() {
@@ -188,7 +170,7 @@ export default {
 </script>
 
 <style scoped>
-/* .blur {
+.blur {
   position: fixed;
   background-color: #d5dee6;
   width: 100%;
@@ -196,8 +178,8 @@ export default {
   box-sizing: border-box;
   background-size: 100% 100%;
   background: url(../assets/login1.jpg) no-repeat center center;
- filter: blur(15px);
-} */
+  filter: blur(30px);
+}
 #container {
   position: fixed;
   background-color: #d5dee6;
@@ -205,13 +187,12 @@ export default {
   height: 100%;
   box-sizing: border-box;
   background-size: 100% 100%;
-  /* background: url(../assets/login.jpg) no-repeat center center; */
+  /* background: url(../assets/login1.jpg) no-repeat center center; */
   /* filter: blur(15px); */
 }
 #container:hover {
   background-color: #d5e6de;
 }
-
 /* 表单样式 */
 .loginForm {
   background: transparent;
@@ -240,6 +221,7 @@ export default {
   color: #5db2f8;
   text-align: center;
   margin: 0px 10px 30px 25px;
+  font-family: "Courier New", Courier, monospace;
 }
 p {
   font-size: 14px;

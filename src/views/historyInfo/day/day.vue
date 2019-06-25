@@ -5,11 +5,13 @@
         {{items.name}}
         <div style="display: flex;position: relative;">
           <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+
           <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
           <div v-if="test()" class="standard">
             <span class="tip">是否设置为标准区参数?</span>
             <el-button type="success" @click="confirm">确认</el-button>
           </div>
+
         </div>
         <!-- 数据分析 -->
         <el-table
@@ -1450,7 +1452,13 @@ export default {
 <style scoped>
 .standard {
   float: right;
-  margin-top: 450px;
+  margin-top: 400px;
+  width: 300px;
+  height: 100px;
+  border-radius: 2px;
+  box-sizing: border-box;
+  padding-top: 25px;
+  box-shadow: 2px 2px 14px #06c;
 }
 /* 提示设置为标准区 */
 .tip {

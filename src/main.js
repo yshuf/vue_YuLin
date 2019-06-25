@@ -22,6 +22,7 @@ Vue.config.productionTip = false
 Vue.prototype.$echarts = echarts // 注册组件
 Vue.prototype.$axios = axios
 
+axios.defaults.withCredentials=true
 
 Vue.use(ElementUI)
 Vue.use(echarts)

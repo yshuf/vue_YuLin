@@ -45,9 +45,10 @@ import NotFound from '@/components/404'
 Vue.use(Router)
 
 const router = new Router({
-  routes: [{
+  // mode:'history',  // 去掉路由地址的 # 
+  routes: [
+    {
       path: '/',
-      name: 'home',
       redirect: '/login'
     },
     {
@@ -206,22 +207,15 @@ const router = new Router({
 
 })
 
-// 路由守卫
+// // 路由守卫
 // router.beforeEach((to,from,next)=>{
-//   const isLogin =localStorage.eleToken? true: false;
-//   if(to.path=="/"||to.path=="/register"){
+//   const isLogin =localStorage.getItem("isLogin");
+//   if(to.path=="/login"||to.path=="/register"){
 //     next();
 //   }else {
 //     isLogin ? next(): next('/login');
 //   }
 // })
 
-// router.beforeEach((to,from,next)=>{
-//   if(to.path=='/login'||'/register'){
-//     next();
-//   }else {
-//     alert('还没登录，请前去登录');
-//     next('/login');
-//   }
-// })
+
 export default router;

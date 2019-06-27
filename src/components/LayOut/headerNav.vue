@@ -17,7 +17,8 @@
             <div class="userinfo">
               <!-- 头像存放 -->
               <div class="img">
-                <img src="@/assets/none.png" alt>
+                <!-- <img :src="face" alt> -->
+                <img :src=form.imageUrl alt>
               </div>
 
               <!-- 工具选择 -->
@@ -30,7 +31,7 @@
                     <el-button type="text" @click="show()">个人信息</el-button>
                   </el-dropdown-item>
                   <el-dropdown-item>
-                    <el-button type="text" @click="open()">退出登录</el-button>
+                    <el-button type="text" @click="logOut()">退出登录</el-button>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -47,10 +48,11 @@
                 <!-- 头像部分 -->
                 <el-upload
                   class="avatar-uploader"
-                  action="http://10.168.14.55:8080/upload/image"
+                  action="123"
                   :show-file-list="false"
                   :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload"
+                  :http-request="upLoad"
                 >
                   <img v-if="form.imageUrl" :src="form.imageUrl" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -60,7 +62,7 @@
                 <el-form :model="form">
                   <el-form-item label="姓名:" :label-width="formLabelWidth" prop="name">
                     <el-input
-                      v-model="form.name"
+                      v-model="add.name"
                       placeholder="请输入内容"
                       style="width: 60%;"
                       size="medium"
@@ -83,7 +85,7 @@
 
                   <el-form-item label="爱好:" :label-width="formLabelWidth" prop="hobby">
                     <el-input
-                      v-model="form.hobby"
+                      v-model="add.hobby"
                       placeholder="请输入内容"
                       style="width: 60%;"
                       size="medium"
@@ -115,27 +117,31 @@ export default {
       dialogFormVisible: false,
       // 信息完善保存
       form: {
-        name: "", // 姓名
         username: "",
         sex: "", // 性别
         email: "", // 邮箱
-        hobby: "",
         imageUrl: ""
+      },
+      add: {
+        hobby: "",
+        name: "" // 姓名
       },
       formLabelWidth: "60px"
     };
   },
+  mounted(){
+    this.form.imageUr=localStorage.getItem('face');
+  },
   methods: {
     // 查看信息显示
     show() {
-       this.dialogFormVisible = true;
-       this.form.name=localStorage.getItem('name');
-       this.form.username=localStorage.getItem('username');
-       this.form.email=localStorage.getItem('email');
-       this.form.sex=localStorage.getItem('sex');
+      this.dialogFormVisible = true;
+      this.form.username = localStorage.getItem("username");
+      this.form.sex = localStorage.getItem("sex");
+      this.form.email = localStorage.getItem("email");
     },
     // 退出登录
-    open() {
+    logOut() {
       this.$axios
         .get("auth/logout")
         .then(res => {
@@ -146,15 +152,16 @@ export default {
               type: "warning"
             })
               .then(() => {
-                window.localStorage.removeItem("username");
-                window.localStorage.removeItem("personal");
-                window.localStorage.removeItem("email");
-                window.localStorage.removeItem("sex");
+                localStorage.removeItem("username");
+                localStorage.removeItem("identity");
+                localStorage.removeItem("email");
+                localStorage.removeItem("sex");
+                localStorage.removeItem("isLogin");
                 this.$message({
                   type: "success",
                   message: "成功退出!"
                 });
-                this.$router.push({ path: "/" });
+                this.$router.push({ path: "/login" });
               })
               .catch(() => {
                 this.$message({
@@ -180,7 +187,7 @@ export default {
     Info() {
       this.dialogFormVisible = false;
       this.$axios
-        .post("url", this.form)
+        .put("auth/user", this.add)
         .then(res => {
           if (res.status == 200) {
             this.$message({
@@ -197,14 +204,24 @@ export default {
         });
     },
     // 头像上传
+    upLoad(file) {
+      const formData = new FormData();
+      formData.append("file", file.file);
+      console.log(file);
+      this.$axios.post("upload/image", formData).then(res => {
+        console.log(res);
+        console.log("上传成功");
+        if (res.status == 200) {
+            
+          // localStorage.getItem("face");
+        }else {
+          this.$message('头像上传失败');
+        }
+      });
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw);
       console.log(this.imageUrl);
-      // this.$axios.post('http://10.168.14.55:8080/upload/image',this.imageUrl).then(res=>{
-      //   if(res.status==200){
-      //     console.log(res);
-      //   }
-      // })
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === "image/jpeg";
@@ -278,7 +295,7 @@ export default {
   top: 0;
   right: 55px;
   border-radius: 50%;
-  border: 1px dashed #8c939d;
+  /* border: 1px dashed #8c939d; */
   margin-top: 25px;
 }
 .avatar-uploader .el-upload {

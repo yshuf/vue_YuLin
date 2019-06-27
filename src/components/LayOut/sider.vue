@@ -70,7 +70,7 @@ export default {
       });
     },
     test() {
-      if (window.localStorage.getItem("personal") != "员工") {
+      if (window.localStorage.getItem("identity") != "员工") {
         let result = true;
         return result;
       } else {

@@ -35,220 +35,93 @@ function genData(count) {
 };
 
 
-
-/*
-* 
-    需要的参数：
-    myChartName:统计图名称
-    myChartId:统计图id
-    formatterFun:格式化tooltip
-    xAxisData:数组，横坐标
-    legendData: 数组，纵坐标代表意义
-    seriesType: 图表类型//line,'bar'
-    barGap:80%
-    barCategoryGap:80%
-    seriesData:数组
-*/
-require.config({
-  paths: {
-    echarts: 'echarts'
-  }
-});
-
-// function getChart(myChartId, option) {
-//   require(
-//     ['echarts',
-//       'echarts/chart/bar',
-//       'echarts/chart/line',
-//       'echarts/chart/pie',
-//       'echarts/chart/funnel'
-//     ],
-//     function (ec) {
-//       var myChart = ec.init(document.getElementById(myChartId));
-//       myChart.setOption(option);
-//     }
-//   );
-// }
-
-function myChart(myChartId, myChartName, formatterFun, legendData, xAxisData, seriesType, barGap, barCategoryGap, seriesData) {
-  var series = [];
-  for (var i = 0, len = legendData.length; i < len; i++) {
-    series[i] = {
-      name: legendData[i],
-      type: seriesType,
-      barGap: barGap,
-      barCategoryGap: barCategoryGap,
-      itemStyle: {
-        normal: {
-          label: {
-            show: true,
-            position: 'top',
-            formatter: '{b}\n{c}'
+// 折线图实时更新封转
+function lineE(name,params){
+   // 空气温度
+      // 图表的各项配置
+      let that = this;
+      let option = {
+        // 标题
+        title: {
+          text: "空气温度与时间的关系图",
+          left: "center"
+        },
+        // 提示框
+        tooltip: {
+          trigger: "axis"
+        },
+        // 是否显示工具栏组件
+        toolbox: {
+          show: true,
+          feature: {
+            mark: { show: true },
+            dataView: { show: true, readOnly: false }, // 数据视图工具，可以展示当前图表所用的数据，编辑后可以动态更新
+            magicType: { show: true, type: ["line", "bar"] }, // 动态类型切换
+            restore: { show: true }, // 重置
+            saveAsImage: { show: true } // 保存图片
           }
-        }
-      },
-      data: seriesData[i]
-    }
-  }
-  var option = {
-    title: {
-      text: myChartName
-    },
-    tooltip: {
-      trigger: 'axis',
-      formatter: formatterFun
-    },
-    legend: {
-      data: legendData
-    }, //data:['最高气温','最低气温'
-    toolbox: {
-      show: true,
-      feature: {
-        mark: {
-          show: false
         },
-        dataView: {
-          show: true,
-          readOnly: false
+        calculable: true,
+        // x 轴 表示
+        xAxis: {
+          data: []
         },
-        magicType: {
-          show: true,
-          type: ['line', 'bar']
-        },
-        restore: {
-          show: true
-        },
-        saveAsImage: {
-          show: true
-        }
-      }
-    },
-    calculable: true,
-    animationDuration: 5000,
-    xAxis: [{
-      type: 'category', //category  time  value  log  
-      position: 'bottom',
-      boundaryGap: true,
-      axisLine: { // 轴线
-        show: true,
-        lineStyle: {
-          type: 'solid',
-          width: 1
-        }
-      },
-      axisTick: { // 轴标记
-        show: true,
-        length: 10,
-        lineStyle: {
-          color: 'red',
-          type: 'solid',
-          width: 2
-        }
-      },
-      axisLabel: {
-        show: true,
-        interval: 'auto', // {number}
-        rotate: 30,
-        margin: 6,
-        formatter: '{value}',
-        textStyle: {
-          fontFamily: 'Arial',
-          fontStyle: 'italic',
-          fontWeight: 'normal',
-        }
-      },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: '#483d8b',
-          type: 'dashed',
-          width: 1,
-          type: 'solid',
-        }
-      },
-      splitArea: {
-        show: true,
-        areaStyle: {
-          color: ['rgba(144,238,144,0.3)', 'rgba(135,200,250,0.3)']
-        }
-      },
-      data: xAxisData
-    }],
-    yAxis: [{
-      type: 'value'
-    }],
-    series: series
-  };
-  // getChart(myChartId, option);
-}
-/*
-*   饼图封装
-    需要的参数：
-    myChartName:统计图名称
-    myChartId:统计图id
-    max：funnel的最大值
-    formatterFun:格式化tooltip
-    legendData: 数组，纵坐标代表意义
-    seriesData:数组
-*/
-function myChartPie(myChartId, max, myChartName, formatterFun, legendData, seriesData) {
-  option = {
-    title: {
-      text: myChartName,
-      x: 'center'
-    },
-    tooltip: {
-      trigger: 'item',
-      formatter: formatterFun
-    },
-    legend: {
-      orient: 'vertical',
-      x: 'left',
-      data: legendData
-    },
-    toolbox: {
-      show: true,
-      feature: {
-        mark: {
-          show: false
-        },
-        dataView: {
-          show: true,
-          readOnly: false
-        },
-        magicType: {
-          show: true,
-          type: ['pie', 'funnel'],
-          option: {
-            funnel: {
-              x: '25%',
-              width: '50%',
-              funnelAlign: 'left',
-              max: max
+        // y 轴 表示
+        yAxis: [
+          {
+            type: "value",
+            axisLabel: {
+              formatter: "{value} °C"
             }
           }
-        },
-        restore: {
-          show: true
-        },
-        saveAsImage: {
-          show: true
+        ],
+        series: [
+          // 最高温
+          {
+            name: "当前气温",
+            type: "line",
+            data: []
+          }
+        ]
+      };
+      //  初始化 echarts 实例
+      var myChart = this.$echarts.init(document.getElementById(name));
+      //  使用刚指定的配置项和绘制图表，数据为 option
+      myChart.setOption(option);
+
+      //  数据加载完之前 显示一段简单 的 loading 动画
+      myChart.showLoading();
+      var dataX = []; // 实际 存放x 轴数据
+      var dataY = []; // 实际 存放y 轴数据
+      // 实时更新数据
+      let timeTicket;
+      clearInterval(timeTicket);
+      // 每秒获取数据
+      timeTicket = setInterval(function() {
+        // 获取当前时间
+        var time = new Date().format("hh:mm:ss");
+        if (dataX.length == 30) {
+          dataX.shift();
+          dataY.shift();
         }
-      }
-    },
-    calculable: true,
-    series: [{
-      name: myChartName,
-      type: 'pie',
-      radius: '55%',
-      center: ['50%', '50%'],
-      data: seriesData
-    }]
-  };
-  // getChart(myChartId, option);
+        dataX.push(time);
+        dataY.push(that.params);
+        // 隐藏加载动画
+        myChart.hideLoading();
+        // 重新绘图
+        myChart.setOption({
+          xAxis: {
+            data: dataX
+          },
+          series: [
+            {
+              data: dataY
+            }
+          ]
+        });
+      }, 1000);
 }
 export {
   genData,
-  myChart,
-  myChartPie,
+  lineE
 }

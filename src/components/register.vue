@@ -100,13 +100,6 @@ export default {
             .then(res => {
               // 如果获取信息成功，前往 登录页面
               if (res.status === 200) {
-                const user = JSON.parse(res.config.data);
-                var username = user.username;
-                var sex = user.sex;
-                var email = user.email;
-                window.localStorage.setItem("username", username);
-                window.localStorage.setItem("sex", sex);
-                window.localStorage.setItem("email", email);
                 this.$message({
                   message: "注册成功，去登录",
                   type: "success"

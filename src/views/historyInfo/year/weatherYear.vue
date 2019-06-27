@@ -12,7 +12,7 @@
         style="width: 120px;margin-left: 10px;"
       ></el-date-picker>
       <span class="demonstration">年</span>
-      <el-button type="danger" class="query">查询</el-button>
+      <el-button type="danger" class="query" @click="query()">查询</el-button>
     </el-row>
     <Year></Year>
   </div>
@@ -66,6 +66,11 @@ export default {
   },
   components: {
     Year
+  },
+  motheds: {
+    // query(){
+
+    // }
   }
 };
 </script>

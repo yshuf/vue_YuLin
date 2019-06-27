@@ -5,7 +5,7 @@
         {{items.name}}
         <div style="display: flex;position: relative;">
           <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
-          <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
+           <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
           <div v-if="test()" class="standard">
             <span class="tip">是否设置为标准区参数?</span>
             <el-button type="success" @click="confirm">确认</el-button>
@@ -91,7 +91,7 @@ export default {
     this.drawLine10();
   },
   methods: {
-    // 验证用户身份
+     // 验证用户身份
     test() {
       if (window.localStorage.getItem("personal") != "员工") {
         let result = true;
@@ -133,13 +133,10 @@ export default {
       var myChart = this.$echarts.init(document.getElementById("空气温度"));
       myChart.setOption({
         title: {
-          text: "未来24个小时内气温变化"
+          text: "一年来平均气温变化"
         },
         tooltip: {
           trigger: "axis"
-        },
-        legend: {
-          data: ["最高气温", "最低气温"]
         },
         toolbox: {
           show: true,
@@ -168,18 +165,7 @@ export default {
               "9",
               "10",
               "11",
-              "12",
-              "13",
-              "14",
-              "15",
-              "16",
-              "17",
-              "18",
-              "19",
-              "20",
-              "21",
-              "22",
-              "24"
+              "12"
             ]
           }
         ],
@@ -207,61 +193,13 @@ export default {
               16,
               18,
               19,
-              29,
-              5,
-              16,
-              12,
-              24,
-              11,
-              15,
-              10,
-              8,
-              16,
-              13,
-              11,
-              9
+              29
             ],
             markPoint: {
               data: [
                 { type: "max", name: "最大值" },
                 { type: "min", name: "最小值" }
               ]
-            },
-            markLine: {
-              data: [{ type: "average", name: "平均值" }]
-            }
-          },
-          {
-            name: "最低气温",
-            type: "line",
-            data: [
-              1,
-              -2,
-              2,
-              5,
-              3,
-              2,
-              0,
-              5,
-              2,
-              6,
-              -1,
-              -2,
-              2,
-              3,
-              4,
-              -2,
-              -4,
-              3,
-              5,
-              0,
-              -3,
-              -2,
-              1,
-              2
-            ],
-            markPoint: {
-              data: [{ name: "周最低", value: -2, xAxis: 1, yAxis: -1.5 }]
             },
             markLine: {
               data: [{ type: "average", name: "平均值" }]

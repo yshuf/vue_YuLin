@@ -101,46 +101,45 @@ export default {
           this.$axios
             .post("auth/login", this.loginForm)
             .then(res => {
+              console.log(res);
               // 返回成功
               if (res.status == 200) {
-                const user = JSON.parse(res.config.data);
-                // 将 用户信息保存到本地 localStorage 中
-                var username = user.username;
-                var sex = user.sex;
-                var email = user.email;
-                var name = user.name;
-                var isLogin = true;
-                var personal = res.data; // 存放用户身份
-                window.localStorage.setItem("username", username);
-                window.localStorage.setItem("personal", personal);
-                window.localStorage.setItem("sex", sex);
-                window.localStorage.setItem("name", name);
-                window.localStorage.setItem("email", email);
-                window.localStorage.setItem("isLogin", isLogin);
+                console.log(res);
+                // 保存用户登录信息
+                window.localStorage.setItem("email", res.data.user.email);
+                window.localStorage.setItem("identity", res.data.user.identity);
+                window.localStorage.setItem("sex", res.data.user.sex);
+                window.localStorage.setItem("username", res.data.user.username);
+                window.localStorage.setItem("face",res.data.user.face);
                 this.$message({
                   showClose: true,
                   message: "登录成功",
                   type: "success"
                 });
                 // 登录成功进入首页
-                this.$router.replace("/index");
+                this.$router.push("/index");
+              }else{
+                this.$message({
+                   message: "登录失败",
+                  type: "error"
+                })
               }
             })
             .catch(err => {
-              this.$message({
-                showClose: true,
-                message: err.response.data,
-                type: "danger"
-              });
+              // this.$message({
+              //   showClose: true,
+              //   message: err.response.data,
+              //   type: "danger"
+              // });
+
+              console.log(err);
             });
         } else {
-          // 只要有一个信息未填写，就返回
           this.$message({
             showClose: true,
-            message: "登录失败,请准确填写信息",
-            type: "success"
+            message: "登录信息无效",
+            type: "danger"
           });
-          return false;
         }
       });
     },

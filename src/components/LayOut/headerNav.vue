@@ -17,8 +17,8 @@
             <div class="userinfo">
               <!-- 头像存放 -->
               <div class="img">
-                <!-- <img :src="face" alt> -->
-                <img :src=form.imageUrl alt>
+                <!-- <img src="http://10.168.14.55:8080/headport/3e99f47a362a431d9d40a0fedf153e7c.jpeg" alt=""> -->
+                <img :src="form.imageUrl" alt>
               </div>
 
               <!-- 工具选择 -->
@@ -98,8 +98,7 @@
                   <el-button type="primary" @click="Info()">确 定</el-button>
                 </div>
               </el-dialog>
-
-              <p class="username">{{form.name}}</p>
+              <p class="username">{{add.name}}</p>
             </div>
           </el-col>
         </el-row>
@@ -130,7 +129,7 @@ export default {
     };
   },
   mounted(){
-    this.form.imageUr=localStorage.getItem('face');
+    this.form.imageUrl=localStorage.getItem('face');
   },
   methods: {
     // 查看信息显示
@@ -190,6 +189,7 @@ export default {
         .put("auth/user", this.add)
         .then(res => {
           if (res.status == 200) {
+            console.log(res);
             this.$message({
               message: "信息完善成功",
               type: "success"
@@ -212,8 +212,7 @@ export default {
         console.log(res);
         console.log("上传成功");
         if (res.status == 200) {
-            
-          // localStorage.getItem("face");
+          this.form.imageUrl=res.data;
         }else {
           this.$message('头像上传失败');
         }

@@ -101,10 +101,8 @@ export default {
           this.$axios
             .post("auth/login", this.loginForm)
             .then(res => {
-              console.log(res);
               // 返回成功
               if (res.status == 200) {
-                console.log(res);
                 // 保存用户登录信息
                 window.localStorage.setItem("email", res.data.user.email);
                 window.localStorage.setItem("identity", res.data.user.identity);
@@ -126,13 +124,11 @@ export default {
               }
             })
             .catch(err => {
-              // this.$message({
-              //   showClose: true,
-              //   message: err.response.data,
-              //   type: "danger"
-              // });
-
-              console.log(err);
+              this.$message({
+                showClose: true,
+                message: err.response.data,
+                type: "danger"
+              });
             });
         } else {
           this.$message({

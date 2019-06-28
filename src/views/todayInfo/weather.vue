@@ -160,18 +160,18 @@ export default {
             // 订阅服务端提供的某个 topic
             // 这里接收从服务器的数据
             var msg = msg.body.split("&");
-            this.ktem1 = msg[0];
-            this.khum1 = msg[1];
-            this.rain1 = msg[2];
-            this.sp1 = msg[3];
-            this.dir1 = msg[4];
-            this.pre1 = msg[5];
-            this.stem1 = msg[6];
-            this.shum1 = msg[7];
-            this.illum1 = msg[8];
-            this.o21 = msg[9];
+            this.ktem1 = msg[0];  // 空气温度
+            this.khum1 = msg[1];  // 空气湿度
+            this.rain1 = msg[2];  // 降雨量
+            this.sp1 = msg[3];   // 风速
+            this.dir1 = msg[4];  // 风向
+            this.pre1 = msg[5];  // 大气压强
+            this.stem1 = msg[6]; // 土壤温度
+            this.shum1 = msg[7]; // 土壤湿度
+            this.illum1 = msg[8]; // 光照强度
+            this.o21 = msg[9];  // 氧气浓度
             this.tableData[0].data1 = msg[0] + "℃";
-            this.tableData[0].data2 = msg[1] + "";
+            this.tableData[0].data2 = msg[1] + "%RH";
             this.tableData[0].data5 = msg[2] + "";
             this.tableData[1].data2 = msg[3] + "";
             this.tableData[1].data3 = msg[4] + "";

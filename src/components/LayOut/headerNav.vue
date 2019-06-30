@@ -205,6 +205,7 @@ export default {
     },
     // 头像上传
     upLoad(file) {
+      var _that=window;
       const formData = new FormData();
       formData.append("file", file.file);
       console.log(file);
@@ -213,6 +214,7 @@ export default {
         console.log("上传成功");
         if (res.status == 200) {
           this.form.imageUrl=res.data;
+          window.localStorage.setItem("face",res.data);
         }else {
           this.$message('头像上传失败');
         }

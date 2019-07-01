@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import Day from "@/views/historyInfo/day/day"
+import Day from "@/views/historyInfo/day/dayY"
 export default {
   data() {
     return {

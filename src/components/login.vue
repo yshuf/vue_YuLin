@@ -29,7 +29,7 @@
       <el-form-item label="验证码" prop="captcha" style="width: 185px;position: relative;">
         <el-input type="text" autocomplete="off" v-model="loginForm.captcha"></el-input>
         <img
-          src="http://10.168.14.55:8080/auth/captcha"
+          src="http://10.168.14.3:8080/auth/captcha"
           alt="验证码"
           title="点击换一张"
           id="img"
@@ -104,6 +104,7 @@ export default {
               // 返回成功
               if (res.status == 200) {
                 // 保存用户登录信息
+                // console.log(res.data.user.face)
                 window.localStorage.setItem("email", res.data.user.email);
                 window.localStorage.setItem("identity", res.data.user.identity);
                 window.localStorage.setItem("sex", res.data.user.sex);

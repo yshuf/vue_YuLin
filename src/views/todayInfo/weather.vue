@@ -24,8 +24,8 @@
 
     <!-- 图形界面 -->
     <el-tabs type="border-card" style="width: 100%;">
-      <el-tab-pane :label="items.name" v-for="(items,index) in list" :key="index">
-        <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
+      <el-tab-pane :label="items.label" v-for="(items,index) in list" :key="index">
+        <div :id="items.label" :style="{width: '1000px',height: '500px'}"></div>
         <!-- 刷新按钮 -->
         <el-button type="warning" class="animated fadeInRight" @click="refresh">立即刷新</el-button>
       </el-tab-pane>
@@ -46,31 +46,40 @@ export default {
       data: [],
       list: [
         {
-          name: "空气温度"
+          label: "空气温度",
+          name: "max_atm_tem"
         },
         {
-          name: "空气湿度"
+          label: "空气湿度",
+          name: "max_atm_hum"
         },
         {
-          name: "氧气浓度"
+          label: "氧气浓度",
+          name: "max_atm_o2"
         },
         {
-          name: "降雨量"
+          label: "降雨量",
+          name: "max_envir_rain"
         },
         {
-          name: "土壤温度"
+          label: "土壤温度",
+          name: "max_soil_tem"
         },
         {
-          name: "土壤湿度"
+          label: "土壤湿度",
+          name: "max_soil_hum"
         },
         {
-          name: "大气压强"
+          label: "大气压强",
+          name: "max_atm_pre"
         },
         {
-          name: "风向/风速"
+          label: "风向/风速",
+          name: "max_envir_sp"
         },
         {
-          name: "光照强度"
+          label: "光照强度",
+          name: "max_envir_illum"
         }
       ],
       tableData: [
@@ -99,6 +108,10 @@ export default {
           data5: ""
         }
       ],
+      max: {
+        value: "",
+        name: ""
+      },
       stompClient: "",
       timer: "",
       ktem1: "",
@@ -148,7 +161,7 @@ export default {
     // 连接后台
     connection() {
       // 建立连接对象
-      let socket = new SockJS("http://10.168.14.55:8080/endpoint");
+      let socket = new SockJS("http://10.168.14.3:8080/endpoint");
       // 获取STOMP子协议的客户端对象
       this.stompClient = Stomp.over(socket);
       // 想服务器发起websocket连接
@@ -160,16 +173,16 @@ export default {
             // 订阅服务端提供的某个 topic
             // 这里接收从服务器的数据
             var msg = msg.body.split("&");
-            this.ktem1 = msg[0];  // 空气温度
-            this.khum1 = msg[1];  // 空气湿度
-            this.rain1 = msg[2];  // 降雨量
-            this.sp1 = msg[3];   // 风速
-            this.dir1 = msg[4];  // 风向
-            this.pre1 = msg[5];  // 大气压强
+            this.ktem1 = msg[0]; // 空气温度
+            this.khum1 = msg[1]; // 空气湿度
+            this.rain1 = msg[2]; // 降雨量
+            this.sp1 = msg[3]; // 风速
+            this.dir1 = msg[4]; // 风向
+            this.pre1 = msg[5]; // 大气压强
             this.stem1 = msg[6]; // 土壤温度
             this.shum1 = msg[7]; // 土壤湿度
             this.illum1 = msg[8]; // 光照强度
-            this.o21 = msg[9];  // 氧气浓度
+            this.o21 = msg[9]; // 氧气浓度
             this.tableData[0].data1 = msg[0] + "℃";
             this.tableData[0].data2 = msg[1] + "%RH";
             this.tableData[0].data5 = msg[2] + "";
@@ -195,7 +208,6 @@ export default {
         this.stompClient.disconnect();
       }
     },
-
     // 空气温度
     ktem() {
       // 空气温度
@@ -242,6 +254,12 @@ export default {
             name: "当前气温",
             type: "line",
             data: []
+          },
+          // 设置的最高温度
+          {
+            name: "最高温度",
+            type: "line",
+            data: []
           }
         ]
       };
@@ -254,6 +272,7 @@ export default {
       myChart.showLoading();
       var dataX = []; // 实际 存放x 轴数据
       var dataY = []; // 实际 存放y 轴数据
+      var dataZ = [];
       // 实时更新数据
       let timeTicket;
       clearInterval(timeTicket);
@@ -261,6 +280,9 @@ export default {
       timeTicket = setInterval(function() {
         // 获取当前时间
         var time = new Date().format("hh:mm:ss");
+        // 获取默认的最大值
+        // var max =localStorage.getItem('空气温度');
+        // console.log(max);
         if (dataY.length == 30) {
           dataX.shift();
           dataY.shift();
@@ -270,6 +292,8 @@ export default {
         // 隐藏加载动画
         myChart.hideLoading();
         // 重新绘图
+        var ktem = localStorage.getItem("空气温度");
+        dataZ.push(ktem);
         myChart.setOption({
           xAxis: {
             data: dataX
@@ -277,6 +301,9 @@ export default {
           series: [
             {
               data: dataY
+            },
+            {
+              data: dataZ
             }
           ]
         });
@@ -324,9 +351,14 @@ export default {
         series: [
           // 最高温
           {
-            name: "当前气温",
+            name: "当前空气湿度",
             type: "line",
             data: []
+          },
+          {
+            name:"最高空气湿度",
+            type:"line",
+            data:[]
           }
         ]
       };
@@ -339,6 +371,7 @@ export default {
       myChart.showLoading();
       var dataX = []; // 实际 存放x 轴数据
       var dataY = []; // 实际 存放y 轴数据
+      var dataZ = [];
       // 实时更新数据
       let timeTicket;
       clearInterval(timeTicket);
@@ -356,6 +389,8 @@ export default {
         // 隐藏加载动画
         myChart.hideLoading();
         // 重新绘图
+        var khum =localStorage.getItem('空气湿度');
+        dataZ.push(khum);
         myChart.setOption({
           xAxis: {
             data: dataX
@@ -363,6 +398,9 @@ export default {
           series: [
             {
               data: dataY
+            },
+            {
+              data: dataZ
             }
           ]
         });

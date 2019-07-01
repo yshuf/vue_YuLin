@@ -147,7 +147,7 @@ export default {
     // 连接后台
     connection() {
       // 建立连接对象
-      let socket = new SockJS("http://10.168.14.55:8080/endpoint");
+      let socket = new SockJS("http://10.168.14.3:8080/endpoint");
       // 获取STOMP子协议的客户端对象
       this.stompClient = Stomp.over(socket);
       // 想服务器发起websocket连接
@@ -255,6 +255,11 @@ export default {
             name: "当前气温",
             type: "line",
             data: []
+          },
+          {
+            name: "设置的最高气温",
+            type: "line",
+            data: []
           }
         ]
       };
@@ -267,6 +272,7 @@ export default {
       myChart.showLoading();
       var dataX = []; // 实际 存放x 轴数据
       var dataY = []; // 实际 存放y 轴数据
+      var dataZ=[];
       // 实时更新数据
       let timeTicket;
       let that = this;
@@ -283,6 +289,8 @@ export default {
         dataY.push(that.ktem1);
         // 隐藏加载动画
         myChart.hideLoading();
+        var ktem=localStorage.getItem('空气温度');
+        dataZ.push(ktem);
         // 重新绘图
         myChart.setOption({
           xAxis: {
@@ -291,6 +299,9 @@ export default {
           series: [
             {
               data: dataY
+            },
+            {
+              data: dataZ
             }
           ]
         });
@@ -338,7 +349,12 @@ export default {
         series: [
           // 最高温
           {
-            name: "当前气温",
+            name: "当前气湿",
+            type: "line",
+            data: []
+          },
+          {
+            name: "设置的允许最高气湿",
             type: "line",
             data: []
           }
@@ -353,6 +369,7 @@ export default {
       myChart.showLoading();
       var dataX = []; // 实际 存放x 轴数据
       var dataY = []; // 实际 存放y 轴数据
+      var dataZ =[];
       // 实时更新数据
       let timeTicket;
       clearInterval(timeTicket);
@@ -369,6 +386,8 @@ export default {
         dataY.push(that.khum1);
         // 隐藏加载动画
         myChart.hideLoading();
+        var khum=localStorage.getItem('空气湿度');
+        dataZ.push(khum);
         // 重新绘图
         myChart.setOption({
           xAxis: {
@@ -377,6 +396,9 @@ export default {
           series: [
             {
               data: dataY
+            },
+            {
+              data: dataZ
             }
           ]
         });

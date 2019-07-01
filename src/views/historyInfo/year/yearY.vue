@@ -6,10 +6,10 @@
         <div style="display: flex;position: relative;">
           <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
           <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
-          <div v-if="test()" class="standard">
+          <!-- <div v-if="test()" class="standard">
             <span class="tip">是否设置为标准区参数?</span>
             <el-button type="success" @click="confirm">确认</el-button>
-          </div>
+          </div> -->
         </div>
         <!-- 数据分析 -->
         <el-table
@@ -1466,7 +1466,7 @@ export default {
         xAxis: [
           {
             type: "category",
-            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "8", "9"],
+            data: ["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"],
             axisTick: {
               alignWithLabel: true
             }
@@ -1482,7 +1482,7 @@ export default {
             name: "直接访问",
             type: "bar",
             barWidth: "60%",
-            data: [10, 52, 200, 334, 390, 330, 220]
+            data: [10, 52, 200, 334, 390, 330, 220,520,330,250,410,220]
           }
         ]
       };

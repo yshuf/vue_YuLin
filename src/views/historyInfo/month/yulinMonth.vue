@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import Month from "@/views/historyInfo/month/month";
+import Month from "@/views/historyInfo/month/monthY";
 export default {
   data() {
     return {

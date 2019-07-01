@@ -6,10 +6,10 @@
         <div style="display: flex;position: relative;">
           <div :id="items.name" :style="{width: '1000px',height: '500px'}"></div>
           <!-- 标准区设置，只有管理员能看见，设置了以后该曲线标准会成为标准区的参考样式，今日消息中会有两条线 -->
-          <div v-if="test()" class="standard">
+          <!-- <div v-if="test()" class="standard">
             <span class="tip">是否设置为标准区参数?</span>
             <el-button type="success" @click="confirm">确认</el-button>
-          </div>
+          </div> -->
         </div>
         <!-- 数据分析 -->
         <el-table

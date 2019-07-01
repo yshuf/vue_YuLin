@@ -15,7 +15,7 @@
         prop="username"
         :rules="[
       { required: true, message: '用户名不能为空', trigger: 'blur' },
-      { min:5 ,max:30,message: '长度应在5到30位之间',trigger: 'blur'}
+      { min:5 ,max:30,message: '长度应在5到10位之间',trigger: 'blur'}
     ]"
       >
         <el-input v-model="registerForm.username" placeholder="username"></el-input>
@@ -28,7 +28,6 @@
         :rules="[
       { required: true, message: '邮箱地址不能为空', trigger: 'blur' },
       { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
-      {min: 6,max: 20,message: '长度应在6到20位之间'}
     ]"
       >
         <el-input v-model="registerForm.email" placeholder="email"></el-input>
@@ -40,6 +39,7 @@
         prop="password"
         :rules="[
       { required: true, message: '密码不能为空', trigger: 'blur' },
+            {min: 6,max: 10,message: '长度应在6到20位之间'}
     ]"
       >
         <el-input
@@ -119,11 +119,11 @@ export default {
             });
         } else {
           // 只要有一个为空着注册失败
-           this.$message({
-                showClose: true,
-                message: "注册失败，请填写完整注册信息哦",
-                type: "danger"
-              });
+          this.$message({
+            showClose: true,
+            message: "注册失败，请填写完整注册信息哦",
+            type: "danger"
+          });
           return false;
         }
       });

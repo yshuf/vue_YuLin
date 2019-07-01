@@ -73,6 +73,7 @@ export default {
         .then(res => {
           this.changeValue.value = res.data;
           this.changeValue.name = tab.$options.propsData.name;
+          window.localStorage.setItem(tab.$options.propsData.label,res.data)
         });
     },
 

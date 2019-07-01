@@ -65,6 +65,7 @@ export default {
   methods: {
     // 获取默认最大值
     handleClick(tab) {
+      console.log(tab.$options.propsData.name);
       this.$axios
         .get(
           "meteorological/standard?name=" +
@@ -73,6 +74,7 @@ export default {
         .then(res => {
           this.changeValue.value = res.data;
           this.changeValue.name = tab.$options.propsData.name;
+          window.localStorage.setItem(tab.$options.propsData.label,res.data)
         });
     },
 
@@ -94,6 +96,7 @@ export default {
               message: "修改成功！",
               type: "success"
             });
+            window.localStorage.setItem(this.changeValue.name,this.changeValue.value)
           }
         })
         .catch(err => {

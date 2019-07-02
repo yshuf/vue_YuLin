@@ -11,15 +11,15 @@
       highlight-current-row
     >
       <el-table-column prop="param1" width="100" align="center"></el-table-column>
-      <el-table-column prop="data1" width="100"></el-table-column>
+      <el-table-column prop="data1" width="120"></el-table-column>
       <el-table-column prop="param2" width="100" align="center"></el-table-column>
-      <el-table-column prop="data2" width="100"></el-table-column>
+      <el-table-column prop="data2" width="120"></el-table-column>
       <el-table-column prop="param3" width="100" align="center"></el-table-column>
-      <el-table-column prop="data3" width="100"></el-table-column>
+      <el-table-column prop="data3" width="120"></el-table-column>
       <el-table-column prop="param4" width="100" align="center"></el-table-column>
-      <el-table-column prop="data4" width="100"></el-table-column>
+      <el-table-column prop="data4" width="120"></el-table-column>
       <el-table-column prop="param5" width="100" align="center"></el-table-column>
-      <el-table-column prop="data5" width="100"></el-table-column>
+      <el-table-column prop="data5" width="120"></el-table-column>
     </el-table>
 
     <!-- 图形界面 -->
@@ -185,14 +185,14 @@ export default {
             this.o21 = msg[9]; // 氧气浓度
             this.tableData[0].data1 = msg[0] + "℃";
             this.tableData[0].data2 = msg[1] + "%RH";
-            this.tableData[0].data5 = msg[2] + "";
-            this.tableData[1].data2 = msg[3] + "";
-            this.tableData[1].data3 = msg[4] + "";
-            this.tableData[1].data4 = msg[5] + "";
-            this.tableData[0].data4 = msg[6] + "";
-            this.tableData[1].data1 = msg[7] + "";
-            this.tableData[1].data5 = msg[8] + "";
-            this.tableData[0].data3 = msg[9] + "";
+            this.tableData[0].data5 = msg[2] + "mm";
+            this.tableData[1].data2 = msg[3] + "m/s";
+            this.tableData[1].data3 = msg[4] + "°";
+            this.tableData[1].data4 = msg[5] + "hpa";
+            this.tableData[0].data4 = msg[6] + "℃";
+            this.tableData[1].data1 = msg[7] + "%RH";
+            this.tableData[1].data5 = msg[8] + "Lux";
+            this.tableData[0].data3 = msg[9] + "%";
           });
         },
         err => {
